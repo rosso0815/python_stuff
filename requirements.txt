@@ -1,0 +1,60 @@
+##############
+pytest
+pytest-bdd
+pytest-dotenv
+pytest-asyncio
+python-lsp-server[all]
+pylsp-mypy
+yamllint
+bashate
+###############
+python-dotenv
+Flask
+flask-htmx
+#flask-appbuilder
+# flask-admin
+# flask-bootstrap
+# flask-nav
+# flask-restplus
+# flask-restx
+# fastapi[all]
+# huey
+# nats-python
+#sqlalchemy
+flask-sqlalchemy
+# flask-mongoengine
+# Flask-PyMongo
+# mongoengine
+# stomp.py
+# cloudfoundry-client
+# Jinja2
+# Jinja2-cli
+# docker
+# kopf
+ansible-core==2.17.3
+kubernetes
+ruamel.yaml
+# bitwarden-sdk
+# ansible-lint
+# docker
+# ansible-runner
+# dnspython
+# pexpect
+# ExifRead
+# pika
+# mysqlclient
+# wand
+# Pillow
+# authlib==0.15.3
+# loginpass==0.5
+# pymongo
+psycopg2-binary
+# rx
+# jinja-cli
+# flask-appbuilder
+# flask_mongoengine
+# dotenv-cli
+# schema
+# libvirt-python
+watchdog
+#=======================
