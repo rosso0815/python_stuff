@@ -1,0 +1,51 @@
+#!/usr/bin/env ansible-playbook
+#
+# https://medium.com/@Joachim8675309/docker-the-ansible-way-part-2-c424c0fb8412
+#
+---
+- hosts: somsi
+  gather_facts: false
+  vars:
+    docker_volume: db_data
+    docker_network: wordpress_net
+    db_name: db
+    wp_name: wordpress
+    wp_host_port: "{{ lookup('env','WORDPRESS_PORT') | default(8080)}}"
+    wp_container_port: 80
+
+  tasks:
+    - name: "Create a Volume"
+      docker_volume:
+        name: "{{ docker_volume }}"
+
+    - name: "Create a network"
+      docker_network:
+        name: "{{ docker_network }}"
+
+    - name: "Launch database container"
+      docker_container:
+        name: "{{ db_name }}"
+        image: mysql:5.7
+        volumes:
+          - "{{ docker_volume }}:/var/lib/mysql:rw"
+        restart_policy: always
+        network_mode: "{{ docker_network }}"
+        env:
+          MYSQL_ROOT_PASSWORD: wordpress
+          MYSQL_DATABASE: wordpress
+          MYSQL_USER: wordpress
+          MYSQL_PASSWORD: wordpress
+
+    - name: "Launch wordpress container"
+      docker_container:
+        name: "{{ wp_name }}"
+        image: wordpress:latest
+        ports:
+          - "9090:80"
+        restart_policy: always
+        network_mode: "{{ docker_network }}"
+        env:
+          WORDPRESS_DB_HOST: "{{ db_name }}:3306"
+          WORDPRESS_DB_PASSWORD: wordpress
+          WORDPRESS_DB_USER: wordpress
+          WORDPRESS_DB_NAME: wordpress

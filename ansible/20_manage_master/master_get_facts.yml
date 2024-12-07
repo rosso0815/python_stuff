@@ -1,0 +1,38 @@
+---
+
+- name: lets get facts
+  hosts: master
+  connection: local
+  gather_facts: false
+  # become: true
+
+  tasks:
+
+    - name: execute uptime as fact
+      command: hostname
+      register: fact1
+
+    - name: debug uptime
+      debug:
+        var: fact1.stdout
+
+    - name: setfact
+      ansible.builtin.set_fact: one_fact="{{ fact1.stdout }}"
+
+    - name: debug fact
+      debug:
+        var: one_fact
+
+    - name: Test that my module works
+      github_repo:
+        name: 'pfistera'
+        state: 'absent'
+        enabled: 'false'
+        filename: 'play01.txt'
+      register: fact2
+
+    - name: debug fact2
+      debug:
+        var: fact2
+
+# --- EOF

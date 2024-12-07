@@ -1,0 +1,37 @@
+---
+# roles/example/tasks/main.yml
+# - name: Install the correct web server for RHEL
+#   import_tasks: redhat.yml
+#   when: ansible_facts['os_family']|lower == 'redhat'
+
+# - name: Install the correct web server for Debian
+#   import_tasks: debian.yml
+#   when: ansible_facts['os_family']|lower == 'debian'
+
+# # roles/example/tasks/redhat.yml
+# - name: Install web server
+#   ansible.builtin.yum:
+#     name: "httpd"
+#     state: present
+
+# # roles/example/tasks/debian.yml
+# - name: Install web server
+#   ansible.builtin.apt:
+#     name: "apache2"
+#     state: present
+
+- name: cleanup golang
+  shell: |
+    cd $HOME/bin
+    chmod -R u+rwx go*
+    rm -rf go*
+
+- name: download / unarchive golang
+  unarchive:
+    src: https://golang.org/dl/go{{ item }}.{{ os }}.tar.gz
+    dest: $HOME/bin
+    remote_src: true
+    extra_opts:
+      - --transform
+      - s/^go/go_{{ item }}/
+  loop: "{{  golang_versions }}"

@@ -1,0 +1,23 @@
+USRENV.dcls
+ap_array.pl
+argc.pl
+check_conf_01.pl
+data_table_01.pl
+exec_01.pl
+exec_02.pl
+lese_datei.pl
+list_dir_file_01.pl
+list_dir_file_02.pl
+logfile
+redirect_io.pl
+redirect_io.pl~
+set_userenv.pl
+test.txt
+test_01.pl
+test_dir_01.pl
+test_files_01.pl
+test_files_02.pl
+u_config.pm
+usertool.conf
+write_file.pl
+Hallo Andreas

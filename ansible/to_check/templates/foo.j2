@@ -1,0 +1,8 @@
+# foo.j2
+
+
+ansible_processor_cores = {{ ansible_processor_cores }} => {{ cpu_size }}
+
+http_port is {{ http_port | default('8081') }}
+
+# --- done

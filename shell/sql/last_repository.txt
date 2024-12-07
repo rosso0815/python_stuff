@@ -1,0 +1,64 @@
+########## ######### ######### ######### ######### ######### ######### #########
+##
+## Erzeuger : kraanp9
+## Datum    : Tue May 25 11:42:24 DFT 2004
+## Aufruf   : 
+## Funktion : 
+## Keyword  : sql last_rep repository
+## Version  : 
+##
+########## ######### ######### ######### ######### ######### ######### #########
+## Modifications: 
+## Date                          Version         Description
+## Tue May 25 11:42:24 DFT 2004      1.0             Init
+########## ######### ######### ######### ######### ######### ######### #########
+## $Log$
+########## ######### ######### ######### ######### ######### ######### #########
+
+set termout off
+
+set pagesize 40
+set linesize 80
+column curdate NEW_VALUE report_date
+select to_char(sysdate,'dd-mon-yyyy') curdate from dual;
+ttitle left -
+"################################################################" -
+skip 1 "# REPORT DATUM : " report_date skip 1 -
+"################################################################" skip 1;
+
+btitle left -
+"################################################################";
+
+column name heading 'NAME #'
+COLUMN NAME format a20
+column pfad format a40
+
+set termout on
+
+select substr(c_nickname,0,18) NAME, c_create, c_last_repository PFAD
+from prd11.catia_model
+	where C_CREATE > to_date('15-MAY-04','DD-MON-YY');
+
+
+select c_nickname, C_CREATE, C_LAST_REPOSITORY from prd11.catia_model
+	where c_nickname like '%418P000%'
+	order by c_create;
+
+
+select C_CREATE,C_LAST_REPOSITORY PFAD ,C_NICKNAME name
+	from prd11.catia_model 
+	where C_LAST_REPOSITORY not like '%tmp%'
+	order by c_create;
+#------------------------------------------------------------------
+# Anzahl elemente
+select count(*) from prd11.catia_model where C_LAST_REPOSITORY not like '%tmp%';
+
+#-------------------------------------------------------------------
+# UPDATE
+update prd11.catia_model
+	set C_LAST_REPOSITORY = 'DBLFAIX.BIN PATH /tmp/';
+
+update archive.catia_model
+        set C_LAST_REPOSITORY = 'DBLFAIX.BIN PATH /tmp/';
+commit;
+#-------------------------------------------------------------------

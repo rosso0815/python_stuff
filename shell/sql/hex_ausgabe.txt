@@ -1,0 +1,10 @@
+
+
+
+select PROJECTNAME,rawtohex(PROJECTNAME) from admm31a.roleassn where PROJECTNAME like '%85%';
+
+select PROJECTNAME,rawtohex(PROJECTNAME) from admm31a.roleassn where PROJECTNAME like '%Mans%';
+
+select B3PROGRAMID, rawtohex(B3PROGRAMID) from admm31a.b3prgrm where B3PROGRAMID like '%85%';
+
+select B3PROGRAMID, rawtohex(B3PROGRAMID) from admm31a.b3prgrm where B3PROGRAMID like '%Mans%';

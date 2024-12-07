@@ -1,0 +1,28 @@
+<!-- BEGIN site/header -->
+
+<!--
+<h1 class="title">[% template.title or site.title %]</h1>
+-->
+
+[% IF Catalyst.user_exists %]
+<FORM>
+	<INPUT TYPE="button" VALUE="TEST-INDEX" 
+		onclick="location.href='/testing';">
+
+	<INPUT TYPE="button" VALUE="TEST-ANDREAS"
+		onclick="location.href='/testing/andreas';">
+
+	<INPUT TYPE="button" VALUE="Kunden-Liste"
+		onclick="location.href='/kunden/list';">		
+		
+	<INPUT TYPE="button" VALUE="Kunden-Input"
+		onclick="location.href='[% Catalyst.uri_for('/kunden/input') %]';">
+		
+	<INPUT TYPE="button" VALUE="Logout [% Catalyst.user.username %]"
+		onclick="location.href='[% Catalyst.uri_for('/logout') %]';">
+</FORM>
+
+[% ELSE %]
+        <br><h2>You need to log in to use this application</h2>
+[% END %]
+<!-- END site/header -->

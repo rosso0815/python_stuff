@@ -1,0 +1,6 @@
+
+[ubuntu]
+somsi
+
+[osx]
+localhost ansible_connection=local

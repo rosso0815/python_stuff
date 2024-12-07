@@ -1,0 +1,44 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: my-own-ca
+    cert-manager.io/common-name: whoami.localnet
+    meta.helm.sh/release-name: whoami
+    meta.helm.sh/release-namespace: sandbox
+  creationTimestamp: "2024-08-26T17:11:16Z"
+  generation: 1
+  labels:
+    app.kubernetes.io/instance: whoami
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: whoami
+    app.kubernetes.io/version: 1.10.1
+    helm.sh/chart: whoami-5.1.1
+  name: whoami
+  namespace: sandbox
+  resourceVersion: "33421"
+  uid: 24d1e2a1-9487-477c-9ad5-3ed00a614b1b
+spec:
+  ingressClassName: traefik
+  rules:
+  - host: whoami.localnet
+    http:
+      paths:
+      - backend:
+          service:
+            name: whoami
+            port:
+              number: 80
+        path: /
+        pathType: ImplementationSpecific
+  tls:
+    - hosts:
+        - whoami.localnet
+      secretName: my-service-tls
+status:
+  loadBalancer:
+    ingress:
+      - ip: 192.168.1.21
+
+# --- EOF

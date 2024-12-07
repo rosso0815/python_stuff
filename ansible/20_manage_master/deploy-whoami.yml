@@ -1,0 +1,19 @@
+---
+
+- name: deploy whoami
+  hosts: localhost
+  # gather_facts: true
+  # become: true
+  # vars:
+  #   ansible_python_interpreter: /usr/bin/python3.10
+  # environment:
+  #   KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+
+  tasks:
+
+    - name: deploy
+      kubernetes.core.k8s:
+        state: present
+        namespace: default
+        template:
+          path: 'deploy_whoami.j2.yml'

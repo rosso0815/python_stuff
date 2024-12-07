@@ -1,0 +1,10 @@
+# roles/dnsmasq/defaults/main.yml
+---
+dnsmasq_port: 53
+dnsmasq_domain_needed: true
+dnsmasq_bogus_priv: true
+dnsmasq_authoritative: false
+dnsmasq_expand_hosts: false
+dnsmasq_upstream_servers: /localnet/192.168.0.110
+dnsmasq_listen_address: 192.168.0.110
+dnsmasq_address: /localnet/192.168.0.110

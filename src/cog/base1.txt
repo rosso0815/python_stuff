@@ -1,0 +1,6 @@
+--[[[cog
+--   import cog
+--   for table in ['customers', 'orders', 'suppliers']:
+--      cog.outl("drop table %s;" % table)
+--]]]
+--[[[end]]]

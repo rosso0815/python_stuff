@@ -1,0 +1,17 @@
+- Dursuchen eines folders nach definierten endungen wie .sql oder txt oder pl
+- action ausfuehren nach endung
+- mehrsprachigkeit
+- in db ablegen
+- suchen nach eintragen
+
+
+# eigenschaft einer datei ( darstellung in db)
+	- name
+	- pfad
+	- letzes aenderungsdatum
+	- groesse
+	- owner
+	- stichworte
+	- inhalt
+
+

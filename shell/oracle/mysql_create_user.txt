@@ -1,0 +1,13 @@
+
+
+/opt/csw/mysql4/bin/mysql --host=xxx --user=root mysql
+
+/opt/csw/mysql4/bin/mysql --host=localhost --user=root mysql
+
+
+mysql> 
+	GRANT ALL PRIVILEGES ON *.* TO 'mysql'@'10.0.3.49' IDENTIFIED BY '' WITH GRANT OPTION;
+	GRANT ALL PRIVILEGES ON *.* TO 'mysql'@'winpc000220.win.ch.da.rtr' IDENTIFIED BY 'mysql' WITH GRANT OPTION;
+	
+	GRANT RELOAD,PROCESS ON *.* TO 'admin'@'localhost';
+	GRANT USAGE ON *.* TO 'dummy'@'localhost'; 

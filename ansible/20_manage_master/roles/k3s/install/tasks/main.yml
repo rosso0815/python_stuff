@@ -1,0 +1,13 @@
+---
+
+- name: install k3s
+  become: true
+  copy:
+    src: k3s
+    dest: /usr/local/bin/k3s
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: check k3s
+  shell: /usr/local/bin/k3s --version

@@ -1,0 +1,12 @@
+---
+
+- name: lets install gitea on ubuntu
+  hosts: master
+  connection: ssh
+  gather_facts: true
+  become: true
+
+  tasks:
+    - name: install gitea
+      import_role:
+        name: gitea/install

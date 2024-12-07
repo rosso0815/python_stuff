@@ -1,0 +1,12 @@
+---
+
+# https://unix.stackexchange.com/questions/257888/systemd-wait-for-network-interface-to-be-up-before-running-service
+
+- name: lets install dnsmasq
+  hosts: master
+  connection: ssh
+  gather_facts: true
+  tasks:
+    - name: install dnsmasq
+      ansible.builtin.import_role:
+        name: dnsmasq

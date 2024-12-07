@@ -1,0 +1,45 @@
+---
+
+# https://blog.jhnr.ch/2023/01/09/setup-apple-time-machine-network-drive-with-samba-on-ubuntu-22.04/
+
+- name: install samba
+  hosts: master
+  connection: ssh
+  gather_facts: true
+
+  tasks:
+
+    - name: install sw
+      become: true
+      ansible.builtin.apt:
+        name: samba
+        state: present
+
+    - name: Copy smb file
+      become: true
+      ansible.builtin.copy:
+        src: templates/samba.j2
+        dest: /etc/samba/smb.conf
+        mode: '0644'
+
+    - name: Restart Samba
+      become: true
+      ansible.builtin.service:
+        name: smbd.service
+        state: restarted
+
+    - name: Copy avahi file
+      become: true
+      ansible.builtin.copy:
+        src: templates/avahi_samba.j2
+        dest: /etc/avahi/services/samba.service
+        mode: '0644'
+
+    - name: Restart Avahi
+      become: true
+      ansible.builtin.service:
+        name: avahi-daemon.service
+        state: restarted
+
+
+# --- EOF

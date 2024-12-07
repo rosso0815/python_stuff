@@ -1,0 +1,179 @@
+
+Displaying All non background sessions
+
+
+ SID  Serial USERNAME     PROGRAM                STATUS   LOGON_TIME        Idle
+---- ------- ------------ ---------------------- -------- --------------- ------
+   7      33 SYSTEM                              ACTIVE   28-OCT-02 12:29      0
+   8     152 SYSTEM                              INACTIVE 28-OCT-02 12:21      8
+   9       5 SYSTEM                              INACTIVE 28-OCT-02 10:57     91
+
+Enter Value for username > system
+
+User is running the following queries
+
+ SID SQL_TEXT                                                                   
+---- ----------------------------------------------------------------           
+   7 select oc.sid, t.sql_text from v$open_cursor oc, v$sqltext t whe           
+   7 re t.hash_value = oc.hash_value and t.address=oc.address and oc.           
+   7 user_name=UPPER('system') order by oc.sid, t.address, t.hash_val           
+   7 ue, t.piece                                                                
+   8 select * from user_tablespaces                                             
+   9 /* OracleOEM */ SELECT file_name FROM dba_data_files WHERE table           
+   9 space_name like 'CATIA'                                                    
+
+7 rows selected.
+
+Enter sid to refine (return for all) :
+Filter on statistics (return for all) :
+
+ SID NAME                                                              VALUE    
+---- ------------------------------------------------------------ ----------    
+   7 SQL*Net roundtrips to/from client                                    60    
+   7 buffer is not pinned count                                          112    
+   7 bytes received via SQL*Net from client                             6122    
+   7 bytes sent via SQL*Net to client                                   8067    
+   7 calls to get snapshot scn: kcmgss                                    31    
+   7 consistent gets                                                      81    
+   7 cursor authentications                                                1    
+   7 db block gets                                                        17    
+   7 enqueue releases                                                      7    
+   7 enqueue requests                                                      7    
+   7 execute count                                                        42    
+
+ SID NAME                                                              VALUE    
+---- ------------------------------------------------------------ ----------    
+   7 free buffer requested                                                 3    
+   7 logons cumulative                                                     1    
+   7 logons current                                                        1    
+   7 no work - consistent read gets                                       75    
+   7 opened cursors cumulative                                            42    
+   7 opened cursors current                                                1    
+   7 parse count (hard)                                                    7    
+   7 parse count (total)                                                  42    
+   7 physical reads                                                       18    
+   7 physical reads direct                                                18    
+   7 physical writes                                                      24    
+
+ SID NAME                                                              VALUE    
+---- ------------------------------------------------------------ ----------    
+   7 physical writes direct                                               24    
+   7 physical writes non checkpoint                                       24    
+   7 recursive calls                                                     166    
+   7 session logical reads                                                98    
+   7 session pga memory                                               288496    
+   7 session pga memory max                                           288496    
+   7 session uga memory                                                61076    
+   7 session uga memory max                                           155664    
+   7 sorts (disk)                                                          3    
+   7 sorts (memory)                                                       10    
+   7 sorts (rows)                                                       1936    
+
+ SID NAME                                                              VALUE    
+---- ------------------------------------------------------------ ----------    
+   7 table fetch by rowid                                                 37    
+   7 table scan blocks gotten                                              2    
+   7 table scan rows gotten                                                2    
+   7 table scans (short tables)                                            2    
+   7 total file opens                                                      1    
+   7 user calls                                                           61    
+   8 SQL*Net roundtrips to/from client                                    32    
+   8 buffer is not pinned count                                          108    
+   8 bytes received via SQL*Net from client                             2169    
+   8 bytes sent via SQL*Net to client                                   5129    
+   8 calls to get snapshot scn: kcmgss                                    11    
+
+ SID NAME                                                              VALUE    
+---- ------------------------------------------------------------ ----------    
+   8 cluster key scan block gets                                          22    
+   8 cluster key scans                                                    22    
+   8 consistent gets                                                     116    
+   8 db block gets                                                        20    
+   8 enqueue releases                                                      1    
+   8 enqueue requests                                                      1    
+   8 execute count                                                        13    
+   8 logons cumulative                                                     1    
+   8 logons current                                                        1    
+   8 no work - consistent read gets                                      104    
+   8 opened cursors cumulative                                            13    
+
+ SID NAME                                                              VALUE    
+---- ------------------------------------------------------------ ----------    
+   8 opened cursors current                                                1    
+   8 parse count (hard)                                                    2    
+   8 parse count (total)                                                  12    
+   8 recursive calls                                                      75    
+   8 session logical reads                                               136    
+   8 session pga memory                                               136176    
+   8 session pga memory max                                           136176    
+   8 session uga memory                                                54984    
+   8 session uga memory max                                            63236    
+   8 table fetch by rowid                                                  4    
+   8 table scan blocks gotten                                             24    
+
+ SID NAME                                                              VALUE    
+---- ------------------------------------------------------------ ----------    
+   8 table scan rows gotten                                               24    
+   8 table scans (short tables)                                            3    
+   8 user calls                                                           30    
+   9 SQL*Net roundtrips to/from client                                    58    
+   9 buffer is not pinned count                                         3046    
+   9 buffer is pinned count                                               33    
+   9 bytes received via SQL*Net from client                            10381    
+   9 bytes sent via SQL*Net to client                                  38549    
+   9 calls to get snapshot scn: kcmgss                                   115    
+   9 cluster key scan block gets                                         326    
+   9 cluster key scans                                                   148    
+
+ SID NAME                                                              VALUE    
+---- ------------------------------------------------------------ ----------    
+   9 consistent gets                                                    3026    
+   9 cursor authentications                                                6    
+   9 db block gets                                                        46    
+   9 enqueue releases                                                      2    
+   9 enqueue requests                                                      2    
+   9 execute count                                                       108    
+   9 free buffer requested                                                 6    
+   9 index fast full scans (full)                                          1    
+   9 logons cumulative                                                     1    
+   9 logons current                                                        1    
+   9 messages sent                                                        72    
+
+ SID NAME                                                              VALUE    
+---- ------------------------------------------------------------ ----------    
+   9 no buffer to keep pinned count                                      870    
+   9 no work - consistent read gets                                      900    
+   9 opened cursors cumulative                                            47    
+   9 opened cursors current                                                1    
+   9 parse count (hard)                                                    7    
+   9 parse count (total)                                                  53    
+   9 physical reads                                                       11    
+   9 physical reads direct                                                 6    
+   9 physical writes                                                       6    
+   9 physical writes direct                                                6    
+   9 physical writes non checkpoint                                        6    
+
+ SID NAME                                                              VALUE    
+---- ------------------------------------------------------------ ----------    
+   9 recursive calls                                                    1509    
+   9 rows fetched via callback                                          1095    
+   9 session logical reads                                              3072    
+   9 session pga memory                                               293040    
+   9 session pga memory max                                           936392    
+   9 session uga memory                                                29216    
+   9 session uga memory max                                           289756    
+   9 sorts (disk)                                                          1    
+   9 sorts (memory)                                                       94    
+   9 sorts (rows)                                                       1941    
+   9 table fetch by rowid                                               1178    
+
+ SID NAME                                                              VALUE    
+---- ------------------------------------------------------------ ----------    
+   9 table scan blocks gotten                                             88    
+   9 table scan rows gotten                                               88    
+   9 table scans (short tables)                                            4    
+   9 total file opens                                                      5    
+   9 user calls                                                           77    
+
+115 rows selected.
+

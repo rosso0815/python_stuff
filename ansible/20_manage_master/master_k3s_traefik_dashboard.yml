@@ -1,0 +1,106 @@
+---
+
+- name: Run a command in a pod using local kubectl with kubeconfig file ~/.kube/config
+  hosts: localhost
+  gather_facts: false
+  # vars:
+  #   ansible_connection: kubernetes.core.kubectl
+  #   ansible_kubectl_namespace: my-namespace
+  #   ansible_kubectl_pod: my-pod
+  #   ansible_kubectl_container: my-container
+  tasks:
+
+    - name: Run a command in a pod
+      ansible.builtin.command: echo "KUBECONFIG=${KUBECONFIG}"
+      register: out
+
+    - name: debug
+      debug:
+        var: out.stdout_lines
+
+    # - name: Get a list of all pods from any namespace
+    #   kubernetes.core.k8s_info:
+    #     kind: Pod
+    #   register: out
+    #
+    # - name: debug
+    #   debug:
+    #     var: out
+
+# - name: lets install k3s
+#   hosts: master
+#   connection: ssh
+#   gather_facts: true
+#   tasks:
+#
+    # - name: ufw is running
+    #   become: true
+    #   ansible.builtin.systemd:
+    #     state: started
+    #     name: ufw
+    #
+    # - name: Deny all access to port 6443
+    #   become: true
+    #   community.general.ufw:
+    #     rule: deny
+    #     port: '6443'
+    #
+    # - name: open fw
+    #   become: true
+    #   community.general.ufw:
+    #     rule: allow
+    #     name: OpenSSH
+    #
+    # - name: allow k3s for ip of own host
+    #   become: true
+    #   community.general.ufw:
+    #     rule: allow
+    #     proto: tcp
+    #     src: "{{ ansible_default_ipv4.address }}"
+    #     port: "6443"
+    #     comment: allow k3s
+    #
+    # - name: Create etc rancher k3s dir
+    #   become: true
+    #   ansible.builtin.file:
+    #     path: /etc/rancher/k3s/
+    #     state: directory
+    #     mode: '0755'
+    #
+    # - name: generate rancher resolv
+    #   become: true
+    #   ansible.builtin.template:
+    #     src: rancher_resolv_conf.j2
+    #     dest: /etc/rancher/k3s/resolv.conf
+    #     mode: '0644'
+
+    # - name: install k3s
+    #   become: true
+    #   shell: |
+    #     set -aeEux
+    #     K3S_TOKEN=12345
+    #     K3S_RESOLV_CONF=/etc/rancher/k3s/resolv.conf
+    #     INSTALL_K3S_EXEC="server"
+    #     INSTALL_K3S_EXEC="$INSTALL_K3S_EXEC --bind-address {{ k3s_bind_ip }}"
+    #     INSTALL_K3S_EXEC="$INSTALL_K3S_EXEC --write-kubeconfig-mode 644"
+    #     INSTALL_K3S_EXEC="$INSTALL_K3S_EXEC --selinux"
+    #     INSTALL_K3S_EXEC="$INSTALL_K3S_EXEC --tls-san master.localnet"
+    #     INSTALL_K3S_EXEC="$INSTALL_K3S_EXEC --resolv-conf /etc/rancher/k3s/resolv.conf"
+    #     curl -sfL https://get.k3s.io | sh -
+    #   args:
+    #     creates: /usr/local/bin/k3s-uninstall.sh
+    #   register: out
+    #
+    # - name: debug
+    #   debug:
+    #     msg: "out: {{ out }}"
+    #
+    # - name: copy remote k3s.yaml to local
+    #   become: true
+    #   ansible.builtin.fetch:
+    #     flat: true
+    #     src: /etc/rancher/k3s/k3s.yaml
+    #     dest: /tmp/k3s.yaml
+    #     mode: '0400'
+
+# --- EOF

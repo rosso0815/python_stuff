@@ -1,0 +1,102 @@
+COMPUTED VALUES:
+affinity: {}
+common:
+  exampleValue: common-chart
+  global:
+    imagePullSecrets: []
+    imageRegistry: ""
+commonAnnotations: {}
+commonLabels: {}
+containerPorts:
+  http: 80
+extraArgs: {}
+extraDeploy: []
+extraEnvVars: []
+extraEnvVarsCM: null
+extraEnvVarsSecret: null
+fullnameOverride: ""
+global:
+  imagePullSecrets: []
+  imageRegistry: ""
+image:
+  digest: ""
+  pullPolicy: IfNotPresent
+  registry: docker.io
+  repository: traefik/whoami
+  tag: v1.10.2
+ingress:
+  annotations:
+    # traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    # traefik.ingress.kubernetes.io/router.tls: "true"
+    # cert-manager.io/issuer: my-own-ca
+    cert-manager.io/cluster-issuer: my-own-ca
+    cert-manager.io/common-name: whoami.localnet
+  enabled: true
+  hosts:
+    - host: whoami.localnet
+      paths:
+        - /
+  ingressClassName: ""
+  pathType: ImplementationSpecific
+  tls:
+    - hosts:
+        - whoami.localnet
+      secretName: my-service-tls
+kubeVersion: ""
+livenessProbe:
+  enabled: true
+  failureThreshold: 3
+  initialDelaySeconds: 0
+  periodSeconds: 10
+  successThreshold: 1
+  timeoutSeconds: 1
+nameOverride: ""
+nodeSelector: {}
+pdb:
+  create: false
+  maxUnavailable: null
+  minAvailable: 1
+podAnnotations: {}
+podLabels: {}
+podSecurityContext: {}
+priorityClassName: null
+readinessProbe:
+  enabled: true
+  failureThreshold: 3
+  initialDelaySeconds: 0
+  periodSeconds: 10
+  successThreshold: 1
+  timeoutSeconds: 1
+replicaCount: 1
+resources: {}
+securityContext: {}
+service:
+  annotations: {}
+  clusterIP: null
+  externalTrafficPolicy: Cluster
+  loadBalancerIP: null
+  loadBalancerSourceRanges: null
+  nodePorts:
+    http: null
+  ports:
+    http: 80
+  type: ClusterIP
+serviceAccount:
+  annotations: {}
+  create: true
+  name: null
+startupProbe:
+  enabled: false
+  failureThreshold: 3
+  initialDelaySeconds: 0
+  periodSeconds: 10
+  successThreshold: 1
+  timeoutSeconds: 1
+tests:
+  image:
+    digest: ""
+    pullPolicy: IfNotPresent
+    registry: ghcr.io
+    repository: cowboysysop/pytest
+    tag: 1.0.35
+tolerations: []

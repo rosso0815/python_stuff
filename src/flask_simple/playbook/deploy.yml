@@ -1,0 +1,46 @@
+---
+
+- hosts: localhost
+  connection: local
+  tasks:
+
+    - name: debug
+      debug:
+        msg:
+          - "DOCKER_TAG: {{DOCKER_TAG}}"
+          - "DOCKER_VERSION: {{DOCKER_VERSION}}"
+
+    - name: Create a k8s namespace
+      kubernetes.core.k8s:
+        name: "{{namespace}}"
+        api_version: v1
+        kind: Namespace
+        state: present
+
+    - name: create config-map
+      kubernetes.core.k8s:
+        state: present
+        namespace: "{{ namespace }}"
+        template: templates/config_map.j2.yml
+        kubeconfig: "{{ kubeconfig }}"
+
+    - name: create deployment
+      kubernetes.core.k8s:
+        state: present
+        namespace: "{{ namespace }}"
+        template: templates/deployment.j2.yml
+        kubeconfig: "{{ kubeconfig }}"
+
+    - name: create service
+      kubernetes.core.k8s:
+        state: present
+        namespace: "{{ namespace }}"
+        template: templates/service.j2.yml
+        kubeconfig: "{{ kubeconfig }}"
+
+    # - name: create ingress
+    #   kubernetes.core.k8s:
+    #     state: present
+    #     namespace: "{{ namespace }}"
+    #     template: templates/deploy_ingress.j2.yml
+    #     kubeconfig: "{{ kubeconfig }}"

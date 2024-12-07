@@ -1,0 +1,76 @@
+---
+
+# https://medium.com/@tech_18484/unveiling-the-power-trio-telegraf-influxdb-grafana-for-seamless-ubuntu-monitoring-305094d19e0e
+# https://www.reddit.com/r/grafana/comments/1alu9ti/monitoring_pings_from_external_servers/
+
+- name: lets install grafana
+  hosts: master
+  connection: ssh
+  gather_facts: true
+  become: true
+
+  tasks:
+
+    - name: install requirements
+      apt:
+        update_cache: true
+        pkg:
+          - apt-transport-https
+          - software-properties-common
+          - wget
+
+    - name: Mkdir directory
+      ansible.builtin.file:
+        path: /etc/apt/keyrings/
+        state: directory
+
+    - name: add influxdb gpg key
+      register: out
+      ansible.builtin.shell: |-
+        cd /tmp
+        rm -f /etc/apt/sources.list.d/influxdata.list
+        wget -q https://repos.influxdata.com/influxdata-archive_compat.key
+        echo '393e8779c89ac8d958f81f942f9ad7fb82a25e133faddaf92e15b16e6ac9ce4c influxdata-archive_compat.key' \
+          | sha256sum -c && cat influxdata-archive_compat.key \
+          | gpg --dearmor \
+          | tee /etc/apt/trusted.gpg.d/influxdata-archive_compat.gpg
+        echo 'deb [signed-by=/etc/apt/trusted.gpg.d/influxdata-archive_compat.gpg] https://repos.influxdata.com/debian stable main' \
+          | tee /etc/apt/sources.list.d/influxdata.list
+
+    - name: debug
+      debug:
+        var: out
+
+    - name: install influxdb
+      apt:
+        update_cache: true
+        pkg:
+          - influxdb
+
+    - name: influxdb service unit is running
+      ansible.builtin.systemd_service:
+        daemon_reload: true
+        state: started
+        enabled: true
+        name: influxdb
+
+    # - name: add gpg key
+    #   ansible.builtin.shell: |-
+    #     wget -q -O - https://apt.grafana.com/gpg.key | gpg --dearmor | tee /etc/apt/keyrings/grafana.gpg > /dev/null
+    #     echo "deb [signed-by=/etc/apt/keyrings/grafana.gpg] https://apt.grafana.com stable main" | tee -a /etc/apt/sources.list.d/grafana.list
+    #     apt update
+    #
+    # - name: install grafana
+    #   apt:
+    #     update_cache: true
+    #     pkg:
+    #       - grafana
+    #
+    # - name: Make sure a service unit is running
+    #   ansible.builtin.systemd_service:
+    #     daemon_reload: true
+    #     state: started
+    #     enabled: true
+    #     name: grafana-server
+
+# --- EOF

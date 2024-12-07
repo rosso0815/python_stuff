@@ -1,0 +1,105 @@
+#!/opt/freeware/bin/perl -w
+
+########## ######### ######### ######### ######### ######### ######### #########
+##
+## Erzeuger : A.Pfister
+## Datum    : 17.04.2003
+## Aufruf   : Shell
+## Funktion : aendern des namens eines parts mit status DEL 
+##            name wird mit einem dxxxxxxx versehen
+## Keyword  : dmags oracle status 
+##
+########## ######### ######### ######### ######### ######### ######### #########
+## Modifications: 
+## Date          Version         Description
+## 17.04.2003    1.0             Init
+########## ######### ######### ######### ######### ######### ######### #########
+
+use Env;
+use DBI;
+
+#evtl setzen
+#$ENV{'ORACLE_HOME'}='/oracle/p817';
+
+
+my $mydb= DBI->connect( "DBI:Oracle:DMA12_catiasv01", "DMAGS1", "DMAGS1");
+#my $mydb= DBI->connect( "DBI:Oracle:DMA12_caxws14", "DMAGS1", "DMAGS1");
+
+if (not $mydb)
+	{
+	print "\n Server konnte nicht ermittelt werden";
+	exit(1);
+	}
+
+# suche nach model mit status DEL besitzer neuhausen und name ist nicht d%
+my $query = "select s_part_number,s_version, c_maturity from part_list
+			 where
+	          c_maturity like 'DEL'
+	         and
+		      c_org_resPONSIBLE like 'NEU'
+		     and
+			  lower( s_part_number) not like 'd%'";
+			  
+my $ausgabe = $mydb->prepare($query);
+$ausgabe->execute;
+my ($t1, $t2, $t3);
+$ausgabe->bind_col( 1, \$t1, undef);
+$ausgabe->bind_col( 2, \$t2, undef);
+$ausgabe->bind_col( 3, \$t3, undef);
+print "\n***********************************************";
+print "\nPARTNUMMER\tVERSION\tSTATUS";
+print "\n***********************************************";
+
+while ($ausgabe->fetch)
+	{
+	printf("\n%-15s\t%s\t%s",$t1, $t2, $t3);
+	}
+# Werte einlesen
+print "\n\n Bitte die Werte eingeben";
+print "\n => PARTNUMMER ? = ";
+my $partnummer = <STDIN>;
+chop($partnummer);
+print " => VERSION ? = ";
+my $version = <STDIN>;
+chop($version);
+# print "\nPARTNUMMER= ", $partnummer, " VERSION = ", $version ;
+
+# Datenbankeintraege aendern
+# zuerst nach eindeutigkeit schauen
+$query = "select count(*)
+	from part_list p
+	where
+	p.s_part_number like '$partnummer'
+	AND
+	p.s_version = '$version'";
+	
+$ausgabe->finish();
+$ausgabe = $mydb->prepare($query);
+$ausgabe->execute;
+my $anzahl = $ausgabe->fetch->[0];
+$ausgabe->finish();
+if ($anzahl != 1) {
+	print "\n** Anzahl gefundener Werte = ", $anzahl;
+	print "\n** Nicht eindeutige Definition, Programm wird abgebrochen ! ***\n";
+	exit;}
+
+# und eintrag aendern
+#$mydb->trace(1);
+#$mydb->{RaiseError} = 1;
+
+$query = "update part_list set s_part_number = 'd$partnummer'
+	where s_part_number like '$partnummer' AND s_version = '$version'"; 
+
+print "\nQUERY= ", $query;
+my $stmt = $mydb->prepare($query) or die $mydb->errstr; 
+
+#print "\ndb->execute";
+$stmt->execute or die $mydb->errstr; 
+print "\n***********************************************************************";
+print "\n PART ", $partnummer, " VERSION ", $version, " * neuer Name = d", $partnummer;
+print "\n***********************************************************************";
+
+# und tschuess mit SQL
+$ausgabe->finish();
+$mydb->disconnect;
+printf("\n");

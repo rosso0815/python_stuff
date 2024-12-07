@@ -1,0 +1,14 @@
+---
+
+ntp_server:
+  - acme.example.org
+  - zero09
+
+database_server: storage.example.org
+
+os: darwin-amd64
+
+golang_versions:
+  - 1.15.15
+  - 1.16.14
+  - 1.17.7

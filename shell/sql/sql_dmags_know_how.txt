@@ -1,0 +1,293 @@
+########## ######### ######### ######### ######### ######### ######### #########
+##
+## Erzeuger : A.Pfister
+## Datum    : 02.04.03
+## Aufruf   : 
+## Funktion : 
+## Keyword  : dmags sql know-how
+##
+########## ######### ######### ######### ######### ######### ######### #########
+## Modifications: 
+## Date          Version         Description
+## 21.01.2003    1.0             Init
+########## ######### ######### ######### ######### ######### ######### #########
+
+# connecten mit sql
+sqlplus DMAGS1/DMAGS1@DMA12_caxws14
+sqlplus dmags1/dmags1@dma12_catiasv01
+sqlplus DMAGS1/DMAGS1@DMA12
+
+set pagesize 0
+set linesize 100
+
+
+# anzeige aller columns einer bestimmten tabelle
+select
+ COLUMN_NAME
+ from all_tab_columns
+ where
+ TABLE_NAME
+ =
+ 'CATIA_MODEL';
+ 
+# test suche die ganze tabelle
+select
+	count(*)
+from "$EXT"
+where
+'4E4597857BBB2737' in
+	(
+	select COLUMN_NAME
+	from all_tab_columns
+	where TABLE_NAME = '$EXT'
+	);
+
+# suche nach COID mit model
+select
+p."$COID", p.s_part_number,c."$COMPID", c.S_TYPE_REP, c.C_ORG_RESPONSIBLE
+from part_list p, catia_model c
+where p."$COID" = c."$COID" AND p.s_part_number like '%&var1%';
+
+# suche nur nach part
+select "$COMPID", "$COID", s_part_number
+from part_list
+where s_part_number like '%&PART_NUMMER%';
+
+# Tabelle $EXT
+$COID = $COID des root-objects
+$COID_REF = $COID des Kinderobjects 
+$COMPNAME_FATHER = PART_LIST
+$TYPE=CATASS !!
+
+$COID = $COID
+$COID_REF = selbe $COID
+$COMPNAME_FATHER = CATIA_MODEL
+$TYPE=CATMMLSOL
+
+select *
+from (select table_name table from user_tables)
+where (desc table) like '_%'
+
+# suche eines kindes mittels gegebener COID
+select 
+	"$COID","$COID_REF","$COMPNAME_FATHER"
+from "$EXT";
+
+select count(*) from "$EXT" where "$COID_REF" = '&var1';
+
+# anzeige des matials eines models bei gegebener COID des drawing-models
+# zuerst count(*) machen um festzustellen das es sich um keine BG handelt
+select
+  material_code , COMPUTED_MASS
+  from part_list 
+where
+  "$COID" in
+ (
+ select "$COID_REF"
+ 	from "$EXT" 
+ where 
+	"$COID" = '&var1'
+	AND
+	"$COMPNAME_FATHER" = 'PART_LIST'	
+ );
+
+#
+# auflisten von kind analog psn
+# rootummer MUSS unique sein
+select 
+        p.s_part_number
+from 
+        part_list p, "$EXT" e
+where 
+        p."$COID" = e."$COID_REF"
+and
+        e."$COID" =
+                (
+                select
+                        p1."$COID"
+                from
+                        part_list p1
+                where
+                p1.s_part_number = '&rootnummer'
+                );
+
+#-----------------------------------------------------------------------------------#
+# ANALYSE
+# pfad von catiamodel
+# catia_model.c_version = interne versionnumber
+# korrospondierend zum pfad
+select 
+	p.S_PART_NUMBER nummer,
+	p.S_VERSION version,
+	c.S_REVISION revision,
+	replace(DUMP(e."$CUR_ACC_MET_DATA",17), ',','')
+from 	
+	dmags1.part_list p,
+	dmags1.catia_model c,
+	dmags1."$EXT_LF" e
+where  
+	p."$COID" = c."$COID"
+	and
+	p."$COID" = e."$COID"
+	and
+	p.s_part_number like '%&nummer%' ;
+
+# BADEN
+# S_PIDENTNR=s_part_number !!
+select  p.S_PIDENTNR nummer,
+        replace(SUBSTR(DUMP(e."$CUR_ACC_MET_DATA",17), 16), ',','')
+from    "$EXT_LF" e, 
+        part_list p,
+        catia_model c
+where 
+        p."$COID" = c."$COID"
+        and
+        p."$COID" = e."$COID"
+        and
+        p.S_PIDENTNR like '%&nummer%';
+
+#-------------------------------------------------------------------------
+select p.s_part_number
+ , replace( substr ( dump (e."$CUR_ACC_MET_DATA",17), 16), ', ', '') model
+ from part_list p, "$EXT_LF" e
+ where e."$COID" = p."$COID"
+ and p.s_part_number = 'F-0777308';
+
+
+# suche anzahl modelle mit COID
+select count(*) from catia_model
+ where "$COID" = '4E4597857C09570E';
+
+# Datumsprobleme
+select "$COID", s_part_number, c_create, to_char( c_create, 'DD-MM-YY') formatted
+from part_list
+where s_part_number like '%1234567006%'
+
+OID            S_PART_NUMBER      C_CREATE  FORMATTE
+---------------- ------------------ --------- --------
+4E4597C6F34B06A5 D1234567006        02-APR-03 02-04-03
+4E4597C6F40F6FB5 1234567006         02-APR-03 02-04-03
+
+# Analyse Tabelle EXT DMA1.2R8 !!
+select "$COMPNAME" from "$EXT" group by "$COMPNAME";
+>>DMAGS1.$EXT
+>>DMAGS1.CATIA_MODEL
+>>DMAGS1.PART_LIST
+
+select "first_name", "last_name" from
+"VPMADM"."person"
+where "id" =
+        (
+select C_LASTMOD_USER
+from catia_model where
+catia_model."$COMPID" = '4E4598069C794010'
+	)
+
+#--------------------------------------------------------------------------------------
+# AENDERN DER MATURITY
+#
+# achtung part_number char(18)
+select p.s_part_number NUMMER,
+	p.S_VERSION VERSION,
+	p.c_maturity PART_MATURITY,
+	c.S_REVISION REVISION,
+	c.c_maturity MODEL_MATURITY
+from part_list p, catia_model c
+where p."$COID" = c."$COID" AND p.s_part_number like '%&PARTNAME%';
+
+# update model !
+update catia_model
+	set c_maturity = 'WIP'
+where "$COID" IN  (
+	select c."$COID" from part_list p, catia_model c
+	where
+		p."$COID" = c."$COID"
+			and
+		p.s_part_number = '&NUMMER')
+			and
+		S_REVISION = '&REVISION';
+# update part !
+update part_list
+	set c_maturity = 'WIP'
+	where
+	s_part_number = '&NUMMER'
+		and         
+        S_VERSION = '&VERSION';
+
+commit:
+#-----------------------------------------------------------------------------------#
+# TRANSFER
+# update modell_maturity
+
+select
+p.s_part_number NUMMER, 
+p.C_ORG_RESPONSIBLE P_ORG , 
+p.C_RESPONSIBLE P_RESPONSIBLE,
+c.C_ORG_RESPONSIBLE C_ORG,
+c.C_RESPONSIBLE C_RESPONSIBLE
+from part_list p, catia_model c
+where p."$COID" = c."$COID" AND p.s_part_number like '%&var1%';
+
+# aendere ownership ! zB. TGPA und TRANSFER
+# wird als vpmadm gemacht und ist bei fehler mittels sql zu korrigieren !
+update part_list set 
+	C_ORG_RESPONSIBLE = 'NEU',
+	C_RESPONSIBLE = 'ASNCAX'
+where "$COID" =  
+	(
+	select c."$COID" from part_list p, catia_model c
+	where
+		p."$COID" = c."$COID"
+			and
+		p.s_part_number = '&var1'
+	) ;
+
+commit:
+
+# check ist was noch nicht transferiert, es sollte nichts vorhanden sein
+select s_part_number NUMMER, C_ORG_RESPONSIBLE P_ORG 
+from part_list
+where C_ORG_RESPONSIBLE = 'TRANSFER';
+
+#-----------------------------------------------------------------------------------#
+# REVISION
+# zeichnungsindex korrigieren
+select
+p.s_part_number NUMMER, c.s_next
+from part_list p, catia_model c
+where p."$COID" = c."$COID" AND p.s_part_number like '%&var1%';
+
+update catia_model set
+	s_next = 1
+where "$COID" = (
+	select c."$COID" from part_list p, catia_model c
+	where
+		p."$COID" = c."$COID" 
+		AND 
+		p.s_part_number like '&var1');
+
+commit;
+
+#-----------------------------------------------------------------------------------#
+# part umbenennen
+
+select 
+	s_part_number,
+	C_MATURITY, 
+	C_VERSION, 
+	C_ORG_RESPONSIBLE 
+from part_list 
+where s_part_number like '%&PartNummer%';
+
+update part_list set s_part_number = '&neueNummer'
+where
+	s_part_number = '&alteNummer'
+	and
+	C_VERSION     = '&Version';
+
+
+
+#--------------------------------------------------------------------------------------
+# Anzeigen der vorhandenen environmente
+select * from CATIA.CONAME;
+

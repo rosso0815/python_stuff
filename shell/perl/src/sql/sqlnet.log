@@ -1,0 +1,240 @@
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=caxws06)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=TEST)(CID=(PROGRAM=)(HOST=caxws06)(USER=kraanp9))))
+
+  VERSION INFORMATION:
+	TNS for IBM/AIX RISC System/6000: Version 8.1.7.0.0 - Development
+	TCP/IP NT Protocol Adapter for IBM/AIX RISC System/6000: Version 8.1.7.0.0 - Development
+  Time: 13-AUG-2002 15:53:39
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS:no listener
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: No listener
+    nt secondary err code: 79
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=caxsp04)(PORT=1521))(CONNECT_DATA=(SID=DMA12)(SERVER=DEDICATED)(CID=(PROGRAM=)(HOST=caxws06)(USER=kraanp9))))
+
+  VERSION INFORMATION:
+	TNS for IBM/AIX RISC System/6000: Version 8.1.7.0.0 - Development
+	TCP/IP NT Protocol Adapter for IBM/AIX RISC System/6000: Version 8.1.7.0.0 - Development
+  Time: 28-OCT-2002 08:53:20
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS:no listener
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: No listener
+    nt secondary err code: 79
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=caxsp04)(PORT=1521))(CONNECT_DATA=(SID=DMA12)(SERVER=DEDICATED)(CID=(PROGRAM=)(HOST=caxws06)(USER=kraanp9))))
+
+  VERSION INFORMATION:
+	TNS for IBM/AIX RISC System/6000: Version 8.1.7.0.0 - Development
+	TCP/IP NT Protocol Adapter for IBM/AIX RISC System/6000: Version 8.1.7.0.0 - Development
+  Time: 28-OCT-2002 08:55:06
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS:no listener
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: No listener
+    nt secondary err code: 79
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=caxws06)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=TEST)(CID=(PROGRAM=)(HOST=caxws06)(USER=kraanp9))))
+
+  VERSION INFORMATION:
+	TNS for IBM/AIX RISC System/6000: Version 8.1.7.0.0 - Development
+	TCP/IP NT Protocol Adapter for IBM/AIX RISC System/6000: Version 8.1.7.0.0 - Development
+  Time: 28-OCT-2002 09:15:30
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS:no listener
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: No listener
+    nt secondary err code: 79
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=caxws06)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=TEST)(CID=(PROGRAM=)(HOST=caxws06)(USER=kraanp9))))
+
+  VERSION INFORMATION:
+	TNS for IBM/AIX RISC System/6000: Version 8.1.7.0.0 - Development
+	TCP/IP NT Protocol Adapter for IBM/AIX RISC System/6000: Version 8.1.7.0.0 - Development
+  Time: 28-OCT-2002 10:14:00
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS:no listener
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: No listener
+    nt secondary err code: 79
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=caxsp04)(PORT=1521))(CONNECT_DATA=(SID=DMA12)(SERVER=DEDICATED)(CID=(PROGRAM=)(HOST=caxws06)(USER=kraanp9))))
+
+  VERSION INFORMATION:
+	TNS for IBM/AIX RISC System/6000: Version 8.1.7.0.0 - Development
+	TCP/IP NT Protocol Adapter for IBM/AIX RISC System/6000: Version 8.1.7.0.0 - Development
+  Time: 20-DEC-2002 08:45:10
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS:no listener
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: No listener
+    nt secondary err code: 79
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=caxws14)(PORT=1521))(CONNECT_DATA=(SID=DMA12)(SERVER=DEDICATED)(CID=(PROGRAM=)(HOST=caxws06)(USER=kraanp9))))
+
+  VERSION INFORMATION:
+	TNS for IBM/AIX RISC System/6000: Version 8.1.7.0.0 - Development
+	TCP/IP NT Protocol Adapter for IBM/AIX RISC System/6000: Version 8.1.7.0.0 - Development
+  Time: 20-DEC-2002 08:48:32
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS:no listener
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: No listener
+    nt secondary err code: 79
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=caxws14)(PORT=1521))(CONNECT_DATA=(SID=DMA12)(SERVER=DEDICATED)(CID=(PROGRAM=)(HOST=caxws06)(USER=kraanp9))))
+
+  VERSION INFORMATION:
+	TNS for IBM/AIX RISC System/6000: Version 8.1.7.0.0 - Development
+	TCP/IP NT Protocol Adapter for IBM/AIX RISC System/6000: Version 8.1.7.0.0 - Development
+  Time: 06-JAN-2003 16:42:02
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS:no listener
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: No listener
+    nt secondary err code: 79
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=caxws14)(PORT=1521))(CONNECT_DATA=(SID=DMA12)(SERVER=DEDICATED)(CID=(PROGRAM=)(HOST=caxws06)(USER=kraanp9))))
+
+  VERSION INFORMATION:
+	TNS for IBM/AIX RISC System/6000: Version 8.1.7.0.0 - Development
+	TCP/IP NT Protocol Adapter for IBM/AIX RISC System/6000: Version 8.1.7.0.0 - Development
+  Time: 05-MAY-2003 17:02:38
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS:no listener
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: No listener
+    nt secondary err code: 79
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=caxws14)(PORT=1521))(CONNECT_DATA=(SID=DMA12)(SERVER=DEDICATED)(CID=(PROGRAM=)(HOST=caxws06)(USER=kraanp9))))
+
+  VERSION INFORMATION:
+	TNS for IBM/AIX RISC System/6000: Version 8.1.7.0.0 - Development
+	TCP/IP NT Protocol Adapter for IBM/AIX RISC System/6000: Version 8.1.7.0.0 - Development
+  Time: 06-MAY-2003 08:02:33
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS:no listener
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: No listener
+    nt secondary err code: 79
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=caxws14)(PORT=1521))(CONNECT_DATA=(SID=DMA12)(SERVER=DEDICATED)(CID=(PROGRAM=)(HOST=caxws06)(USER=kraanp9))))
+
+  VERSION INFORMATION:
+	TNS for IBM/AIX RISC System/6000: Version 8.1.7.0.0 - Development
+	TCP/IP NT Protocol Adapter for IBM/AIX RISC System/6000: Version 8.1.7.0.0 - Development
+  Time: 06-MAY-2003 11:20:15
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS:no listener
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: No listener
+    nt secondary err code: 79
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12541, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=caxws14)(PORT=1521))(CONNECT_DATA=(SID=DMA12)(SERVER=DEDICATED)(CID=(PROGRAM=)(HOST=caxws06)(USER=kraanp9))))
+
+  VERSION INFORMATION:
+	TNS for IBM/AIX RISC System/6000: Version 8.1.7.0.0 - Development
+	TCP/IP NT Protocol Adapter for IBM/AIX RISC System/6000: Version 8.1.7.0.0 - Development
+  Time: 06-MAY-2003 12:40:24
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12541
+    TNS-12541: TNS:no listener
+    ns secondary err code: 12560
+    nt main err code: 511
+    TNS-00511: No listener
+    nt secondary err code: 79
+    nt OS err code: 0

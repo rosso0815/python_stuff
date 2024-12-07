@@ -1,0 +1,124 @@
+#!/opt/freeware/bin/perl -w
+
+########## ######### ######### ######### ######### ######### ######### #########
+##
+## Erzeuger : kraanp9
+## Datum    : Wed Aug 20 13:52:00 DFT 2003
+## Aufruf   : command-line
+## Funktion : archivieren von tiff-dateien
+## Keyword  : tiff archiv log 
+## Version  : 001
+##
+########## ######### ######### ######### ######### ######### ######### #########
+## Modifications: 
+## Date                          Version         Description
+## Wed Aug 20 13:52:00 DFT 2003      1.0             Init
+########## ######### ######### ######### ######### ######### ######### #########
+
+use Cwd;
+use Log::Log4perl qw(get_logger); 
+use Getopt::Std;
+use Data::Dumper;
+use Shell qw( tiffcp cp smbclient rm);
+
+my (%opt, $filename, $logger, $file_id, $file_version, $file_blattnr);
+
+my $tiffpfad='/tiffcache';
+
+&init;
+&check_filename;
+&move_2archiv;
+
+print "\nENDE\n";
+##################################################################################
+sub init
+{
+# logger definieren
+my $conf = q(
+	log4perl.category.Bar.Twix         = WARN, Logfile
+	log4perl.appender.Logfile          = Log::Log4perl::Appender::File
+	log4perl.appender.Logfile.filename = test.log
+	log4perl.appender.Logfile.layout = \
+	Log::Log4perl::Layout::PatternLayout
+	log4perl.appender.Logfile.layout.ConversionPattern = %d %F{1} %L> %m %n  
+	);
+
+Log::Log4perl::init(\$conf);
+$logger = get_logger("Bar::Twix");
+$logger->error("Init");
+
+# optionen auswerten
+getopts('oif:', \%opt )
+	or die "falsche parameter ! zulassig oif\n";
+if (! %opt)
+	{
+	print "keine parameter definiert => exit\n";
+	exit;
+	}
+	
+$filename = $opt{'f'};
+if (! -s $filename)
+	{
+	print "Datei $filename inexistent oder size 0";
+	}
+}
+#################################################################################
+sub check_filename
+{
+# datei nach regeln checken
+# output = 1234567-000-01-01.mtif
+# -000- = fuer SAP
+if (! ( $filename =~ m/^(\d{7})-(\d+)-(\d+).tif/smi ))
+	{
+	print "ERROR, Datei $filename enspricht nicht REGEL\n";
+	exit;
+	}
+
+$file_id      = $1;
+$file_version = $2;
+$file_blattnr = $3;
+print "\n##check_filename";
+print "\nFILENAME    = $filename";
+print "\nFILEID      = $file_id" ;
+print "\nVERSION     = $file_version";
+print "\nBLATTNUMMER = $file_blattnr";
+$logger->warn("check_filename = $file_id,$file_version,$file_blattnr");
+}
+#################################################################################
+sub move_2archiv
+{
+print "\n## move_2archiv";
+
+if ( -e "$tiffpfad/$filename")
+	{
+	print "\nfile $filename already in $tiffpfad";	
+	}
+cp $filename, $tiffpfad;
+
+
+my $tiff_files;
+
+chdir $tiffpfad;
+print "\n CWD = ", cwd;
+
+# suchen von anderen dateien
+while ( glob("$file_id-*.tif"))
+	{
+	print "\nfound = ", $_;
+	$tiff_files = $tiff_files . " " . $_
+	}
+print "\ntiff_files = " , $tiff_files; 
+
+my $mtiff = $file_id . "-m.tiff";
+rm( $mtiff );
+tiffcp($tiff_files, $mtiff );
+
+# und copiere in die Windows-Welt
+# smbclient //chkra-0001-a028/itc greblen4 -U kraanp9 -W CHKRA-0001
+# cd \CHIE\CHIEC\CAX-TEAM
+
+$server='//chkra-0001-a028/itc';
+$server=$server . ' greblen4 -U kraanp9 -W CHKRA-0001 -c';
+$out = smbclient( $server . "\"cd CHIE/CHIEC/CAX-TEAM/MEMBERS/kraanp9;put $mtiff \"");
+print "\nOUT=", $out;
+}

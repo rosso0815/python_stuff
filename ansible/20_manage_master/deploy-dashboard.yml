@@ -1,0 +1,61 @@
+---
+# Tagbar: Could not execute ctags for /Users/pfistera/workspace/rosso0815-python/ansible/20_manage_somsi/deploy-dashboard.yml!
+# Executed command: "'ctags' '--extras=+F' '-f' '-' '--format=2' '--excmd=pattern' '--fields=nksSafet' '--sort=no' '--append=no' '--language-force=ansible' '--ansible-kinds=t' '/var/folders/0b/84pmgjb97rv2prflvjn81lph0000gn/T/vDd5aPk/11.yml'"
+# Command output:
+# ctags: Unknown language "ansible" in "language-force" option
+# Exit code: 1
+
+- name: Deploy dashboard1
+  hosts: master1
+  connection: ssh
+  gather_facts: false
+  remote_user: vagrant
+  become: true
+
+- name: Deploy dashboard2
+  hosts: master1
+  connection: ssh
+  gather_facts: false
+  remote_user: vagrant
+  become: true
+
+  tasks:
+    - name: Install /var/tmp/dashboard.yml
+      template:
+        src: dashboard.yml
+        dest: /var/tmp/dashboard.yml
+        owner: root
+        group: root
+        mode: "0755"
+
+    - name: deploy dashboard
+      shell: k3s kubectl apply -f /var/tmp/dashboard.yml
+#   - name: create k0s folders
+#     become: True
+#     shell: |
+#       mkdir /var/lib/k0s/ || true
+#       mkdir /etc/k0s/ || true
+
+#   - name: install /etc/k0s/k0s.yml
+#     become: True
+#     template:
+#       src: k0s.yml
+#       dest: /etc/k0s/k0s.yml
+#       owner: root
+#       group: root
+#       mode: '0755'
+
+#   - name: start k0s
+#     become: True
+#     shell: |
+#       /usr/local/bin/k0s install controller -c /etc/k0s/k0s.yml
+#       /usr/local/bin/k0s start
+#       sleep 60
+#       /usr/local/bin/k0s status
+#       /usr/local/bin/k0s token create --role=worker --expiry=100h > /etc/k0s/token-file
+
+#   - name: get /etc/k0s/token-file
+#     fetch:
+#       src: /etc/k0s/token-file
+#       dest: tmp/token-file
+#       flat: yes

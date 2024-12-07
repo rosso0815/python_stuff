@@ -1,0 +1,131 @@
+---
+
+# https://computingforgeeks.com/use-vagrant-with-libvirt-kvm-on-centos/
+
+# sudo yum-config-manager
+# --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
+#
+# sudo yum -y install vagrant
+
+# - name: install needed sw for vagrant
+  # become: true
+  # yum:
+    # name: yum-utils
+
+# - name: install vagrant
+  # become: true
+  # yum:
+    # name: https://releases.hashicorp.com/vagrant/2.3.0/vagrant-2.3.0-1.x86_64.rpm
+    # disable_gpg_check: true
+
+# - name: install needed sw for vagrant
+  # become: true
+  # yum:
+    # name:
+      # - libvirt
+      # - libvirt-devel
+      # - python3-libvirt
+      # - "@Virtualization Host"
+      # - virt-install
+
+# - name: enable linvirt daemon
+  # become: true
+  # ansible.builtin.systemd:
+    # state: started
+    # name: libvirtd
+
+# - name: fix vagrant
+  # command: vagrant plugin install vagrant-libvirt
+
+# - name: show all the hosts matching the pattern
+  # debug:
+    # msg: "item: {{ item }}"
+  # loop: "{{ vagrant_hosts }}"
+  # with_inventory_hostnames:
+    # - masters
+    # - workers
+
+# - name: List available networks
+  # community.libvirt.virt_net:
+    # command: list_nets
+
+# - name: Define a new network
+  # community.libvirt.virt_net:
+    # command: define
+    # name: foobar
+    # xml: '{{ lookup("template", "foobar.xml.j2") }}'
+
+
+# - name: Start a network
+  # community.libvirt.virt_net:
+    # command: create
+    # name: default
+
+  # ansible-galaxy collection install community.libvirt
+# - name: Add a new host in the dhcp pool
+  # community.libvirt.virt_net:
+    # name: vagrant-libvirt
+    # command: modify
+    # xml: "<host mac='52:54:00:6c:3c:02' name='master1' ip='192.168.121.150' />"
+    # xml: "<host mac='FC:C2:33:00:6c:3c' name='master1' ip='192.168.121.150' />"
+    # xml: "<network><name>virt9</name><ip><dhcp><host mac='FC:C2:33:00:6c:3c' name='my_vm' ip='192.168.122.30'/></dhcp></ip></network>"
+    # xml: "<host mac='{{ item['mac'] }}' name='{{ item['name'] }}' ip='{{ item['ip'] }}'/>"
+  # loop: "{{ vagrant_hosts }}"
+  # register: out
+# - name: debug
+  # debug:
+    # msg: "{{ out }}"
+
+# - name: List available networks
+  # community.libvirt.virt_net:
+    # command: list_nets
+
+- name: debug ip hostname from inventory
+  debug:
+    msg: "{{ item }} {{ hostvars[item].ansible_ip }}"
+  with_items:
+    - "{{ groups['masters'] }}"
+    - "{{ groups['workers'] }}"
+
+- name: Add IP address of all hosts to all hosts
+  become: true
+  lineinfile:
+    dest: /etc/hosts
+    line: "{{ hostvars[item].ansible_ip }} {{ item }}"
+    state: present
+  with_items:
+    - "{{ groups['masters'] }}"
+    - "{{ groups['workers'] }}"
+
+- name: "create vagrant-dirs#"
+  file:
+    path: "{{ target_dir }}/{{ item }}"
+    state: directory
+    mode: '0755'
+  with_items:
+    - "{{ groups['masters'] }}"
+    - "{{ groups['workers'] }}"
+
+- name: create Vagrantfile
+  template:
+    src: vagrant.j2
+    dest: "{{ target_dir }}/{{ item }}/Vagrantfile"
+  with_items:
+    - "{{ groups['masters'] }}"
+    - "{{ groups['workers'] }}"
+
+- name: copy authorized_keys_add
+  template:
+    src: authorized_keys_add
+    dest: "{{ target_dir }}/{{ item }}/authorized_keys_add"
+  with_items:
+    - "{{ groups['masters'] }}"
+    - "{{ groups['workers'] }}"
+
+- name: create server
+  shell: |
+    cd "{{ target_dir }}/{{ item }}/"
+    vagrant up
+  with_items:
+    - "{{ groups['masters'] }}"
+    - "{{ groups['workers'] }}"

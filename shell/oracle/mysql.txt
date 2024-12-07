@@ -1,0 +1,8 @@
+
+set autocommit=0;
+
+select * from ap_execute;
+
+insert into ap_execute ( version , apname ) values ( 0 , 'test99' );
+
+UPDATE ap_execute SET apname = 'test199' WHERE apname = 'test99';

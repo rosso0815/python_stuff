@@ -1,0 +1,96 @@
+This should be logged.
+This should be logged.
+This should be logged.
+This should be logged.
+This should be logged.
+log.txt
+test.log
+test01.pl
+test02.pl
+This should be logged.
+log.txt
+test.log
+test01.pl
+test02.pl
+This should be logged.
+log.txt
+test.log
+test01.pl
+test02.pl
+This should be logged.
+log.txt
+test.log
+test01.pl
+test02.pl
+05-06-2017 08:11:54 do_something: 
+This should be logged.
+log.txt
+test.log
+test01.pl
+test02.pl
+05-06-2017 08:12:21 DIE: Modification of a read-only value attempted at ./test02.pl line 21.
+log.txt
+test.log
+test01.pl
+test02.pl
+05-06-2017 08:12:38 do_something: 
+This should be logged.
+log.txt
+test.log
+test01.pl
+test02.pl
+05-06-2017 08:13:29 DIE: Modification of a read-only value attempted at ./test02.pl line 21.
+log.txt
+test.log
+test01.pl
+test02.pl
+05-06-2017 08:13:44 do_something: 
+This should be logged.
+log.txt
+test.log
+test01.pl
+test02.pl
+05-07-2017 08:34:00 do_something: 
+This should be logged.
+log.txt
+test.log
+test01.pl
+test02.pl
+05-07-2017 08:36:27 do_something: 
+This should be logged.
+log.txt
+test.log
+test01.pl
+test02.pl
+05-07-2017 08:36:29 do_something: 
+This should be logged.
+log.txt
+test.log
+test01.pl
+test02.pl
+05-07-2017 08:36:47 do_something: 
+This should be logged.
+log.txt
+test.log
+test01.pl
+test02.pl
+05-07-2017 08:54:10 do_something: 
+This should be logged.
+log.txt
+test.log
+test01.pl
+test02.pl
+05-07-2017 09:01:24 do_something: 
+This should be logged.
+log.txt
+test.log
+test01.pl
+test02.pl
+05-07-2017 09:01:30 do_something: 
+This should be logged.
+log.txt
+test.log
+test01.pl
+test02.pl
+05-07-2017 09:05:22 do_something: 
+This should be logged.

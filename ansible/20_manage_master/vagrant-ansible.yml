@@ -1,0 +1,9 @@
+---
+
+- name: lets install ansible on masters
+  hosts: masters
+  connection: ssh
+  gather_facts: false
+
+  roles:
+    - role: vagrant/ansible

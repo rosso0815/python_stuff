@@ -1,0 +1,25 @@
+########## ######### ######### ######### ######### ######### ######### #########
+##
+## Erzeuger : kraanp9
+## Datum    : Thu Jun  3 09:55:18 DFT 2004
+## Aufruf   : 
+## Funktion : 
+## Keyword  : 
+## Version  : 
+##
+########## ######### ######### ######### ######### ######### ######### #########
+## Modifications: 
+## Date                          Version         Description
+## Thu Jun  3 09:55:18 DFT 2004      1.0             Init
+########## ######### ######### ######### ######### ######### ######### #########
+## $Log$
+########## ######### ######### ######### ######### ######### ######### #########
+
+set pagesize 0
+
+select name from v$datafile;
+select name from v$controlfile;
+select member from v$logfile;
+
+
+

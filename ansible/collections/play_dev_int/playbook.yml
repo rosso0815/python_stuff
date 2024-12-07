@@ -1,0 +1,22 @@
+---
+
+- name: do web stuff
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    test: kukuk
+
+  tasks:
+
+    - name: test web
+      debug:
+        msg: test {{ test }}
+
+    - name: devint
+      hello:
+        name: kukuk
+        filename: test.txt
+        enabled: true
+
+# --- EOF

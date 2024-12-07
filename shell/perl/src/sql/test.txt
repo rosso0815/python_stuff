@@ -1,0 +1,16 @@
+
+ 
+select TABLESPACE_NAME from user_tables where table_name = 'BONUS';
+ 
+select TABLESPACE_NAME from user_tables where table_name = 'DEPT';
+ 
+select TABLESPACE_NAME from user_tables where table_name = 'DUMMY';
+ 
+select TABLESPACE_NAME from user_tables where table_name = 'EMP';
+ 
+select TABLESPACE_NAME from user_tables where table_name = 'LOGGER';
+ 
+select TABLESPACE_NAME from user_tables where table_name = 'MY_TEST';
+ 
+select TABLESPACE_NAME from user_tables where table_name = 'SALGRADE';
+

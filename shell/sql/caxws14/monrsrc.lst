@@ -1,0 +1,16 @@
+
+ SID Serial Username     Program                      Consumer Group            
+---- ------ ------------ ---------------------------- ----------------------    
+   1      1              oracle@caxsp04 (PMON)                                  
+   2      1              oracle@caxsp04 (DBW0)                                  
+   3      1              oracle@caxsp04 (LGWR)                                  
+   4      1              oracle@caxsp04 (CKPT)                                  
+   5      1              oracle@caxsp04 (SMON)                                  
+   6      1              oracle@caxsp04 (RECO)                                  
+   8   1072 SYSTEM       sqlplus@caxsp04 (TNS V1-V3)  SYS_GROUP                 
+
+7 rows selected.
+
+
+no rows selected
+

@@ -1,0 +1,306 @@
+---
+
+- name: install common sw
+  become: true
+  ansible.builtin.apt:
+    name:
+      - vim
+      - curl
+      - wget
+      - net-tools
+      - ca-certificates
+      - curl
+      - gnupg
+      - cpu-checker
+      - python3-lxml
+      - libosinfo-bin
+      - git
+      - make
+      # - qemu-kvm
+      # - virt-manager
+      # - libvirt-daemon-system
+      # - python3-kubernetes
+    state: latest
+    update_cache: true
+    lock_timeout: 300
+
+- name: install sw libvirtd
+  become: true
+  ansible.builtin.apt:
+    name:
+      - qemu-kvm
+      - libvirt-daemon-system
+      - libvirt-clients
+      - bridge-utils
+      - virt-manager
+    state: latest
+    update_cache: true
+    lock_timeout: 300
+  tags:
+    - never
+    - libvirtd
+
+# - name: Install helm if not exists
+#   become: true
+#   unarchive:
+#     src: https://get.helm.sh/helm-v3.14.3-linux-amd64.tar.gz
+#     dest: /usr/local/bin
+#     extra_opts: "--strip-components=1"
+#     owner: root
+#     group: root
+#     mode: 0755
+#     remote_src: true
+#   args:
+#     creates: /usr/local/bin/helm
+
+# - name: get helm
+#   become: true
+#   ansible.builtin.get_url:
+#     url: https://get.helm.sh/helm-v3.14.3-linux-amd64.tar.gz
+#     dest: /usr/local/bin/helm
+#     mode: a+rx
+#     decompress: true
+#
+
+- name: restart libvirtd
+  become: true
+  ansible.builtin.systemd:
+    state: restarted
+    daemon_reload: true
+    name: libvirtd
+  tags:
+    - never
+    - libvirtd
+
+# - name: fix /etc/sysctl.conf
+#   become: true
+#   lineinfile:
+#     dest: /etc/sysctl.conf
+#     regexp: '^net.ipv4.ip_forward =.*$'
+#     line: 'net.ipv4.ip_forward = 1'
+#     state: present
+
+# - name: terraform add signing key
+#   become: true
+#   ansible.builtin.apt_key:
+#     url: "https://apt.releases.hashicorp.com/gpg"
+#     state: present
+#   when: ansible_distribution != "Rocky"
+
+# - name: terraform add signing key
+#   become: true
+#   ansible.builtin.yum_repository:
+#     name: hashicorp
+#     description: hashicorp yum repo
+#     baseurl: https://rpm.releases.hashicorp.com/RHEL/$releasever/$basearch/stable
+#     gpgcheck: false
+#     state: present
+#   when: ansible_distribution == "Rocky"
+
+# - name: terraform add repository into sources list
+#   become: true
+#   ansible.builtin.apt_repository:
+#     repo: "deb [arch=amd64] https://apt.releases.hashicorp.com jammy main"
+#     state: present
+#     filename: terraform
+
+# - name: terraform add repository into sources list
+#   become: true
+#   ansible.builtin.yum:
+#     name: terraform
+#     state: latest
+#   when: ansible_distribution == "Rocky"
+#
+# $ echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
+    # https://apt.releases.hashicorp.com $(lsb_release -cs) main" | \
+    # sudo tee /etc/apt/sources.list.d/hashicorp.list
+
+#- name: fix /etc/libvirt/qemu.conf
+  #become: true
+  #lineinfile:
+    #dest: /etc/libvirt/qemu.conf
+    #regexp: '^security_driver =.*$'
+    #line: 'security_driver = "none"'
+    #state: present
+
+#- name: fix /etc/libvirt/libvirt.conf
+  #become: true
+  #lineinfile:
+    #dest: /etc/libvirt/libvirt.conf
+    #regexp: '^mode =.*$'
+    #line: 'mode = "legacy"'
+    #state: present
+# - name: Update apt-get repo and cache
+#   become: true
+#   apt:
+#     update_cache=yes
+#     force_apt_get=yes
+#     cache_valid_time=3600
+
+# - name: Upgrade all apt packages
+#   become: true
+#   apt:
+#     upgrade=dist
+#     force_apt_get=yes
+
+#
+# - name: install common sw
+#   become: true
+#   ansible.builtin.yum:
+#     name:
+#       - net-tools
+#       - ca-certificates
+#       - curl
+#       - gnupg
+#       - bridge-utils
+#       - libvirt
+#       - libvirt-client
+#       - nmap
+#       - virt-manager
+#       - virt-install
+#       - virt-top
+#       - libguestfs-tools
+#       - libvirt-daemon
+#       - libvirt-client
+#       - spice-vdagent
+#       - qemu-kvm
+#       - vim
+#       - cloud-utils-growpart
+#     state: latest
+#     update_cache: true
+#   when: ansible_distribution == "Rocky"
+#
+# - name: modify user pfistera
+#   become: true
+#   user: name=pfistera
+#         groups=kvm,libvirt
+#         append=yes
+#
+#
+#
+
+
+# - name: Add an Ethernet connection with static IP configuration
+#   become: true
+#   community.general.nmcli:
+#     conn_name: eno1
+#     ifname: eno1
+#     type: ethernet
+#     ip4: 192.168.120.110/24
+#     # gw4: 192.168.120.1
+#     gw4_ignore_auto: true
+#     never_default4: true
+#     state: present
+# -----------------------------------------------------------------------------
+# DOCKER
+#
+# https://www.ansiblepilot.com/articles/install-docker-in-debian-like-systems-ansible-module-apt_key-apt_repository-and-apt/
+#
+# - name: remove old docker packages
+  # become: true
+  # ansible.builtin.apt:
+    # name:
+      # - docker
+      # - docker-engine
+      # - docker.io
+      # - containerd
+      # - runc
+    # state: absent
+
+# - name: install prepare packages
+  # become: true
+  # ansible.builtin.apt:
+    # name:
+      # - apt-transport-https
+      # - ca-certificates
+      # - curl
+      # - gnupg
+      # - lsb-release
+    # state: latest
+    # update_cache: true
+
+# - name: Add signing key
+  # become: true
+  # ansible.builtin.apt_key:
+    # url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
+    # state: present
+
+# - name: Add repository into sources list
+  # become: true
+  # ansible.builtin.apt_repository:
+    # repo: "deb [arch={{ ansible_architecture }}] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable"
+    # state: present
+    # filename: docker
+
+# - name: Install Docker
+  # become: true
+  # ansible.builtin.apt:
+    # name:
+      # - docker
+      # - docker.io
+      # - docker-compose
+      # - docker-registry
+    # state: latest
+    # update_cache: true
+# ----------------------------------------------------------------------------
+# Vagrant
+#
+# - name: Install libvirtd
+#   become: true
+#   ansible.builtin.apt:
+#     name:
+#       # - vagrant
+#       # - vagrant-libvirt
+#       - libvirt-daemon-system
+#       - python3-libvirt
+#       - python3-lxml
+#     state: latest
+#     update_cache: true
+#
+# - name: enable linvirt daemon
+#   become: true
+#   ansible.builtin.systemd:
+#     state: started
+#     name: libvirtd
+
+# - name: fix vagrant
+# command: vagrant plugin install vagrant-libvirt
+
+# second network interface
+  #
+  #
+# -----------------------------------------------------------------------------
+# - name: Add specified repository into sources list
+  # ansible.builtin.apt_repository:
+    # repo: deb http://archive.canonical.com/ubuntu hardy partner
+    # state: present
+
+# - name: install nginx
+#   become: true
+#   ansible.builtin.apt:
+#     name:
+#       - nginx
+#     state: latest
+
+# - name: install container-tools
+  # become: true
+  # yum:
+    # name: container-tools
+    # state: latest
+
+# - name: update yq
+  # become: true
+  # get_url:
+    # url: "https://github.com/mikefarah/yq/releases/download/{{ yq_version }}/yq_linux_amd64"
+    # dest: /usr/local/bin/yq
+
+# - name: verify yq
+  # become: true
+  # shell: |
+    # chmod u+x /usr/local/bin/yq
+    # /usr/local/bin/yq -V
+  # # when: 'ansible_system == "Linux"'
+  # register: out
+# - name: debug out
+  # debug:
+    # msg: "{{ out }}"

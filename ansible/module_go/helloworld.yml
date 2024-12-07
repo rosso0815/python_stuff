@@ -1,0 +1,10 @@
+---
+    - hosts: localhost
+      gather_facts: false
+      tasks:
+        - name: Hello, Ansible!
+          helloworld:
+            name: Ansible
+          register: out
+        - debug:
+            msg: "out={{ out }}"

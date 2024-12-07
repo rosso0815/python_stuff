@@ -1,0 +1,115 @@
+---
+
+- name: deploy whoami
+  hosts: master
+  gather_facts: true
+  become: true
+  vars:
+    ansible_python_interpreter: /usr/bin/python3.10
+
+  tasks:
+
+    - name: Traefik
+      docker_container:
+        name: traefik
+        image: traefik:v3.0
+        command: --api.insecure=true --providers.docker
+        ports:
+          - "80:80"
+          - "8080:8080"
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+        state: "started"
+        restart: "yes"
+        restart_policy: "always"
+
+
+    - name: Whoami
+      docker_container:
+        name: whoami
+        image: traefik/whoami
+        labels:
+          traefik.http.routers.whoami.rule: Host(`whoami.localnet`)
+        state: "started"
+        restart: "yes"
+        restart_policy: "always"
+
+    - name: Create a gitea server
+      community.docker.docker_container:
+        name: gitea
+        image: '{{ gitea_image }}'
+        labels:
+          traefik.http.routers.gitea.rule: Host(`gitea.localnet`)
+          traefik.http.services.gitea.loadbalancer.server.port: '3000'
+        env:
+          GITEA_ADMIN_USER: 'admin'
+          GITEA_ADMIN_PASSWORD: 'adminadmin'
+          GITEA_ADMIN_EMAIL: 'giteaadmin@example.org'
+          GITEA_HTTP_PORT: '3000'
+          GITEA_ROOT_URL: 'http://gitea.localnet'
+          GITEA__server__DOMAIN: 'gitea.localnet'
+          GITEA__server__ROOT_URL: 'http://gitea.localnet'
+          GITEA__server__OFFLINE_MODE: 'true'
+          GITEA__server__PROTOCOL: 'http'
+          GITEA__server__DISABLE_SSH: 'true'
+          GITEA__database__DB_TYPE: 'postgres'
+          GITEA__database__HOST: 'database.localnet:5432'
+          GITEA__database__NAME: 'gitea'
+          GITEA__database__USER: 'gitea'
+          GITEA__database__PASSWD: 'gitea'
+          GITEA__webhook__ALLOWED_HOST_LIST: '*'
+          GITEA__log__LEVEL: 'trace'
+        ports:
+          - "3000:3000"
+        volumes:
+          - '/var/docker/gitea_data:/data'
+        state: "started"
+        restart: "yes"
+        restart_policy: "always"
+
+    - name: Create woodpecker server
+      community.docker.docker_container:
+        name: woodpecker-server
+        image: woodpeckerci/woodpecker-server:next-fcc57dfc38
+        labels:
+          traefik.http.routers.woodpecker.rule: Host(`woodpecker.localnet`)
+          traefik.http.services.woodpecker.loadbalancer.server.port: '8000'
+        env:
+          WOODPECKER_OPEN: 'true'
+          WOODPECKER_ADMIN: 'woodpecker,admin,pfistera'
+          WOODPECKER_HOST: 'http://woodpecker.localnet'
+          WOODPECKER_AGENT_SECRET: 'dd4b696764587af9b42c5c23f3ca0f69f2c1e6ff677d51b5d4432608945cb43f'
+          WOODPECKER_GITEA: 'true'
+          WOODPECKER_GITEA_URL: 'http://gitea.localnet'
+          WOODPECKER_GITEA_CLIENT: '6fc91ea2-62b0-4323-b529-457e15580a36'
+          WOODPECKER_GITEA_SECRET: 'gto_o7oguertfannslpuwp6pwjvsh5qddgm64cjf3oo3n54tgkn726zq'
+          WOODPECKER_LOG_LEVEL: 'trace'
+        etc_hosts:
+          gitea.master: 192.168.1.21
+        ports:
+          - 8000:8000
+        volumes:
+          - woodpecker-server-data:/var/lib/woodpecker/
+        state: "started"
+        restart: "yes"
+        restart_policy: "always"
+
+    - name: Create woodpecker agent
+      community.docker.docker_container:
+        name: woodpecker-agent
+        image: woodpeckerci/woodpecker-agent:next-7c2a1d4ac3
+        env:
+          WOODPECKER_SERVER: woodpecker-server:9000
+          WOODPECKER_AGENT_SECRET: 'dd4b696764587af9b42c5c23f3ca0f69f2c1e6ff677d51b5d4432608945cb43f'
+        etc_hosts:
+          gitea.master: 192.168.1.21
+        volumes:
+          - woodpecker-agent-config:/etc/woodpecker
+          - /var/run/docker.sock:/var/run/docker.sock
+        links:
+          - 'woodpecker-server:woodpecker-server'
+        state: "started"
+        restart: "yes"
+        restart_policy: "always"
+
+# --- EOF

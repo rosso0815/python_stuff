@@ -1,0 +1,20 @@
+---
+
+- name: do web stuff
+  hosts: localhost
+  connection: ssh
+  # gather_facts: true
+  vars:
+    test: test
+  tasks:
+    - name: test web
+      debug:
+        msg: test {{ test }}
+
+    - name: update homebrew
+      community.general.homebrew:
+        name: nginx
+        state: present
+    - name: create user
+      user:
+        n

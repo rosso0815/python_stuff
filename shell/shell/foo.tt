@@ -1,0 +1,3 @@
+[% USE Dumper %]
+[% Dumper.dump(array) %]
+[% Dumper.dump(hash) %]

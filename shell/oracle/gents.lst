@@ -1,0 +1,42 @@
+CREATE TABLESPACE UNDOTBS1                                                                          
+DATAFILE '/opt/apps/oracle/oradata/TEST/u03/undotbs01.dbf' SIZE 209715200 REUSE                     
+AUTOEXTEND ON NEXT 640                                                                              
+MAXSIZE 34359721984                                                                                 
+EXTENT MANAGEMENT LOCAL                                                                             
+AUTOALLOCATE                                                                                        
+ONLINE;                                                                                             
+CREATE TABLESPACE TEMP                                                                              
+EXTENT MANAGEMENT LOCAL                                                                             
+UNIFORM SIZE 1048576                                                                                
+ONLINE;                                                                                             
+CREATE TABLESPACE EXAMPLE                                                                           
+DATAFILE '/opt/apps/oracle/oradata/TEST/u01/example01.dbf' SIZE 125829120 REUSE                     
+AUTOEXTEND ON NEXT 80                                                                               
+MAXSIZE 34359721984                                                                                 
+EXTENT MANAGEMENT LOCAL                                                                             
+AUTOALLOCATE                                                                                        
+ONLINE;                                                                                             
+CREATE TABLESPACE INDX                                                                              
+DATAFILE '/opt/apps/oracle/oradata/TEST/u01/indx01.dbf' SIZE 26214400 REUSE                         
+AUTOEXTEND ON NEXT 160                                                                              
+MAXSIZE 34359721984                                                                                 
+EXTENT MANAGEMENT LOCAL                                                                             
+AUTOALLOCATE                                                                                        
+ONLINE;                                                                                             
+CREATE TABLESPACE TOOLS                                                                             
+DATAFILE '/opt/apps/oracle/oradata/TEST/u02/tools01.dbf' SIZE 10485760 REUSE                        
+AUTOEXTEND ON NEXT 40                                                                               
+MAXSIZE 34359721984                                                                                 
+EXTENT MANAGEMENT LOCAL                                                                             
+AUTOALLOCATE                                                                                        
+ONLINE;                                                                                             
+CREATE TABLESPACE USERS                                                                             
+DATAFILE '/opt/apps/oracle/oradata/TEST/u01/users01.dbf' SIZE 26214400 REUSE                        
+AUTOEXTEND ON NEXT 160                                                                              
+MAXSIZE 34359721984                                                                                 
+EXTENT MANAGEMENT LOCAL                                                                             
+AUTOALLOCATE                                                                                        
+ONLINE;                                                                                             
+
+PL/SQL procedure successfully completed.
+

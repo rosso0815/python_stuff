@@ -1,0 +1,19 @@
+---
+
+- name: install postgres
+  hosts: master
+  gather_facts: true
+  become: true
+
+  tasks:
+
+    - name: debug
+      debug:
+        var:
+          - ansible_distribution
+
+    - name: setup postgres
+      import_role:
+        name: postgres/install
+
+# --- EOF

@@ -1,0 +1,26 @@
+<html>
+<head>
+<title>Flask Tutorial</title>
+</head>
+<body>
+<h1>This is the Index page</h1>
+<p id="demo"></p>
+
+<button onclick="callOtherDomain()">Click me</button>
+
+<script>
+document.getElementById("demo").innerHTML = "Hello JavaScript!";
+
+var invocation = new XMLHttpRequest();
+var url = 'http://localhost:8010/api/call1';
+
+function callOtherDomain() {
+  if(invocation) {
+    invocation.open('GET', url, true);
+    // invocation.onreadystatechange = handler;
+    invocation.send();
+  }
+}
+</script>
+</body>
+</html>  

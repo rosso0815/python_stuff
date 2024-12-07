@@ -1,0 +1,7 @@
+---
+
+ansible_ip: 192.168.0.110
+
+ansible_python_interpreter: /usr/bin/python3
+
+extra_server_args: --server {{ ansible_ip }}  --bind-address {{ ansible_ip }}

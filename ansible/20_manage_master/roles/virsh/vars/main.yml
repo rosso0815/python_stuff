@@ -1,0 +1,17 @@
+---
+
+tmp_dir: /var/tmp
+
+
+# cloud_img: https://ftp.gwdg.de/pub/linux/almalinux/8.7/cloud/x86_64/images/AlmaLinux-8-GenericCloud-8.7-20221111.x86_64.qcow2
+# cloud_os_variant: almalinux8
+
+# cloud_img: 'https://ftp.gwdg.de/pub/linux/rocky/9.1/images/x86_64/Rocky-9-GenericCloud-Base-9.1-20221130.0.x86_64.qcow2'
+# cloud_os_variant: almalinux9
+
+cloud_img: https://ftp.gwdg.de/pub/linux/rocky/9.1/images/x86_64/Rocky-9-GenericCloud-Base-9.1-20221130.0.x86_64.qcow2
+cloud_os_variant: rocky9
+
+img_base_name: baseimg
+
+#img_name: master1

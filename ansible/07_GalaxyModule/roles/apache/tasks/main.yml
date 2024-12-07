@@ -1,0 +1,16 @@
+---
+# - hosts: webservers
+#   connection: local
+#   tasks:
+  - name: Create a file called '/tmp/testfile.txt' with the content 'hello world'.
+    copy:
+      content: hello world of port {{ http_port }}
+      dest: /tmp/testfile.txt
+
+# - name: install apache
+
+#   tasks:
+#     - name: Install Apache2 on Ubuntu webserver
+#       apt:
+#         name: apache2
+#         state: installed

@@ -1,0 +1,6 @@
+<network>
+    <name>default</name>
+    <forward mode='nat'/>
+    <ip address='192.168.124.1' netmask='255.255.255.0'>
+    </ip>
+</network>

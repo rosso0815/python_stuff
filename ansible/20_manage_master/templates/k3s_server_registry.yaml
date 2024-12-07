@@ -1,0 +1,20 @@
+---
+
+# location: /etc/rancher/k3s/registries.yaml
+
+mirrors:
+  gitea.localnet:
+    endpoint:
+      - "https://gitea.localnet"
+configs:
+  "gitea.localnet":
+    auth:
+      username: gitea_admin
+      password: adminadmin
+    tls:
+      cert_file:            # path to the cert file used to authenticate to the registry
+      key_file:             # path to the key file for the certificate used to authenticate to the registry
+      ca_file:              # path to the ca file used to verify the registry's certificate
+      insecure_skip_verify: true
+
+# --- EOF

@@ -1,0 +1,3 @@
+connect internal;
+startup;
+exit;

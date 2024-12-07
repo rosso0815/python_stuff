@@ -1,0 +1,13 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: my-service-certificate
+  namespace: sandbox
+spec:
+  secretName: my-service-tls
+  issuerRef:
+    name: my-own-ca
+    kind: ClusterIssuer
+  dnsNames:
+    - whoami.localnet

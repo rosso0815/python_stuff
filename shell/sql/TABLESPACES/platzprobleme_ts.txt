@@ -1,0 +1,12 @@
+Alter database
+	datafile '/oracle/data/dma12/dmags1' autoextend
+	on next 40 k
+
+
+# tablespace anpassen
+ALTER TABLESPACE "ANALYSIS" DEFAULT 
+    STORAGE ( MAXEXTENTS UNLIMITED PCTINCREASE 10 )
+
+ALLTER DATABASE 
+    DATAFILE '/oracle/oradata/VPMDMA/DMA/ANALYSIS' AUTOEXTEND 
+    ON

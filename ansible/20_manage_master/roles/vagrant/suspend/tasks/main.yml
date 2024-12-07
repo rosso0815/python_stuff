@@ -1,0 +1,9 @@
+---
+
+- name: suspend server
+  shell: |
+      cd "{{ target_dir }}/{{ item }}/"
+      vagrant suspend
+  with_inventory_hostnames:
+    - masters
+    - workers

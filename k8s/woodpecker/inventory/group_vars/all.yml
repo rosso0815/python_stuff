@@ -1,0 +1,133 @@
+---
+
+# ansible_ip: 192.168.178.120
+#
+# ip2: 192.168.1.120
+#
+# ansible_python_interpreter: /usr/bin/python3
+#
+# kubeconfig: /etc/rancher/k3s/k3s.yaml
+
+# dns_ip: '192.168.1.21'
+#
+# dnsmasq_domain: 'localnet'
+#
+# dnsmasq_listen_address: '{{ dns_ip }}'
+#
+# dnsmasq_address: '/localnet/{{ dns_ip }}'
+#
+# dnsmasq_upstream_servers: 192.168.1.1
+#
+# k3s_bind_ip: '{{ dns_ip }}'
+
+# kubeconfig: /etc/rancher/k3s/k3s.yaml
+# kubeconfig: /tmp/k3s.yaml
+#
+# namespace: default
+#
+# postgres
+
+# db_conf_postg: /etc/postgresql/14/main/postgresql.conf
+#
+# db_conf_hba: /etc/postgresql/14/main/pg_hba.conf
+#
+# db_names:
+#   - gitea
+#   - pfistera
+#   - woodpecker
+#   - cruddev
+#   - crudprod
+
+# db_secrets:
+#   gitea:
+#     user: gitea
+#     password: gitea
+#   pfistera:
+#     user: pfistera
+#     password: pfistera
+#   woodpecker:
+#     user: woodpecker
+#     password: woodpecker
+#   cruddev:
+#     user: cruddev
+#     password: cruddev
+#   crudprod:
+#     user: crudprod
+#     password: crudprod
+
+woodpecker_tls_crt: 'LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNnekNDQWVTZ0F3SUJBZ0lSQWM5NmU0WkhnSjIydU43eWV2V2RJbEV3Q2dZSUtvWkl6ajBFQXdRd05qRUwKTUFrR0ExVUVCaE1DVlZNeENUQUhCZ05WQkFvVEFERUpNQWNHQTFVRUN4TUFNUkV3RHdZRFZRUURFd2huYVhSbApZUzFqWVRBZUZ3MHlOREEyTWpZd09EVTJNVEJhRncweU5qQTJNall4TkRVMk1UQmFNRUV4Q3pBSkJnTlZCQVlUCkFsVlRNUWt3QndZRFZRUUtFd0F4Q1RBSEJnTlZCQXNUQURFY01Cb0dBMVVFQXhNVGQyOXZaSEJsWTJ0bGNpNXMKYjJOaGJHNWxkREJaTUJNR0J5cUdTTTQ5QWdFR0NDcUdTTTQ5QXdFSEEwSUFCTXg3UFpRRjl2R1puQzQyMFhQZgordk1xaVlpVS9CM29MYzhkQWoxMkt1aG0veHlGTmIza3duS0lQQjRuaDJjTmNlWkpHUi8vaVdSOUh5My8yZWhNCnlKQ2pnY2N3Z2NRd0RnWURWUjBQQVFIL0JBUURBZ09vTUJNR0ExVWRKUVFNTUFvR0NDc0dBUVVGQndNQk1Bd0cKQTFVZEV3RUIvd1FDTUFBd0tRWURWUjBPQkNJRUlLZW9GaWhobG8rYjNCVW4ybUhhSWcycUNwSVo5M252clBhTAovTE5YL0x2RE1Dc0dBMVVkSXdRa01DS0FJRVMyWVZTdUVaMDJWaHYyNnFMRHNoa2w5eWlHOGFlWjRFQzZBMXRWCjdEeGtNQ1FHQTFVZEVRUWRNQnVDRTNkdmIyUndaV05yWlhJdWJHOWpZV3h1WlhTSEJNQ29zaFV3RVFZSllJWkkKQVliNFFnRUJCQVFEQWdaQU1Bb0dDQ3FHU000OUJBTUVBNEdNQURDQmlBSkNBS1JNTXpWeUViOEkzVHpLZ3BQVwpoUDN1blMwWlR2dmg5TTNqUzhuYkEyVlp2azhlUjFjZTd1QnIrYWJUeGh2ZzVjUzdJNlk1NWlvRHZITlBDWUJVCk1HUy9Ba0lBOEZOL1VLWlUvVFErRjUvc25yU01QRzlub2FOV01FU0doU3UxTU8vMFB5QzluRHY4R3ZmNmcrTWQKWTFMOTNXRGpzaVlieGNPVU5KRzlJenlyZGJMV1doYz0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo='
+
+woodpecker_tls_key: 'LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSU9Ga2VFaDVUamhxVUdOSmJrTy93M3lGMU5Sa1pUeHdrZnJtcXdzMUVTVnpvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFekhzOWxBWDI4Wm1jTGpiUmM5LzY4eXFKaUpUOEhlZ3R6eDBDUFhZcTZHYi9ISVUxdmVUQwpjb2c4SGllSFp3MXg1a2taSC8rSlpIMGZMZi9aNkV6SWtBPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo='
+
+
+# gitea_domain: 'gitea.localnet'
+# gitea_url: 'https://dl.gitea.com/gitea/1.21.9/gitea-1.21.9-linux-amd64'
+
+# woodpecker
+# woodpecker_server_url: 'https://github.com/woodpecker-ci/woodpecker/releases/download/v2.4.1/woodpecker-server_linux_amd64.tar.gz'
+# woodpecker_host: 'http://woodpecker.localnet:8000'
+# woodpecker_gitea_url: 'http://gitea.localnet:3000'
+# woodpecker_gitea_client: '030cf146-4f81-4f7f-91c7-5d40754a6289'
+# woodpecker_gitea_secret: 'gto_x2vpu355hanbrtmwkvpskkitqfuxx7an2mtrnqohcqoylqxd2yoq'
+
+# FIXME
+# gitlab_username: rosso0815@gmail.com
+# # gitlab_username: "'{{ lookup('ansible.builtin.env', 'GITLAB_USERNAME') }}'"
+# # gitlab_email: "'{{ lookup('ansible.builtin.env', 'GITLAB_EMAIL') }}'"
+# gitlab_email: rosso0815@gmail.com
+# # gitlab_token: "'{{ lookup('ansible.builtin.env', 'GITLAB_TOKEN') }}'"
+# gitlab_token: glpat-p5BcaFwZYTfhSVgNhLy_
+# gitlab_auth: "{{ ( gitlab_username + ':' + gitlab_token ) | b64encode }}"
+#
+# goapp_path: registry.gitlab.com/rosso0815/rosso0815-hetzner:v0.0.0-04
+#
+
+# yq_version: v4.25.2
+#
+# helm_version: v3.8.2
+#
+# k3s_version: v1.27.4%2Bk3s1
+#
+# target_dir: vagrant
+#
+# ansible_become_password: "{{ lookup('env', 'ANSIBLE_PASSWORD' ) }}"
+#
+# systemd_dir: /etc/systemd/system
+#
+# kubeconfig: /etc/rancher/k3s/k3s.yaml
+#
+# GITLAB_USERNAME: "{{ lookup('env', 'GITLAB_USERNAME' ) }}"
+# GITLAB_EMAIL: "{{ lookup('env', 'GITLAB_EMAIL' ) }}"
+# GITLAB_SECRET: "{{ lookup('env', 'GITLAB_SECRET' ) }}"
+#
+# namespace: pfistera
+#
+# replicas: 1
+#
+# target_items:
+#     - "{{ groups['masters'] }}"
+#     #- "{{ groups['w1'] }}"
+#     #- "{{ groups['w2'] }}"
+
+# master_ip: "{{ hostvars[groups['master'][0]]['ansible_host'] | default(groups['master'][0]) }}"
+# extra_server_args: ""
+# extra_agent_args: ""
+
+
+# clients:
+#   masters:
+#     - name: master1
+#       ip: 192.168.121.10
+
+# target_dir: tmp/
+
+# vagrant_hosts:
+#   - name: server1
+#     status: up
+#     ip: 192.168.121.10
+#   - name: server2
+#    status: up
+#     ip: 192.168.121.20
+#   - name: server3
+#     status: up
+#    ip: 192.168.121.30

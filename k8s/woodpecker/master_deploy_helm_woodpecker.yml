@@ -1,0 +1,100 @@
+---
+
+#
+# first register in gitea a oauth2 app with http://woodpecker.localnet/authorize
+# and get clientid and secret
+#
+
+- name: deploy woodpecker
+  hosts: all
+  gather_facts: true
+
+  tasks:
+
+    - name: Add stable chart repo
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+      kubernetes.core.helm_repository:
+        name: woodpecker
+        force_update: true
+        repo_url: https://woodpecker-ci.org/
+
+    - name: Create a k8s namespace
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+      kubernetes.core.k8s:
+        name: woodpecker
+        api_version: v1
+        kind: Namespace
+        state: present
+
+    - name: create tls
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+      kubernetes.core.k8s:
+        state: present
+        definition:
+          apiVersion: v1
+          kind: Secret
+          type: kubernetes.io/tls
+          metadata:
+            name: woodpecker-tls
+            namespace: woodpecker
+          data:
+            tls.crt: '{{ woodpecker_tls_crt }}'
+            tls.key: '{{ woodpecker_tls_key }}'
+
+
+    - name: helm deploy gitea
+      environment:
+        KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+      kubernetes.core.helm:
+        name: woodpecker
+        chart_ref: woodpecker/woodpecker
+        chart_version: 1.5.0
+        release_namespace: woodpecker
+        create_namespace: false
+        values:
+          agent:
+            replicaCount: 1
+            env:
+              WOODPECKER_SERVER: 'woodpecker-server:9000'
+              WOODPECKER_AGENT_SECRET: dd4b696764587af9b42c5c23f3ca0f69f2c1e6ff677d51b5d4432608945cb43f
+              WOODPECKER_BACKEND_K8S_NAMESPACE: default
+              WOODPECKER_BACKEND_K8S_STORAGE_RWX: false
+              # WOODPECKER_LOG_LEVEL: trace
+              # WOODPECKER_DATABASE_DRIVER: postgres
+              # WOODPECKER_DATABASE_DATASOURCE: postgres://woodpecker:woodpecker@database.localnet:5432/woodpecker?sslmode=disable
+          server:
+            env:
+              WOODPECKER_OPEN: true
+              WOODPECKER_ADMIN: 'woodpecker,admin,pfistera'
+              WOODPECKER_HOST: https://woodpecker.localnet
+              WOODPECKER_AGENT_SECRET: dd4b696764587af9b42c5c23f3ca0f69f2c1e6ff677d51b5d4432608945cb43f
+              WOODPECKER_GITEA: true
+              WOODPECKER_GITEA_URL: https://gitea.localnet
+              WOODPECKER_GITEA_CLIENT: 8713f091-8010-4dce-9dfe-0deaaece2f22
+              WOODPECKER_GITEA_SECRET: gto_oclcodyo5gaocmsgrp6eag3wovfasvswue5k3xarjns7ysbnifxq
+              WOODPECKER_BACKEND_K8S_NAMESPACE: woodpecker
+              # WOODPECKER_LOG_LEVEL: trace
+              # WOODPECKER_DATABASE_DRIVER: postgres
+              # WOODPECKER_DATABASE_DATASOURCE: postgres://woodpecker:woodpecker@database.localnet:5432/woodpecker?sslmode=disable
+            service:
+              type: ClusterIP
+              port: &servicePort 80
+              clusterIP:
+              loadBalancerIP:
+            ingress:
+              enabled: true
+              ingressClassName: 'traefik'
+              hosts:
+                - host: woodpecker.localnet
+                  paths:
+                    - path: /
+                      backend:
+                        serviceName: chart-example.local
+                        servicePort: *servicePort
+              tls:
+                - secretName: woodpecker-tls
+
+# --- EOF

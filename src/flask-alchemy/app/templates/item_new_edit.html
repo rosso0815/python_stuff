@@ -1,0 +1,15 @@
+{# copyright 2019-2021 peter mooring all rights reserved peterpm@xs4all.nl peter@petermooring.com #}
+{# item_new_edit.html #}
+
+{% from 'bootstrap/form.html' import render_form %}
+
+{% extends "base.html" %}
+
+{% block content %}
+
+	<h1>
+		{{ title }}
+	</h1>
+	{{ render_form(form) }}
+
+{% endblock %}

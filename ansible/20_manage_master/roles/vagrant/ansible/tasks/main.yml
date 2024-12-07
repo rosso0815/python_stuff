@@ -1,0 +1,8 @@
+---
+
+- name: install needed sw for ansible / kubernetes
+  become: true
+  ansible.builtin.yum:
+    update_cache: true
+    pkg:
+      - python3-kubernetes

@@ -1,0 +1,143 @@
+---
+
+ansible_python_interpreter: /usr/bin/python3
+
+dns_ip: '192.168.1.21'
+
+# https://wiki.archlinux.org/title/Dnsmasq
+dnsmasq_upstream_servers: '8.8.8.8'
+dnsmasq_listen_address:
+  - name: 127.0.0.1
+  - name: '{{ dns_ip }}'
+dnsmasq_address: '/localnet/{{ dns_ip }}'
+dnsmasq_domain: 'localnet'
+
+# k3s stuff
+k3s_bind_ip: '{{ dns_ip }}'
+
+# kubeconfig: /etc/rancher/k3s/k3s.yaml
+# kubeconfig: /tmp/k3s.yaml
+#
+# namespace: default
+
+# --- postgres
+db_conf_postg: /etc/postgresql/16/main/postgresql.conf
+db_conf_hba: /etc/postgresql/16/main/pg_hba.conf
+db_names:
+  - gitea
+  - pfistera
+  - woodpecker
+  - cruddev
+  - crudprod
+  - rosso0815
+db_secrets:
+  gitea:
+    user: gitea
+    password: gitea
+  pfistera:
+    user: pfistera
+    password: pfistera
+  woodpecker:
+    user: woodpecker
+    password: woodpecker
+  cruddev:
+    user: cruddev
+    password: cruddev
+  crudprod:
+    user: crudprod
+    password: crudprod
+  rosso0815:
+    user: rosso0815
+    password: rosso0815
+
+# gitea
+# gitea_namespace: cicd
+
+woodpecker_namespace: gitea
+woodpecker_oauth_id: 6fc91ea2-62b0-4323-b529-457e15580a36
+woodpecker_oauth_secret: gto_akdu2hcrhjah6udrxoguxgy72detfusmx4retsn6mmhcryjxaeaa
+
+# gitea_image: gitea/gitea:1.22.1
+
+gitea_namespace: gitea
+
+# gitea_tls_crt: 'LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNlVENDQWRxZ0F3SUJBZ0lSQWM5NmU0WkhnSjIydU43eWV2V2RJbEF3Q2dZSUtvWkl6ajBFQXdRd05qRUwKTUFrR0ExVUVCaE1DVlZNeENUQUhCZ05WQkFvVEFERUpNQWNHQTFVRUN4TUFNUkV3RHdZRFZRUURFd2huYVhSbApZUzFqWVRBZUZ3MHlOREEyTWpReE5ERTRNRFJhRncweU5qQTJNalF5TURFNE1EUmFNRHd4Q3pBSkJnTlZCQVlUCkFsVlRNUWt3QndZRFZRUUtFd0F4Q1RBSEJnTlZCQXNUQURFWE1CVUdBMVVFQXhNT1oybDBaV0V1Ykc5allXeHUKWlhRd1dUQVRCZ2NxaGtqT1BRSUJCZ2dxaGtqT1BRTUJCd05DQUFTSkRSdE1WTHEvWUlUMkJ6ZVZzeExudzdONQpSK3dIVGdVWlhRYWRtZVdqb1VMMHdNSWRzSXBnSGVDS093dXhnQ1ZFT1d5alpWZE5PcWIza2xObGlIREhvNEhDCk1JRy9NQTRHQTFVZER3RUIvd1FFQXdJRHFEQVRCZ05WSFNVRUREQUtCZ2dyQmdFRkJRY0RBVEFNQmdOVkhSTUIKQWY4RUFqQUFNQ2tHQTFVZERnUWlCQ0N4MlF2OGpIbERuMjdEM2VnQjZZaW9GSFQra3V3a3hRT0JRSGlHUkNUNwphakFyQmdOVkhTTUVKREFpZ0NCRXRtRlVyaEdkTmxZYjl1cWl3N0laSmZjb2h2R25tZUJBdWdOYlZldzhaREFmCkJnTlZIUkVFR0RBV2dnNW5hWFJsWVM1c2IyTmhiRzVsZEljRXdLaXlGVEFSQmdsZ2hrZ0JodmhDQVFFRUJBTUMKQmtBd0NnWUlLb1pJemowRUF3UURnWXdBTUlHSUFrSUFySW9TT05sTkpwWGFWd3JPNGNVMHd1RnN6akJwVjhoaApJKzFEZzFkZ1U5SWJHTTNlRWNRaFF3MVJ1YjFnQ2g0YWpTMHlWYzVaV0N1cW1lZEtraHZXNWFJQ1FnRy82SnZFCmVoOU85UDk4MFBXUGdGbWlINEozUEgrZk1rdXVzL2xlOCt1TGRRbFgrTkQ3TE9XTlpWMmFiZ0hhZWxCTEQwMFEKOTJLV0ZHdll0azFFOGNsOVFnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo='
+#
+# gitea_tls_key: 'LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSU5RVFFmek85SnZuR0R0dUZYZVVrVUNQUlRhakNyRERYYzgwOEtUYzgrVnpvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFaVEwYlRGUzZ2MkNFOWdjM2xiTVM1OE96ZVVmc0IwNEZHVjBHblpubG82RkM5TURDSGJDSwpZQjNnaWpzTHNZQWxSRGxzbzJWWFRUcW05NUpUWllod3h3PT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo='
+#
+
+# gitea_domain: 'gitea.localnet'
+# gitea_url: 'https://dl.gitea.com/gitea/1.21.9/gitea-1.21.9-linux-amd64'
+
+# woodpecker
+# woodpecker_server_url: 'https://github.com/woodpecker-ci/woodpecker/releases/download/v2.4.1/woodpecker-server_linux_amd64.tar.gz'
+# woodpecker_host: 'http://woodpecker.localnet:8000'
+# woodpecker_gitea_url: 'http://gitea.localnet:3000'
+# woodpecker_gitea_client: '030cf146-4f81-4f7f-91c7-5d40754a6289'
+# woodpecker_gitea_secret: 'gto_x2vpu355hanbrtmwkvpskkitqfuxx7an2mtrnqohcqoylqxd2yoq'
+
+# FIXME
+# gitlab_username: rosso0815@gmail.com
+# # gitlab_username: "'{{ lookup('ansible.builtin.env', 'GITLAB_USERNAME') }}'"
+# # gitlab_email: "'{{ lookup('ansible.builtin.env', 'GITLAB_EMAIL') }}'"
+# gitlab_email: rosso0815@gmail.com
+# # gitlab_token: "'{{ lookup('ansible.builtin.env', 'GITLAB_TOKEN') }}'"
+# gitlab_token: glpat-p5BcaFwZYTfhSVgNhLy_
+# gitlab_auth: "{{ ( gitlab_username + ':' + gitlab_token ) | b64encode }}"
+#
+# goapp_path: registry.gitlab.com/rosso0815/rosso0815-hetzner:v0.0.0-04
+#
+
+# yq_version: v4.25.2
+#
+# helm_version: v3.8.2
+#
+# k3s_version: v1.27.4%2Bk3s1
+#
+# target_dir: vagrant
+#
+# ansible_become_password: "{{ lookup('env', 'ANSIBLE_PASSWORD' ) }}"
+#
+# systemd_dir: /etc/systemd/system
+#
+# kubeconfig: /etc/rancher/k3s/k3s.yaml
+#
+DOCKER_REPO_USERNAME: "{{ lookup('env', 'GITEA_USERNAME' ) }}"
+DOCKER_REPO_EMAIL: "{{ lookup('env', 'GITEA_EMAIL' ) }}"
+DOCKER_REPO_SECRET: "{{ lookup('env', 'GITEA_SECRET' ) }}"
+DOCKER_REPO_AUTH: "{{DOCKER_REPO_USERNAME}}:{{DOCKER_REPO_SECRET}}"
+DOCKER_REPO_AUTH_B64: "{{ DOCKER_REPO_AUTH | b64encode }}"
+
+k8s_namespace: pfistera
+# k8s_pod: gitea_admin/rosso0815-hetzner:1.0.1
+k8s_pod: gitea.localnet/gitea_admin/rosso0815-hetzner:1.0.1
+
+# replicas: 1
+#
+# target_items:
+#     - "{{ groups['masters'] }}"
+#     #- "{{ groups['w1'] }}"
+#     #- "{{ groups['w2'] }}"
+
+# master_ip: "{{ hostvars[groups['master'][0]]['ansible_host'] | default(groups['master'][0]) }}"
+# extra_server_args: ""
+# extra_agent_args: ""
+
+
+# clients:
+#   masters:
+#     - name: master1
+#       ip: 192.168.121.10
+
+# target_dir: tmp/
+
+# vagrant_hosts:
+#   - name: server1
+#     status: up
+#     ip: 192.168.121.10
+#   - name: server2
+#    status: up
+#     ip: 192.168.121.20
+#   - name: server3
+#     status: up
+#    ip: 192.168.121.30

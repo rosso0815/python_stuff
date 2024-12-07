@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+    id 'nebula.ospackage' version '7.4.2'
+    id 'com.palantir.git-version' version '0.10.1'
+}
+
+group 'com.techarchnotes'
+version '1.0.0-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+ospackage {
+    def details = versionDetails(prefix: 'rc@')
+    version details.lastTag
+    release details.commitDistance + 1 + '.' + details.gitHash
+    arch X86_64
+    os LINUX
+
+    into '/opt/gradle-rpm-example'
+    from(jar.outputs.files) {
+        into ''
+    }
+}

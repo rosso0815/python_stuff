@@ -1,0 +1,358 @@
+2003/08/22 08:43:46 mv2archive.pl 43> Init 
+2003/08/22 08:45:10 mv2archive.pl 43> Init 
+2003/08/22 08:45:10 mv2archive.pl 79> check_filename = 1234567,12,01 
+2003/08/22 08:55:53 mv2archive.pl 45> Init 
+2003/08/22 08:55:53 mv2archive.pl 81> check_filename = 1234567,12,01 
+2003/08/22 08:56:15 mv2archive.pl 45> Init 
+2003/08/22 08:56:15 mv2archive.pl 81> check_filename = 1234567,12,01 
+2003/08/22 08:56:46 mv2archive.pl 45> Init 
+2003/08/22 08:56:46 mv2archive.pl 81> check_filename = 1234567,12,01 
+2003/08/22 08:57:58 mv2archive.pl 45> Init 
+2003/08/22 08:57:58 mv2archive.pl 81> check_filename = 1234567,12,01 
+2003/08/22 08:58:27 mv2archive.pl 45> Init 
+2003/08/22 08:58:27 mv2archive.pl 81> check_filename = 1234567,12,01 
+2003/08/22 08:59:29 mv2archive.pl 45> Init 
+2003/08/22 08:59:29 mv2archive.pl 81> check_filename = 1234567,12,01 
+2003/08/22 08:59:41 mv2archive.pl 45> Init 
+2003/08/22 08:59:41 mv2archive.pl 81> check_filename = 1234567,12,01 
+2003/08/22 08:59:51 mv2archive.pl 45> Init 
+2003/08/22 08:59:51 mv2archive.pl 81> check_filename = 1234567,12,01 
+2003/08/22 09:00:13 mv2archive.pl 45> Init 
+2003/08/22 09:00:13 mv2archive.pl 81> check_filename = 1234567,12,01 
+2003/08/22 09:00:32 mv2archive.pl 45> Init 
+2003/08/22 09:00:32 mv2archive.pl 81> check_filename = 1234567,12,01 
+2003/08/22 09:01:41 mv2archive.pl 45> Init 
+2003/08/22 09:01:41 mv2archive.pl 81> check_filename = 1234567,12,01 
+2003/08/22 09:02:10 mv2archive.pl 45> Init 
+2003/08/22 09:02:10 mv2archive.pl 81> check_filename = 1234567,12,01 
+2003/08/22 09:02:34 mv2archive.pl 45> Init 
+2003/08/22 09:02:34 mv2archive.pl 81> check_filename = 1234567,12,01 
+2003/08/22 09:02:57 mv2archive.pl 45> Init 
+2003/08/22 09:02:57 mv2archive.pl 81> check_filename = 1234567,12,01 
+2003/08/22 09:03:15 mv2archive.pl 45> Init 
+2003/08/22 09:03:15 mv2archive.pl 81> check_filename = 1234567,12,01 
+2003/08/22 09:03:33 mv2archive.pl 45> Init 
+2003/08/22 09:03:33 mv2archive.pl 81> check_filename = 1234567,12,01 
+2003/08/26 15:25:47 mv2archive.pl 45> Init 
+2003/08/26 15:26:16 mv2archive.pl 45> Init 
+2003/08/26 15:26:16 mv2archive.pl 81> check_filename = 1234567,12,01 
+2003/08/26 15:26:59 mv2archive.pl 46> Init 
+2003/08/26 15:26:59 mv2archive.pl 82> check_filename = 1234567,12,01 
+2003/08/26 15:31:30 mv2archive.pl 46> Init 
+2003/08/26 15:31:30 mv2archive.pl 82> check_filename = 1234567,12,01 
+2003/08/26 15:33:36 mv2archive.pl 47> Init 
+2003/08/26 15:33:36 mv2archive.pl 83> check_filename = 1234567,12,01 
+2003/08/26 15:34:16 mv2archive.pl 47> Init 
+2003/08/26 15:34:16 mv2archive.pl 83> check_filename = 1234567,12,01 
+2003/08/26 15:36:19 mv2archive.pl 47> Init 
+2003/08/26 15:36:19 mv2archive.pl 83> check_filename = 1234567,12,01 
+2003/08/26 15:37:18 mv2archive.pl 48> Init 
+2003/08/26 15:37:18 mv2archive.pl 84> check_filename = 1234567,12,01 
+2003/08/26 15:39:15 mv2archive.pl 48> Init 
+2003/08/26 15:39:15 mv2archive.pl 84> check_filename = 1234567,12,01 
+2003/08/26 15:39:44 mv2archive.pl 48> Init 
+2003/08/26 15:39:44 mv2archive.pl 84> check_filename = 1234567,12,01 
+2003/08/26 15:45:56 mv2archive.pl 48> Init 
+2003/08/26 15:45:56 mv2archive.pl 84> check_filename = 1234567,12,01 
+2003/08/26 15:46:49 mv2archive.pl 48> Init 
+2003/08/26 15:46:49 mv2archive.pl 84> check_filename = 1234567,12,01 
+2003/08/26 15:47:31 mv2archive.pl 48> Init 
+2003/08/26 15:47:31 mv2archive.pl 84> check_filename = 1234567,12,01 
+2003/08/26 15:48:23 mv2archive.pl 48> Init 
+2003/08/26 15:48:23 mv2archive.pl 84> check_filename = 1234567,12,01 
+2003/08/26 15:48:49 mv2archive.pl 48> Init 
+2003/08/26 15:48:49 mv2archive.pl 84> check_filename = 1234567,12,01 
+2003/08/26 15:52:15 mv2archive.pl 48> Init 
+2003/08/26 15:52:15 mv2archive.pl 84> check_filename = 1234567,12,01 
+2003/08/26 15:56:20 mv2archive.pl 48> Init 
+2003/08/26 15:56:20 mv2archive.pl 84> check_filename = 1234567,12,01 
+2003/08/26 15:57:18 mv2archive.pl 48> Init 
+2003/08/26 15:57:18 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/26 15:58:28 mv2archive.pl 48> Init 
+2003/08/26 15:58:28 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/26 15:58:43 mv2archive.pl 48> Init 
+2003/08/26 15:58:43 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/26 15:59:32 mv2archive.pl 48> Init 
+2003/08/26 15:59:32 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/26 15:59:49 mv2archive.pl 48> Init 
+2003/08/26 15:59:49 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/26 16:00:08 mv2archive.pl 48> Init 
+2003/08/26 16:00:08 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/26 16:01:03 mv2archive.pl 48> Init 
+2003/08/26 16:01:03 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/26 16:01:51 mv2archive.pl 48> Init 
+2003/08/26 16:01:51 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/26 16:18:20 mv2archive.pl 48> Init 
+2003/08/26 16:18:21 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/26 16:19:02 mv2archive.pl 48> Init 
+2003/08/26 16:19:02 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/26 16:21:15 mv2archive.pl 48> Init 
+2003/08/26 16:21:15 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/26 16:21:39 mv2archive.pl 48> Init 
+2003/08/26 16:21:39 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/26 16:22:45 mv2archive.pl 48> Init 
+2003/08/26 16:22:45 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/26 16:23:24 mv2archive.pl 48> Init 
+2003/08/26 16:23:24 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/26 16:23:54 mv2archive.pl 48> Init 
+2003/08/26 16:23:54 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/26 16:28:54 mv2archive.pl 48> Init 
+2003/08/26 16:28:54 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/26 16:30:24 mv2archive.pl 48> Init 
+2003/08/26 16:30:24 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/26 16:44:13 mv2archive.pl 48> Init 
+2003/08/26 16:44:13 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/26 16:45:59 mv2archive.pl 48> Init 
+2003/08/26 16:45:59 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/27 08:42:46 mv2archive.pl 48> Init 
+2003/08/27 08:42:55 mv2archive.pl 48> Init 
+2003/08/27 08:42:55 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/27 08:44:20 mv2archive.pl 48> Init 
+2003/08/27 08:44:20 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/27 08:47:31 mv2archive.pl 48> Init 
+2003/08/27 08:47:31 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/27 08:48:32 mv2archive.pl 48> Init 
+2003/08/27 08:48:33 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/27 08:50:44 mv2archive.pl 48> Init 
+2003/08/27 08:50:44 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/27 08:51:23 mv2archive.pl 48> Init 
+2003/08/27 08:51:23 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/27 08:51:37 mv2archive.pl 48> Init 
+2003/08/27 08:51:37 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/27 08:51:51 mv2archive.pl 48> Init 
+2003/08/27 08:51:51 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/27 08:52:31 mv2archive.pl 48> Init 
+2003/08/27 08:52:31 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/27 08:54:08 mv2archive.pl 48> Init 
+2003/08/27 08:54:08 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/27 09:06:10 mv2archive.pl 48> Init 
+2003/08/27 09:06:10 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/27 09:07:43 mv2archive.pl 48> Init 
+2003/08/27 09:07:44 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/27 09:10:27 mv2archive.pl 48> Init 
+2003/08/27 09:10:27 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/27 09:30:11 mv2archive.pl 48> Init 
+2003/08/27 09:30:11 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/27 09:30:29 mv2archive.pl 48> Init 
+2003/08/27 09:30:29 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/27 09:32:23 mv2archive.pl 48> Init 
+2003/08/27 09:32:23 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/27 09:32:54 mv2archive.pl 48> Init 
+2003/08/27 09:32:54 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/27 09:34:02 mv2archive.pl 48> Init 
+2003/08/27 09:34:02 mv2archive.pl 85> check_filename = 1234567,12,01 
+2003/08/27 10:04:57 mv2archive.pl 49> Init 
+2003/08/27 10:04:57 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 10:12:16 mv2archive.pl 49> Init 
+2003/08/27 10:12:16 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 10:13:03 mv2archive.pl 49> Init 
+2003/08/27 10:13:03 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 10:16:22 mv2archive.pl 49> Init 
+2003/08/27 10:16:22 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 10:17:35 mv2archive.pl 49> Init 
+2003/08/27 10:17:35 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 10:18:50 mv2archive.pl 49> Init 
+2003/08/27 10:18:50 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 10:19:53 mv2archive.pl 49> Init 
+2003/08/27 10:19:53 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 10:21:22 mv2archive.pl 49> Init 
+2003/08/27 10:21:22 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 10:22:11 mv2archive.pl 49> Init 
+2003/08/27 10:22:11 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 10:23:41 mv2archive.pl 49> Init 
+2003/08/27 10:23:41 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 10:52:24 mv2archive.pl 49> Init 
+2003/08/27 10:52:24 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 10:53:05 mv2archive.pl 49> Init 
+2003/08/27 10:53:05 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 10:56:42 mv2archive.pl 49> Init 
+2003/08/27 10:56:42 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 10:59:05 mv2archive.pl 49> Init 
+2003/08/27 10:59:05 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 10:59:42 mv2archive.pl 49> Init 
+2003/08/27 10:59:42 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 11:00:39 mv2archive.pl 49> Init 
+2003/08/27 11:00:39 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 11:01:28 mv2archive.pl 49> Init 
+2003/08/27 11:01:28 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 11:01:58 mv2archive.pl 49> Init 
+2003/08/27 11:01:58 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 11:03:43 mv2archive.pl 49> Init 
+2003/08/27 11:03:43 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 11:06:04 mv2archive.pl 49> Init 
+2003/08/27 11:06:04 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 11:06:56 mv2archive.pl 49> Init 
+2003/08/27 11:06:56 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 11:08:32 mv2archive.pl 49> Init 
+2003/08/27 11:08:32 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 11:09:17 mv2archive.pl 49> Init 
+2003/08/27 11:09:17 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 11:10:33 mv2archive.pl 49> Init 
+2003/08/27 11:10:33 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 11:11:57 mv2archive.pl 49> Init 
+2003/08/27 11:11:57 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 11:12:14 mv2archive.pl 49> Init 
+2003/08/27 11:12:14 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 11:13:04 mv2archive.pl 49> Init 
+2003/08/27 11:13:04 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 11:15:59 mv2archive.pl 49> Init 
+2003/08/27 11:15:59 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 11:16:22 mv2archive.pl 49> Init 
+2003/08/27 11:16:22 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 11:18:07 mv2archive.pl 49> Init 
+2003/08/27 11:18:07 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 11:18:32 mv2archive.pl 49> Init 
+2003/08/27 11:18:33 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 11:19:01 mv2archive.pl 49> Init 
+2003/08/27 11:19:01 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 11:20:49 mv2archive.pl 49> Init 
+2003/08/27 11:20:49 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 11:22:18 mv2archive.pl 49> Init 
+2003/08/27 11:22:18 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 11:23:21 mv2archive.pl 49> Init 
+2003/08/27 11:23:21 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 11:24:08 mv2archive.pl 49> Init 
+2003/08/27 11:24:08 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 11:26:03 mv2archive.pl 49> Init 
+2003/08/27 11:26:03 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 11:27:03 mv2archive.pl 49> Init 
+2003/08/27 11:27:03 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 11:27:44 mv2archive.pl 49> Init 
+2003/08/27 11:27:44 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 11:28:18 mv2archive.pl 49> Init 
+2003/08/27 11:28:18 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 11:28:32 mv2archive.pl 49> Init 
+2003/08/27 11:28:32 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 11:28:58 mv2archive.pl 49> Init 
+2003/08/27 11:28:58 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 11:39:54 mv2archive.pl 49> Init 
+2003/08/27 11:39:54 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 11:40:23 mv2archive.pl 49> Init 
+2003/08/27 11:40:23 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 11:41:19 mv2archive.pl 49> Init 
+2003/08/27 11:41:19 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 12:59:26 mv2archive.pl 49> Init 
+2003/08/27 12:59:26 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 13:00:35 mv2archive.pl 49> Init 
+2003/08/27 13:00:35 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 13:00:53 mv2archive.pl 49> Init 
+2003/08/27 13:00:53 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 13:01:31 mv2archive.pl 49> Init 
+2003/08/27 13:01:31 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 13:02:19 mv2archive.pl 49> Init 
+2003/08/27 13:02:20 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 13:02:51 mv2archive.pl 49> Init 
+2003/08/27 13:02:52 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 13:03:37 mv2archive.pl 49> Init 
+2003/08/27 13:03:37 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 13:07:35 mv2archive.pl 49> Init 
+2003/08/27 13:07:35 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 13:08:02 mv2archive.pl 49> Init 
+2003/08/27 13:08:02 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 13:11:37 mv2archive.pl 49> Init 
+2003/08/27 13:11:37 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 13:13:51 mv2archive.pl 49> Init 
+2003/08/27 13:13:51 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 13:14:32 mv2archive.pl 49> Init 
+2003/08/27 13:14:32 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 13:17:17 mv2archive.pl 49> Init 
+2003/08/27 13:17:17 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 14:00:24 mv2archive.pl 49> Init 
+2003/08/27 14:00:24 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 14:00:59 mv2archive.pl 49> Init 
+2003/08/27 14:00:59 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 14:05:10 mv2archive.pl 49> Init 
+2003/08/27 14:05:10 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 14:06:35 mv2archive.pl 49> Init 
+2003/08/27 14:06:35 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 14:08:41 mv2archive.pl 49> Init 
+2003/08/27 14:08:41 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 14:09:42 mv2archive.pl 49> Init 
+2003/08/27 14:09:42 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 14:10:03 mv2archive.pl 49> Init 
+2003/08/27 14:10:03 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 14:11:38 mv2archive.pl 49> Init 
+2003/08/27 14:11:38 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 14:15:47 mv2archive.pl 49> Init 
+2003/08/27 14:15:47 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 14:16:22 mv2archive.pl 49> Init 
+2003/08/27 14:16:22 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 14:18:05 mv2archive.pl 49> Init 
+2003/08/27 14:18:05 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 14:18:57 mv2archive.pl 49> Init 
+2003/08/27 14:18:57 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 14:20:25 mv2archive.pl 49> Init 
+2003/08/27 14:20:25 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 14:24:01 mv2archive.pl 49> Init 
+2003/08/27 14:24:01 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 14:25:33 mv2archive.pl 49> Init 
+2003/08/27 14:25:33 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 14:26:34 mv2archive.pl 49> Init 
+2003/08/27 14:26:34 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 14:28:06 mv2archive.pl 49> Init 
+2003/08/27 14:28:06 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 14:28:31 mv2archive.pl 49> Init 
+2003/08/27 14:28:31 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 14:29:45 mv2archive.pl 49> Init 
+2003/08/27 14:29:45 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 14:31:06 mv2archive.pl 49> Init 
+2003/08/27 14:31:06 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 14:31:57 mv2archive.pl 49> Init 
+2003/08/27 14:31:57 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/27 16:05:50 mv2archive.pl 49> Init 
+2003/08/27 16:05:57 mv2archive.pl 49> Init 
+2003/08/27 16:05:57 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/28 07:48:40 mv2archive.pl 49> Init 
+2003/08/28 07:48:40 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/28 07:49:42 mv2archive.pl 49> Init 
+2003/08/28 07:49:42 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/28 07:50:07 mv2archive.pl 49> Init 
+2003/08/28 07:50:07 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/28 07:50:31 mv2archive.pl 49> Init 
+2003/08/28 07:50:31 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/28 07:54:02 mv2archive.pl 49> Init 
+2003/08/28 07:54:03 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/28 07:54:26 mv2archive.pl 49> Init 
+2003/08/28 07:54:26 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/28 07:55:00 mv2archive.pl 49> Init 
+2003/08/28 07:55:00 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/28 07:55:28 mv2archive.pl 49> Init 
+2003/08/28 07:55:28 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/28 07:55:59 mv2archive.pl 49> Init 
+2003/08/28 07:55:59 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/28 07:56:36 mv2archive.pl 49> Init 
+2003/08/28 07:56:36 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/28 07:57:19 mv2archive.pl 49> Init 
+2003/08/28 07:57:19 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/28 07:57:40 mv2archive.pl 49> Init 
+2003/08/28 07:57:40 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/28 07:58:14 mv2archive.pl 49> Init 
+2003/08/28 07:58:15 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/28 07:58:56 mv2archive.pl 49> Init 
+2003/08/28 07:58:56 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/28 07:59:18 mv2archive.pl 49> Init 
+2003/08/28 07:59:18 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/28 07:59:54 mv2archive.pl 49> Init 
+2003/08/28 07:59:54 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/28 08:00:08 mv2archive.pl 49> Init 
+2003/08/28 08:00:08 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/28 08:01:06 mv2archive.pl 49> Init 
+2003/08/28 08:01:06 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/28 08:03:25 mv2archive.pl 49> Init 
+2003/08/28 08:03:25 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/28 08:03:56 mv2archive.pl 49> Init 
+2003/08/28 08:03:56 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/28 08:04:30 mv2archive.pl 49> Init 
+2003/08/28 08:04:30 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/28 08:05:12 mv2archive.pl 49> Init 
+2003/08/28 08:05:12 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/28 08:30:01 mv2archive.pl 49> Init 
+2003/08/28 08:30:01 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/28 08:30:24 mv2archive.pl 49> Init 
+2003/08/28 08:30:24 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/28 08:31:25 mv2archive.pl 49> Init 
+2003/08/28 08:31:25 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/28 08:43:33 mv2archive.pl 49> Init 
+2003/08/28 08:43:33 mv2archive.pl 86> check_filename = 1234567,12,01 
+2003/08/28 09:08:41 mv2archive.pl 48> Init 
+2003/08/28 09:08:41 mv2archive.pl 85> check_filename = 1234567,12,01 

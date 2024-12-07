@@ -1,0 +1,12 @@
+#!/usr/bin/perl -w
+#          
+# Erzeuger : A.Pfister
+# Datum    : 25.01.2002
+# Aufruf   : manual
+# Funktion : Anzeige von Oracle-Test Scott Tiger aus table emp
+# Version  : 001
+# versioni
+#
+Version
+VERSION
+VErsion

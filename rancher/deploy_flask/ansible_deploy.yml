@@ -1,0 +1,141 @@
+---
+- hosts: localhost
+  gather_facts: false
+  connection: local
+  # vars:
+  #   containerengine: containerd
+  #   namespace: myapp
+  #   app_name: app01
+  #   app_image: "containous/whoami"
+  #   app_version: "latest"
+  # collections:
+  #   - community.kubernetes
+
+  tasks:
+
+    # https://chris-vermeulen.com/using-gitlab-registry-with-kubernetes/
+    - name: create auth base64
+      shell: 'echo -n "{GITLAB_TOKEN_USERNAME}:{GITLAB_TOKEN_PASSWORD}" | base64'
+      register: out
+    - name: debug out
+      debug:
+        msg: "out: {{ out.stdout_lines[0] }}"
+      tags:
+        - debug
+
+    - name: clean /tmp/jsonconfig
+      file: 
+        path: /tmp/jsonconfig
+        state: absent
+
+    - name: create dockerjsonconfig
+      template:
+        src=dockerconfigjson.j2
+        dest=/tmp/jsonconfig
+      register: out
+    - name: debug out
+      debug:
+        msg: "out: {{ out }}"
+      tags:
+        - debug
+    
+    - name: create a secret
+      shell: cat /tmp/jsonconfig | base64
+      register: out
+    - name: debug out
+      debug:
+        msg: "out: {{ out.stdout }}"
+      tags:
+        - debug
+
+
+    # - name: build nginx-helloworld
+    #   # https://docs.ansible.com/ansible/latest/collections/community/docker/docker_image_module.html#ansible-collections-community-docker-docker-image-module
+    #   community.docker.docker_image:
+    #     name: "{{ app_name }}:{{ app_version }}"
+    #     build:
+    #       path: ./nginx-helloworld
+    #       args:
+    #         listen_port: 8080
+    #     source: build
+    #   when: containerengine == "docker"
+
+    # - name: build nginx-helloworld
+    #   # https://docs.ansible.com/ansible/latest/collections/community/docker/docker_image_module.html#ansible-collections-community-docker-docker-image-module
+    #   shell: |
+    #     set -aeEux
+    #     set -o pipefail
+    #     cd nginx-helloworld
+    #     nerdctl --namespace "{{ namespace }}" build --tag "{{ app_name }}":"{{ app_version }}" .
+    #     nerdctl --namespace "{{ namespace }}" images | grep "{{ app_name }}" | grep "{{ app_version }}" 
+    #   when: containerengine == "containerd"
+
+    # - name: Ensure the myapp Namespace exists
+    #   k8s:
+    #     api_version: v1
+    #     kind: Namespace
+    #     name: "{{ namespace }}"
+    #     state: present
+
+
+# https://chris-vermeulen.com/using-gitlab-registry-with-kubernetes/
+# gitlab_registry_1
+# hV7RD9izczAKU76nrGYo
+
+
+
+
+    # - name: deploy app
+    #   k8s:
+    #     api_version: v1
+    #     namespace: "{{ namespace }}"
+    #     definition:
+    #       kind: Deployment
+    #       metadata:
+    #         labels:
+    #           app: "{{ app_name }}"
+    #         name: "{{ app_name }}"
+    #       spec:
+    #         replicas: 1
+    #         selector:
+    #           matchLabels:
+    #             app: "{{ app_name }}"
+    #         template:
+    #           metadata:
+    #             labels:
+    #               app: "{{ app_name }}"
+    #           spec:
+    #             containers:
+    #               - name: "{{ app_name }}"
+    #                 image: "{{ app_image }}"
+    #                 ports:
+    #                   - containerPort: 8080
+    #                     protocol: TCP
+
+    # - name: Execute a command
+    #   kubernetes.core.k8s_exec:
+    #     namespace: myapp
+    # pod: zuul-scheduler
+    # command: zuul-scheduler full-reconfigure
+
+    # - name: Build an image and push it to a private repo
+    #   community.docker.docker_image:
+    #     build:
+    #       path: ./my_nginx
+    #     name: registry.ansible.com/pfistera/my_nginx
+    #     tag: v1
+    #     push: yes
+    #     source: build
+
+    # - name: archive container image as a tarball
+    #   docker_image:
+    #     name: democontainer:v1.0
+    #     archive_path: /tmp/democontainer_v1_0.tar
+    #     source: pull
+    #     state: present
+
+    # - name: fetch archived image
+    #   fetch:
+    #     src: /tmp/democontainer_v1_0.tar
+    #     dest: ./democontainer_v1_0.tar
+    #     flat: true

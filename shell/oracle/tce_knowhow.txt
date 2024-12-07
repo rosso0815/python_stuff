@@ -1,0 +1,28 @@
+
+sqlplus /nolog
+
+connect / as sysdba
+
+startup mount
+
+recover database until cancel
+
+RECOVER DATABASE UNTIL TIME '2006-06-26:06:00:00' using backup controlfile;
+
+
+recover database using backup controlfile until cancel;
+auto
+
+recover database using backup controlfile until cancel;
+
+
+alter database open resetlogs;
+
+#-----------------------------------------------------------------------------------------------------------------
+
+set pagesize 0
+
+select OWNERDIRNAME from vaultdir@sum31a;
+select OWNERDIRNAME from vaultdir@admm31a;
+
+

@@ -1,0 +1,14 @@
+set -o vi
+echo Welcome to the paradies of oracle on catiasv01_new
+echo SID= DMA12 and VPMBUF
+export ORACLE_BASE=/oracle
+export ORACLE_HOME=$ORACLE_BASE/product/8.1.6
+export ORACLE_SID=DMA12
+export LD_LIBRARY_PATH=$ORACLE_HOME/lib
+export LIBPATH=$ORACLE_HOME/lib
+export PS1='${PWD}#${ORACLE_SID} '
+export PATH=$PATH:$ORACLE_HOME/bin:/service/admin/oracle:/usr/ibmcxx/bin
+export EDITOR=vim
+
+
+# install math-library fur linker -l m

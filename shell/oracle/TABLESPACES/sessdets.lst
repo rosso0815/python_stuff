@@ -1,0 +1,111 @@
+SQL> set pages 200
+SQL> 
+SQL> col name form a30
+SQL> col username form a12
+SQL> col sid form 999
+SQL> col owner form a12
+SQL> col object form a20
+SQL> col type form a10
+SQL> 
+SQL> prompt
+
+SQL> prompt Objects Accessed per Session
+Objects Accessed per Session
+SQL> prompt
+
+SQL> 
+SQL> select a.sid, a.username, b.*
+  2  from v$session a, v$access b
+  3  where a.sid = b.sid
+  4  order by a.sid
+  5  /
+
+ SID USERNAME      SID OWNER        OBJECT               TYPE
+---- ------------ ---- ------------ -------------------- ----------
+   7 SYSTEM          7 PUBLIC       V$ACCESS             SYNONYM
+   7 SYSTEM          7 PUBLIC       V$SESSION            SYNONYM
+   7 SYSTEM          7 SYS          DBMS_APPLICATION_INF PACKAGE
+                                    O
+
+   7 SYSTEM          7 SYS          DBMS_OUTPUT          PACKAGE
+   7 SYSTEM          7 SYS          DBMS_STANDARD        PACKAGE
+   7 SYSTEM          7 SYS          GV$ACCESS            VIEW
+   7 SYSTEM          7 SYS          GV$SESSION           VIEW
+   7 SYSTEM          7 SYS          STANDARD             PACKAGE
+   7 SYSTEM          7 SYS          V$ACCESS             VIEW
+   7 SYSTEM          7 SYS          V$SESSION            VIEW
+   7 SYSTEM          7 SYS          V_$ACCESS            VIEW
+   7 SYSTEM          7 SYS          V_$SESSION           VIEW
+   7 SYSTEM          7 SYS          X$KGLDP              TABLE
+   7 SYSTEM          7 SYS          X$KGLLK              TABLE
+   7 SYSTEM          7 SYS          X$KGLOB              TABLE
+   7 SYSTEM          7 SYS          X$KSUSE              TABLE
+   7 SYSTEM          7 SYSTEM       V$ACCESS             CURSOR
+   7 SYSTEM          7 SYSTEM       V$SESSION            CURSOR
+   8 SYSTEM          8 PUBLIC       USER_TABLESPACES     SYNONYM
+   8 SYSTEM          8 SYS          DBMS_APPLICATION_INF PACKAGE
+                                    O
+
+   8 SYSTEM          8 SYS          DBMS_OUTPUT          PACKAGE
+   8 SYSTEM          8 SYS          DBMS_STANDARD        PACKAGE
+   8 SYSTEM          8 SYS          GV$ENABLEDPRIVS      VIEW
+   8 SYSTEM          8 SYS          STANDARD             PACKAGE
+   8 SYSTEM          8 SYS          TS$                  TABLE
+   8 SYSTEM          8 SYS          TSQ$                 TABLE
+   8 SYSTEM          8 SYS          USER_TABLESPACES     VIEW
+   8 SYSTEM          8 SYS          V$ENABLEDPRIVS       VIEW
+   8 SYSTEM          8 SYS          X$KZSPR              TABLE
+   8 SYSTEM          8 SYSTEM       USER_TABLESPACES     CURSOR
+   9 SYSTEM          9 PUBLIC       DBA_DATA_FILES       SYNONYM
+   9 SYSTEM          9 SYS          DBA_DATA_FILES       VIEW
+   9 SYSTEM          9 SYS          FILE$                TABLE
+   9 SYSTEM          9 SYS          GV$DBFILE            VIEW
+   9 SYSTEM          9 SYS          TS$                  TABLE
+   9 SYSTEM          9 SYS          V$DBFILE             VIEW
+   9 SYSTEM          9 SYS          X$KCCFN              TABLE
+   9 SYSTEM          9 SYS          X$KTFBHC             TABLE
+   9 SYSTEM          9 SYSTEM       DBA_DATA_FILES       CURSOR
+
+39 rows selected.
+
+SQL> prompt
+
+SQL> prompt Memory per Session
+Memory per Session
+SQL> prompt
+
+SQL> 
+SQL> select a.sid, a.username, c.name, b.value
+  2  from v$session a, v$sesstat b, v$statname c
+  3  where a.sid = b.sid
+  4  and b.statistic# = c.statistic#
+  5  and c.name like 'session%memory'
+  6  order by a.sid
+  7  /
+
+ SID USERNAME     NAME                                VALUE
+---- ------------ ------------------------------ ----------
+   1              session uga memory                  14796
+   1              session pga memory                  51056
+   2              session uga memory                  17340
+   2              session pga memory                 921292
+   3              session uga memory                  14732
+   3              session pga memory                 396976
+   4              session uga memory                  18032
+   4              session pga memory                 102692
+   5              session uga memory                  35220
+   5              session pga memory                 110640
+   6              session uga memory                  37484
+   6              session pga memory                 102128
+   7 SYSTEM       session uga memory                 109860
+   7 SYSTEM       session pga memory                 448700
+   8 SYSTEM       session uga memory                  54984
+   8 SYSTEM       session pga memory                 136176
+   9 SYSTEM       session uga memory                  29216
+   9 SYSTEM       session pga memory                 293040
+
+18 rows selected.
+
+SQL> spool off                                                                                            @test
+SP2-0333: Illegal spool file name: "off                                                                                            @test" (bad character: ' ')
+SQL> @test

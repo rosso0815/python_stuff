@@ -1,0 +1,19 @@
+
+
+***********************************************************************
+Fatal NI connect error 12514, connecting to:
+ (DESCRIPTION=(CONNECT_DATA=(SID=*)(SERVICE_NAME=caxws14.TEC2_YP)(CID=(PROGRAM=)(HOST=caxsp09)(USER=kraanp9)))(ADDRESS=(PROTOCOL=TCP)(HOST=caxws14)(PORT=1521)))
+
+  VERSION INFORMATION:
+	TNS for IBM/AIX RISC System/6000: Version 9.2.0.1.0 - Production
+	TCP/IP NT Protocol Adapter for IBM/AIX RISC System/6000: Version 9.2.0.1.0 - Production
+  Time: 14-MAY-2004 09:08:38
+  Tracing not turned on.
+  Tns error struct:
+    nr err code: 0
+    ns main err code: 12564
+    TNS-12564: TNS:connection refused
+    ns secondary err code: 0
+    nt main err code: 0
+    nt secondary err code: 0
+    nt OS err code: 0

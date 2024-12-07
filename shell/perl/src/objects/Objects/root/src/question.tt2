@@ -1,0 +1,19 @@
+[% META title = 'Catalyst/TT Error' %]
+	
+<form action="[% Catalyst.uri_for('delete') %]" method="post">
+
+<table cellpadding="4" cellspacing="4" border="0" width="100%">
+	<tr><td>
+		Question
+	</td></tr>
+	
+	<tr><td>
+		[% question %]
+	</td></tr>
+	
+	<tr><td>
+		<input type="submit" name="yes" value="YES">
+		<input type="submit" name="no" value="NO">
+	</td></tr>
+</table>
+</form>

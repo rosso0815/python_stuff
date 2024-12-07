@@ -1,0 +1,7 @@
+
+select name, value from v$parameter where name = 'instance_name';
+
+create SPFILE = '/oracle/ora92/database/spfile_testdb29_01.ora'
+  from pfile    '/oracle/ora92/database/inittestdb29.ora';
+
+create pfile from SPFILE;

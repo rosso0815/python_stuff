@@ -1,0 +1,46 @@
+---
+
+- name: add IP address of all hosts to all hosts
+  become: true
+  lineinfile:
+    dest: /etc/hosts
+    regexp: '.*{{ item }}$'
+    line: "{{ hostvars[item].ansible_ip }} {{item}}"
+    state: present
+  when: hostvars[item].ansible_ip is defined
+  with_items: "{{ target_items }}"
+
+- name: create terraform state directory
+  become: true
+  ansible.builtin.file:
+    path: /var/terraform/state/
+    state: directory
+
+- name: generate terraform
+  become: true
+  template:
+    src: templates/terraform.tf
+    dest: /var/terraform/state/terraform.tf
+  vars:
+    items: "{{ target_items }}"
+
+- name: generate terraform network
+  become: true
+  template:
+    src: templates/terraform_network.cfg
+    dest: "/var/terraform/state/cloud_init_network_{{ item }}.cfg"
+  with_items: "{{ target_items }}"
+
+- name: generate terraform cloud init
+  become: true
+  template:
+    src: templates/terraform_cloud_init.cfg
+    dest: "/var/terraform/state/cloud_init_{{ item }}.cfg"
+  with_items: "{{ target_items }}"
+
+- name: terraform start
+  become: true
+  community.general.terraform:
+    project_path: "/var/terraform/state"
+    state: present
+    force_init: true

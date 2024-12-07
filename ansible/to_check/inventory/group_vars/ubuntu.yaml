@@ -1,0 +1,16 @@
+---
+
+ntp_server:
+  - acme.example.org
+  - zero09
+
+database_server: storage.example.org
+
+os: linux-amd64
+
+golang_versions:
+  - 1.15.15
+  - 1.16.14
+  - 1.17.7
+
+ansible_become_pass: "{{ lookup('env','SUDO_PASSWORD') }}"

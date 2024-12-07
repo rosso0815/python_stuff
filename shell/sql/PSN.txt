@@ -1,0 +1,34 @@
+# INHALT PSN
+# Root-Part = D000001X (s_part_number)
+ISO-10303-21;
+HEADER;
+FILE_DESCRIPTION(('/home/login00/kraanp9/test.psn'),'1');
+
+FILE_NAME('/home/login00/kraanp9/test.psn','2003-06-20T11:08:14+02:00',('VPM graph session'),$,$,$,$)
+;
+
+FILE_SCHEMA(('psnsav'));
+
+ENDSEC;
+DATA;
+#1=Version(2) ;
+#4=Clink("04E45980FC0B9038C") ;
+#6=Clink("04E45980FC01549F0") ;
+#8=Clink("04E45980FC1A753B5") ;
+#2=RootPart('DMAGS1','PART_LIST',"04E45980FC046748C","03030303030303030") ;
+#5=SelectedObj('models',$,(#6,#4)) ;
+#7=SelectedObj('models',$,(#8)) ;
+#3=Instance(#2,(#4),(),1) ;
+ENDSEC;
+END-ISO-10303-21;
+
+
+SQL> select "$COID" from part_list where s_part_number like 'D000001X';
+
+$COID
+----------------
+4E45980FC046748C
+
+
+###
+?? COID in NEU und GPA sind ungleich !!!!

@@ -1,0 +1,10 @@
+{
+    "auths": {
+        "gitea.localnet":{
+            "username": "{{ DOCKER_REPO_USERNAME }}",
+            "password": "{{ DOCKER_REPO_SECRET }}",
+            "email": "{{ DOCKER_REPO_EMAIL }}",
+            "auth": "{{ DOCKER_REPO_AUTH_B64 }}"
+    	}
+    }
+}

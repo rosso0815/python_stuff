@@ -1,0 +1,24 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  
+  tasks:
+    - name: Test that my module works
+      github_repo:
+        name: pfistera
+        state: absent
+        enabled: True
+        filename: play01.txt
+      # tags:
+      # - install_1
+
+    # - name: Test that my module works again
+    #   github_repo:
+    #     name: pfistera
+    #     state: absent
+    #     enabled: False
+    #   register: result
+    # - debug: var=result
+    # tags:
+    # - install_2

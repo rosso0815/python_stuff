@@ -1,0 +1,36 @@
+---
+
+- hosts: localhost
+  vars:
+    greeting: Hello world! 
+    continents:
+      - Africa
+      - Asia
+      - South America
+      - North America
+      - Europe
+    http_port: 8080
+    default_gateway: 10.200.50.1
+    vlans:
+      id: 10
+      port: 2
+
+
+  tasks:
+    - name: Ansible Basic Variable Example
+      debug:
+        msg: "{{ greeting }}"
+
+    - name: Ansible List variable Example
+      debug:
+        msg: "{{ continents [1] }}"
+
+
+    - name: Ansible array variables example
+      debug:
+        msg: "{{ item }}"
+      with_items:
+        - "{{ continents }}"
+
+
+

@@ -1,0 +1,15 @@
+[local]
+localhost
+
+[k3smaster]
+somsi
+
+[bastion]
+somsi
+
+[masters]
+master1
+
+[workers]
+worker1
+worker2

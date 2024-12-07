@@ -1,0 +1,25 @@
+[% META title = 'CDBI LIST' %]
+[% USE Dumper %]
+
+<table cellpadding="4" cellspacing="4" border="1" width="400px">
+<tr>
+	[% FOREACH obj = form %]
+		<th>[% obj.title %]</th>
+	[% END %] 
+	<th>Operation</th>
+</tr>
+[% FOREACH obj IN content %]
+	<tr>
+	[% FOREACH p = form %]
+		<td>[% obj.${p.id} %]</td>
+	[% END %]
+	
+	<td>
+		<a href="[% Catalyst.uri_for('delete/') _ obj.id %]">Delete</a>
+		<a href="[% Catalyst.uri_for('view/') _ obj.id %]">View</a>
+		<a href="[% Catalyst.uri_for('edit/') _ obj.id %]">Edit</a>
+	</td>
+	</tr>
+	[% #Dumper.dump_html(obj) %]
+[% END %]
+</table>

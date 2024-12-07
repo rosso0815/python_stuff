@@ -1,0 +1,36 @@
+---
+- name: installation of vagrant etc
+  hosts: all
+  connection: ssh
+  gather_facts: true
+  become: true
+
+  tasks:
+
+    - name: install vagrant
+      apt:
+        name: 
+          - vagrant
+          - qemu-system-x86
+          - libvirt-daemon-system
+        state: present
+
+    - name: Start service libvirtd, if not started
+      service:
+        name: libvirtd.service
+        state: started
+
+    - name: Template a fvagrant file
+      template:
+        src: Vagrantfile.j2
+        dest: /var/tmp/vagrant/Vagrantfile
+        # owner: bin
+        # group: wheel
+        mode: '0644'
+
+
+    - name: This command will change the working directory to somedir/ and will only run when somedir/somelog.txt doesn't exist
+      shell: vagrant up
+      args:
+        chdir: /var/tmp/vagrant/
+        # creates: somelog.txt

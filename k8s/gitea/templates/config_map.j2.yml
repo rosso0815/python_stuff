@@ -1,0 +1,7 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: goapp
+data:
+  user: "spooky-config-2"

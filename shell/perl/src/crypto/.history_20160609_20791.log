@@ -1,0 +1,26 @@
+#1465446938
+cd workspace/perl/src/
+#1465446946
+mkdir crypto
+#1465446949
+cd crypto/
+#1465446950
+ls
+#1465446965
+touch openssl_dsa_01.pl
+#1465446989
+2g openssl_dsa_01.pl 
+#1465447031
+/usr/local/bin/perl openssl_dsa_01.pl 
+#1465447374
+/usr/local/bin/cpan 
+#1465449438
+pwd
+#1465449440
+ls
+#1465449445
+perl openssl_dsa_01.pl 
+#1465483592
+   7~                     
+#1465483642
+exit

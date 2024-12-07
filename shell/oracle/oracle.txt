@@ -1,0 +1,24 @@
+########## ######### ######### ######### ######### ######### ######### #########
+##
+## Erzeuger : kraanp9
+## Datum    : Wed Oct  8 15:03:42 DFT 2003
+## Aufruf   : 
+## Funktion : 
+## Keyword  : 
+## Version  : 
+##
+########## ######### ######### ######### ######### ######### ######### #########
+## Modifications: 
+## Date                          Version         Description
+## Wed Oct  8 15:03:42 DFT 2003      1.0             Init
+########## ######### ######### ######### ######### ######### ######### #########
+
+# wechsle env
+. oraenv 
+
+dbshut
+dbstart
+/etc/oratab
+
+# export
+exp system/manager full=y file=VPMDMA_031008.dmp

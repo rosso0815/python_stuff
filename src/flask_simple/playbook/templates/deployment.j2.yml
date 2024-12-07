@@ -1,0 +1,43 @@
+---
+
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: "{{DOCKER_APP}}"
+  labels:
+    app: "{{DOCKER_APP}}"
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "{{DOCKER_APP}}"
+  template:
+    metadata:
+      labels:
+        app: "{{DOCKER_APP}}"
+        app.kubernetes.io/name: "{{DOCKER_APP}}"
+    spec:
+      containers:
+        - name: "{{DOCKER_APP}}"
+          image: "{{DOCKER_TAG}}:{{DOCKER_VERSION}}"
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_HOST
+              value: 192.168.0.10
+            - name: DB_NAME
+              value: pfistera
+            - name: DB_USERNAME
+              value: pfistera
+            - name: DB_PASSWORD
+              value: pfistera
+            # - name: USER
+            #   valueFrom:
+            #     configMapKeyRef:
+            #       name: "{{DOCKER_APP}}"
+            #       key: user
+      # imagePullSecrets:
+      #   - name: credgitlab
+      # imagePullPolicy: Never

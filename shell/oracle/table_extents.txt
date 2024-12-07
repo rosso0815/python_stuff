@@ -1,0 +1,109 @@
+
+SQL> descr all_tables
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ OWNER                                     NOT NULL VARCHAR2(30)
+ TABLE_NAME                                NOT NULL VARCHAR2(30)
+ TABLESPACE_NAME                                    VARCHAR2(30)
+ CLUSTER_NAME                                       VARCHAR2(30)
+ IOT_NAME                                           VARCHAR2(30)
+ PCT_FREE                                           NUMBER
+ PCT_USED                                           NUMBER
+ INI_TRANS                                          NUMBER
+ MAX_TRANS                                          NUMBER
+ INITIAL_EXTENT                                     NUMBER
+ NEXT_EXTENT                                        NUMBER
+ MIN_EXTENTS                                        NUMBER
+ MAX_EXTENTS                                        NUMBER
+ PCT_INCREASE                                       NUMBER
+ FREELISTS                                          NUMBER
+ FREELIST_GROUPS                                    NUMBER
+ LOGGING                                            VARCHAR2(3)
+ BACKED_UP                                          VARCHAR2(1)
+ NUM_ROWS                                           NUMBER
+ BLOCKS                                             NUMBER
+ EMPTY_BLOCKS                                       NUMBER
+ AVG_SPACE                                          NUMBER
+ CHAIN_CNT                                          NUMBER
+ AVG_ROW_LEN                                        NUMBER
+ AVG_SPACE_FREELIST_BLOCKS                          NUMBER
+ NUM_FREELIST_BLOCKS                                NUMBER
+ DEGREE                                             VARCHAR2(30)
+ INSTANCES                                          VARCHAR2(30)
+ CACHE                                              VARCHAR2(15)
+ TABLE_LOCK                                         VARCHAR2(8)
+ SAMPLE_SIZE                                        NUMBER
+ LAST_ANALYZED                                      DATE
+ PARTITIONED                                        VARCHAR2(3)
+ IOT_TYPE                                           VARCHAR2(12)
+ TEMPORARY                                          VARCHAR2(1)
+ SECONDARY                                          VARCHAR2(1)
+ NESTED                                             VARCHAR2(3)
+ BUFFER_POOL                                        VARCHAR2(7)
+ ROW_MOVEMENT                                       VARCHAR2(8)
+ GLOBAL_STATS                                       VARCHAR2(3)
+ USER_STATS                                         VARCHAR2(3)
+ DURATION                                           VARCHAR2(15)
+ SKIP_CORRUPT                                       VARCHAR2(8)
+ MONITORING                                         VARCHAR2(3)
+ CLUSTER_OWNER                                      VARCHAR2(30)
+ DEPENDENCIES                                       VARCHAR2(8)
+ COMPRESSION                                        VARCHAR2(8)
+
+#---------------------------------------------------------------------------------------------------------
+select TABLE_NAME from all_tables where TABLESPACE_NAME like 'DEV3DBSPACE';
+
+select max_extents from all_tables where TABLESPACE_NAME like 'DEV3DBSPACE' and table_name like 'ZBINDB';
+
+alter table dev3db.zbindb storage( maxextents unlimited )  ; 
+
+#--------------------------------------------------------------------------------------------------------
+set trimspool on
+set feed off
+set head off
+set echo off
+set verify off
+set termout off
+set pages 200
+set pagesize 0
+set linesize 1000
+spool tmp.txt
+
+PROMPT
+PROMPT rem LETS GO
+PROMPT
+
+select 'alter table dev3db.' || TABLE_NAME || ' storage(maxextents 10000);' 
+	from all_tables where TABLESPACE_NAME like 'DEV3DBSPACE'
+/
+
+spool off
+exit
+
+#--------------------------------------------------------------------------------------------------------
+# alter index
+#--------------------------------------------------------------------------------------------------------
+set trimspool on
+set feed off
+set head off
+set echo off
+set verify off
+set termout off
+set pages 200
+set pagesize 0
+set linesize 1000
+spool tmp.txt
+
+select 'alter index dev3db.' || INDEX_NAME || ' storage(maxextents 10000);' 
+	from all_indexes where TABLESPACE_NAME like 'DEV3DBSPACE'
+/
+spool off
+exit
+
+#--------------------------------------------------------------------------------------------------------
+# statistik uber dba_segemts, extents enthalt aktuelle grösse
+#------------------------------------------------------------------------------------------------------
+
+select owner, segment_name, segment_type, extents, max_extents
+   from dba_segments
+   where max_extents-extents <= 3;

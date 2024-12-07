@@ -1,0 +1,40 @@
+---
+# Setting host
+- hosts: localhost
+  gather_facts: True
+#Variables
+  vars:
+    # ansible_python_interpreter: '{{ ansible_playbook_python }}'
+    # image_name: hello-go
+    # image_tag: latest
+    # replicas: 1
+  vars_files:
+  - "vars/common.yml"
+  - "vars/{{ ansible_os_family }}.yml"
+# # Pre-Tasks to validate if Minikube is running
+#   pre_tasks:
+#     - name: Check Minikube's status.
+#       command: minikube status
+#       register: minikube_status
+#       changed_when: false
+#       ignore_errors: true
+#     # Otherwise will start minikube
+#     - name: Start Minikube if it's not running.
+#       command: minikube start
+#       when: "not minikube_status.stdout or 'Running' not in minikube_status.stdout"
+# Check existing images
+  tasks:
+    - name: get minikube
+      shell: |
+        set
+        uptime
+        uname -a
+        echo "os {{ ansible_os_family }} base {{ base }}"
+        cd $HOME/bin
+        curl -LO {{ minikube_url }}
+        mv minikube-* minikube
+        chmod u+rx minikube
+      register: out
+
+    - debug:
+        msg: "{{ out }}"

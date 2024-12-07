@@ -1,0 +1,7 @@
+---
+
+ansible_ip: 192.168.124.130
+
+ip2: 192.168.1.130
+
+ansible_python_interpreter: /usr/bin/python3

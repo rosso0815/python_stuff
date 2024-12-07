@@ -1,0 +1,54 @@
+########## ######### ######### ######### ######### ######### ######### #########
+##
+## Erzeuger : kraanp9
+## Datum    : Fri Jan 30 16:27:05 NFT 2004
+## Aufruf   : 
+## Funktion : 
+## Keyword  : oracle tablespace erweitern
+## Version  : 
+##
+########## ######### ######### ######### ######### ######### ######### #########
+## Modifications: 
+## Date                          Version         Description
+## Fri Jan 30 16:27:05 NFT 2004      1.0             Init
+########## ######### ######### ######### ######### ######### ######### #########
+
+#infos anzeigen
+select TABLESPACE_NAME,BLOCKS,MAXBLOCKS from dba_data_files
+
+select substr (tablespace_name, 1, 15)
+"tablespace",
+substr (file_name, 1, 33) "Datei",
+bytes,
+blocks,
+status,
+autoextensible,
+maxbytes,
+maxblocks,
+increment_by
+from dba_data_files
+order by tablespace_name, file_name;
+
+tablespace      Datei                                  BYTES     BLOCKS
+--------------- --------------------------------- ---------- ----------
+STATUS    AUT   MAXBYTES  MAXBLOCKS INCREMENT_BY
+--------- --- ---------- ---------- ------------
+PRD11TABLES     /oracle/DATA/PRD11/PRD11Tables.db   20975616       5121
+AVAILABLE YES   20975616       5121          256
+
+RBS             /oracle/RBS/PRD11/rbs01.dbf        104861696      25601
+AVAILABLE NO           0          0            0
+
+SYSTEM          /oracle/SYSTEM/PRD11/system01.dbf   83890176      20481
+AVAILABLE NO           0          0            0
+
+
+### ACHTUNG Blocks und MaxBlocks beachten
+
+alter database
+datafile ?<alte Datei inkl. Pfad>?
+resize <neue Größe in Megabyte> M;
+
+ALTER DATABASE 
+    DATAFILE '/oracle/DATA/PRD11/PRD11Tables.dbf' AUTOEXTEND 
+    ON MAXSIZE  25M

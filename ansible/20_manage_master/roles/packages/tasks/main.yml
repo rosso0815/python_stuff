@@ -1,0 +1,7 @@
+---
+
+- name: install packages
+  debug:
+    var: role_packages_list
+
+# --- EOF

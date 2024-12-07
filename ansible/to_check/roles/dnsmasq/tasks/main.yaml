@@ -1,0 +1,34 @@
+---
+
+- name: ansible_pkg_mgr info
+  debug:
+    var: ansible_pkg_mgr
+
+- name: install dnsmasq on osx
+  community.general.homebrew:
+    name: dnsmasq
+    state: present
+  when: ansible_pkg_mgr == "homebrew"
+
+- name: Install dnsmasq on ubuntu
+  apt:
+    name: dnsmasq
+    state: present
+  become: true
+  when: ansible_pkg_mgr == "apt"
+
+- name: Set configuration file
+  become: true
+  template:
+    src: etc_dnsmasq.conf.j2
+    dest: /etc/dnsmasq.conf
+    validate: 'dnsmasq --test --conf-file=%s'
+    mode: 0644
+  notify:
+    - disable systemd-resolved
+    - unlink resolv.conf
+    - generate resolv.conf
+    - restart dnsmasq
+    - restart docker
+    - disable firewalld
+  when: ansible_pkg_mgr == "apt"

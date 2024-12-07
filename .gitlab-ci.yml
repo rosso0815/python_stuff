@@ -1,0 +1,145 @@
+---
+
+variables:
+
+  PRODUCT_NAME:
+    value: "VW-DIESEL"
+    description: "product to build"
+
+  PRODUCT_VERSION:
+    value: "1.0.0"
+    description: "product-version to build"
+
+workflow:
+  rules:
+    - if: $CI_COMMIT_TITLE =~ /^DRAFT/
+      when: never
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+      variables:
+        DEPLOY_VARIABLE: "deploy-production"
+    - if: $CI_COMMIT_REF_NAME =~ /feature/
+      variables:
+        IS_A_FEATURE: "true"
+    - if: '$CI_COMMIT_TAG =~ /^t_[[:digit:]]+.[[:digit:]]+$/'
+      variables:
+        STAGE: "TEST"
+    - if: '$CI_COMMIT_TAG =~ /p_[[:digit:]]+.[[:digit:]]+/'
+      variables:
+        STAGE: "PROD"
+
+stages:
+  - build
+
+build:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint: [""]
+  script:
+    - set
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}/src/flasksimple"
+      --dockerfile "${CI_PROJECT_DIR}/src/flasksimple/Dockerfile"
+      --destination "${CI_REGISTRY_IMAGE}:v1.0.0"
+      # --destination "${CI_REGISTRY_IMAGE}:rosso0815-python"
+
+#
+# buildinfo:
+#   stage: buildinfo
+#   artifacts:
+#     reports:
+#       dotenv: buildinfo.txt
+#   script:
+#     - set
+#     - echo "PRODUCT_BUILD=${PRODUCT_NAME}_${PRODUCT_VERSION}" > buildinfo.txt
+
+# prebuild-k8s:
+#   stage: prebuild
+#   script:
+#     - set
+#     - kubectl get pods
+
+# prebuild-somsi:
+#   stage: prebuild
+#   tags:
+#     - somsi
+#   script:
+#     - set
+
+# build-test:
+#   stage: build
+#   rules:
+#     - if: $STAGE == "TEST"
+#   script:
+#     - set
+#     - echo "PRODUCT_NAME=${PRODUCT_NAME}"
+#     - echo "PRODUCT_BUILD=${PRODUCT_BUILD}"
+
+# build-prod:
+#   stage: build
+#   rules:
+#     - if: $STAGE == "PROD"
+#   script:
+#     - set
+#     - echo "PRODUCT_NAME=${PRODUCT_NAME}"
+#     - echo "PRODUCT_BUILD=${PRODUCT_BUILD}"
+
+
+# build-merge:
+#   stage: build
+#   image: busybox:latest
+#   rules:
+#     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+#   script:
+#     - echo "This job runs in pipelines for merge requests"
+
+# unit-test:
+#   stage: unit-test
+#   image: busybox:latest
+#   script:
+#     - set
+#     - echo '@@@ unit-test'
+
+
+
+
+
+# build:
+#   stage: deploy
+  # variables:
+  #   DEPLOY_VARIABLE: "job1-default-deploy"
+  # rules:
+  #   - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+  #     variables:                                   # Override DEPLOY_VARIABLE defined
+  #       DEPLOY_VARIABLE: "job1-deploy-production"  # at the job level.
+  #   - when: on_success                             # Run the job in other cases
+  # script:
+  #   - docker build -t registry.gitlab.com/rosso0815/rosso0815-gitlab-go .
+  #   - docker push registry.gitlab.com/rosso0815/rosso0815-gitlab-go
+    # - echo "Run script with $DEPLOY_VARIABLE as an argument"
+    # - echo "Run another script if $IS_A_FEATURE exists"
+
+# job2:
+#   environment:
+#     name: te1
+#   script:
+#     - set
+#     - echo "Run script with $DEPLOY_VARIABLE as an argument"
+#     - echo "Run another script if $IS_A_FEATURE exists"
+
+# format:
+#   stage: test
+#   script:
+#     - set
+#     - go fmt $(go list ./... | grep -v /vendor/)
+#     - go vet $(go list ./... | grep -v /vendor/)
+#     - go test -race $(go list ./... | grep -v /vendor/)
+
+# compile:
+#   stage: build
+#   script:
+#     - set
+#     - go build -race -ldflags "-extldflags '-static'" -o $CI_PROJECT_DIR/mybinary
+#   artifacts:
+#     paths:
+#       - mybinary

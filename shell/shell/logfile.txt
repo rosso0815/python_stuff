@@ -1,0 +1,89 @@
+hallo andreas
+
+checkUser 
+t1=## t2= t3:
+t1=# User Database t2= t3:
+t1=#  t2= t3:
+t1=# Note that this file is consulted directly only when the system is running t2= t3:
+t1=# in single-user mode.  At other times this information is provided by t2= t3:
+t1=# Open Directory. t2= t3:
+t1=# t2= t3:
+t1=# See the opendirectoryd(8) man page for additional information about t2= t3:
+t1=# Open Directory. t2= t3:
+t1=## t2= t3:
+t1=nobody:*:-2:-2:Unprivileged User:/var/empty:/usr/bin/false t2= t3:
+t1=root:*:0:0:System Administrator:/var/root:/bin/sh t2= t3:
+t1=daemon:*:1:1:System Services:/var/root:/usr/bin/false t2= t3:
+t1=_uucp:*:4:4:Unix to Unix Copy Protocol:/var/spool/uucp:/usr/sbin/uucico t2= t3:
+t1=_taskgated:*:13:13:Task Gate Daemon:/var/empty:/usr/bin/false t2= t3:
+t1=_networkd:*:24:24:Network Services:/var/networkd:/usr/bin/false t2= t3:
+t1=_installassistant:*:25:25:Install Assistant:/var/empty:/usr/bin/false t2= t3:
+t1=_lp:*:26:26:Printing Services:/var/spool/cups:/usr/bin/false t2= t3:
+t1=_postfix:*:27:27:Postfix Mail Server:/var/spool/postfix:/usr/bin/false t2= t3:
+t1=_scsd:*:31:31:Service Configuration Service:/var/empty:/usr/bin/false t2= t3:
+t1=_ces:*:32:32:Certificate Enrollment Service:/var/empty:/usr/bin/false t2= t3:
+t1=_mcxalr:*:54:54:MCX AppLaunch:/var/empty:/usr/bin/false t2= t3:
+t1=_appleevents:*:55:55:AppleEvents Daemon:/var/empty:/usr/bin/false t2= t3:
+t1=_geod:*:56:56:Geo Services Daemon:/var/db/geod:/usr/bin/false t2= t3:
+t1=_serialnumberd:*:58:58:Serial Number Daemon:/var/empty:/usr/bin/false t2= t3:
+t1=_devdocs:*:59:59:Developer Documentation:/var/empty:/usr/bin/false t2= t3:
+t1=_sandbox:*:60:60:Seatbelt:/var/empty:/usr/bin/false t2= t3:
+t1=_mdnsresponder:*:65:65:mDNSResponder:/var/empty:/usr/bin/false t2= t3:
+t1=_ard:*:67:67:Apple Remote Desktop:/var/empty:/usr/bin/false t2= t3:
+t1=_www:*:70:70:World Wide Web Server:/Library/WebServer:/usr/bin/false t2= t3:
+t1=_eppc:*:71:71:Apple Events User:/var/empty:/usr/bin/false t2= t3:
+t1=_cvs:*:72:72:CVS Server:/var/empty:/usr/bin/false t2= t3:
+t1=_svn:*:73:73:SVN Server:/var/empty:/usr/bin/false t2= t3:
+t1=_mysql:*:74:74:MySQL Server:/var/empty:/usr/bin/false t2= t3:
+t1=_sshd:*:75:75:sshd Privilege separation:/var/empty:/usr/bin/false t2= t3:
+t1=_qtss:*:76:76:QuickTime Streaming Server:/var/empty:/usr/bin/false t2= t3:
+t1=_cyrus:*:77:6:Cyrus Administrator:/var/imap:/usr/bin/false t2= t3:
+t1=_mailman:*:78:78:Mailman List Server:/var/empty:/usr/bin/false t2= t3:
+t1=_appserver:*:79:79:Application Server:/var/empty:/usr/bin/false t2= t3:
+t1=_clamav:*:82:82:ClamAV Daemon:/var/virusmails:/usr/bin/false t2= t3:
+t1=_amavisd:*:83:83:AMaViS Daemon:/var/virusmails:/usr/bin/false t2= t3:
+t1=_jabber:*:84:84:Jabber XMPP Server:/var/empty:/usr/bin/false t2= t3:
+t1=_appowner:*:87:87:Application Owner:/var/empty:/usr/bin/false t2= t3:
+t1=_windowserver:*:88:88:WindowServer:/var/empty:/usr/bin/false t2= t3:
+t1=_spotlight:*:89:89:Spotlight:/var/empty:/usr/bin/false t2= t3:
+t1=_tokend:*:91:91:Token Daemon:/var/empty:/usr/bin/false t2= t3:
+t1=_securityagent:*:92:92:SecurityAgent:/var/empty:/usr/bin/false t2= t3:
+t1=_calendar:*:93:93:Calendar:/var/empty:/usr/bin/false t2= t3:
+t1=_teamsserver:*:94:94:TeamsServer:/var/teamsserver:/usr/bin/false t2= t3:
+t1=_update_sharing:*:95:-2:Update Sharing:/var/empty:/usr/bin/false t2= t3:
+t1=_installer:*:96:-2:Installer:/var/empty:/usr/bin/false t2= t3:
+t1=_atsserver:*:97:97:ATS Server:/var/empty:/usr/bin/false t2= t3:
+t1=_ftp:*:98:-2:FTP Daemon:/var/empty:/usr/bin/false t2= t3:
+t1=_unknown:*:99:99:Unknown User:/var/empty:/usr/bin/false t2= t3:
+t1=_softwareupdate:*:200:200:Software Update Service:/var/empty:/usr/bin/false t2= t3:
+t1=_coreaudiod:*:202:202:Core Audio Daemon:/var/empty:/usr/bin/false t2= t3:
+t1=_screensaver:*:203:203:Screensaver:/var/empty:/usr/bin/false t2= t3:
+t1=_locationd:*:205:205:Location Daemon:/var/db/locationd:/usr/bin/false t2= t3:
+t1=_trustevaluationagent:*:208:208:Trust Evaluation Agent:/var/empty:/usr/bin/false t2= t3:
+t1=_timezone:*:210:210:AutoTimeZoneDaemon:/var/empty:/usr/bin/false t2= t3:
+t1=_lda:*:211:211:Local Delivery Agent:/var/empty:/usr/bin/false t2= t3:
+t1=_cvmsroot:*:212:212:CVMS Root:/var/empty:/usr/bin/false t2= t3:
+t1=_usbmuxd:*:213:213:iPhone OS Device Helper:/var/db/lockdown:/usr/bin/false t2= t3:
+t1=_dovecot:*:214:6:Dovecot Administrator:/var/empty:/usr/bin/false t2= t3:
+t1=_dpaudio:*:215:215:DP Audio:/var/empty:/usr/bin/false t2= t3:
+t1=_postgres:*:216:216:PostgreSQL Server:/var/empty:/usr/bin/false t2= t3:
+t1=_krbtgt:*:217:-2:Kerberos Ticket Granting Ticket:/var/empty:/usr/bin/false t2= t3:
+t1=_kadmin_admin:*:218:-2:Kerberos Admin Service:/var/empty:/usr/bin/false t2= t3:
+t1=_kadmin_changepw:*:219:-2:Kerberos Change Password Service:/var/empty:/usr/bin/false t2= t3:
+t1=_devicemgr:*:220:220:Device Management Server:/var/empty:/usr/bin/false t2= t3:
+t1=_webauthserver:*:221:221:Web Auth Server:/var/empty:/usr/bin/false t2= t3:
+t1=_netbios:*:222:222:NetBIOS:/var/empty:/usr/bin/false t2= t3:
+t1=_warmd:*:224:224:Warm Daemon:/var/empty:/usr/bin/false t2= t3:
+t1=_dovenull:*:227:227:Dovecot Authentication:/var/empty:/usr/bin/false t2= t3:
+t1=_netstatistics:*:228:228:Network Statistics Daemon:/var/empty:/usr/bin/false t2= t3:
+t1=_avbdeviced:*:229:-2:Ethernet AVB Device Daemon:/var/empty:/usr/bin/false t2= t3:
+t1=_krb_krbtgt:*:230:-2:Open Directory Kerberos Ticket Granting Ticket:/var/empty:/usr/bin/false t2= t3:
+t1=_krb_kadmin:*:231:-2:Open Directory Kerberos Admin Service:/var/empty:/usr/bin/false t2= t3:
+t1=_krb_changepw:*:232:-2:Open Directory Kerberos Change Password Service:/var/empty:/usr/bin/false t2= t3:
+t1=_krb_kerberos:*:233:-2:Open Directory Kerberos:/var/empty:/usr/bin/false t2= t3:
+t1=_krb_anonymous:*:234:-2:Open Directory Kerberos Anonymous:/var/empty:/usr/bin/false t2= t3:
+t1=_assetcache:*:235:235:Asset Cache Service:/var/empty:/usr/bin/false t2= t3:
+t1=_coremediaiod:*:236:236:Core Media IO Daemon:/var/empty:/usr/bin/false t2= t3:
+t1=_xcsbuildagent:*:237:237:Xcode Server Build Agent:/var/empty:/usr/bin/false t2= t3:
+t1=_xcscredserver:*:238:238:Xcode Server Credential Server:/var/empty:/usr/bin/false t2= t3:
+t1=_launchservicesd:*:239:239:_launchservicesd:/var/empty:/usr/bin/false t2= t3:

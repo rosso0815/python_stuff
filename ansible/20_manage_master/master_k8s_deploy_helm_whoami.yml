@@ -1,0 +1,32 @@
+---
+
+- name: deploy whoami
+  hosts: localhost
+  connection: localhost
+
+  tasks:
+
+    # - name: Add stable chart repo
+    #   kubernetes.core.helm_repository:
+    #     name: cowboysysop
+    #     repo_url: https://cowboysysop.github.io/charts/
+    #   ignore_errors: true
+    #
+    # - name: helm deploy whoami
+    #   kubernetes.core.helm:
+    #     force: true
+    #     name: whoami
+    #     chart_ref: cowboysysop/whoami
+    #     release_namespace: default
+    #     create_namespace: false
+    #     values:
+    #       replicaCount: 1
+    #       ingress:
+    #         ingressClassName: "traefik"
+    #         enabled: true
+    #         hosts:
+    #           - host: whoami.localnet
+    #             paths:
+    #               - /
+
+# --- EOF

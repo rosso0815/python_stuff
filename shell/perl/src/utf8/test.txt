@@ -1,0 +1,3 @@
+Hier ist ein Text mit allen Umlauten: öäüß
+und groß: ÖÄÜ
+Das Euro-Zeichen: €

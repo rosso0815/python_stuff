@@ -1,0 +1,104 @@
+---
+- name: lets manage cf on host somsi
+  hosts: somsi
+  connection: ssh
+  gather_facts: false
+  vars:
+    cf_loc: /home/pfistera/workspace/cf-for-k8s
+    cf_username: rosso0815
+
+  tasks:
+
+  - name: update all tools
+    shell: 
+      cmd:  |
+            cd $HOME/bin
+            curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+            chmod +x minikube
+
+            curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.10.0/kind-linux-amd64
+            chmod +x ./kind
+            
+            curl -L https://carvel.dev/install.sh | K14SIO_INSTALL_BIN_DIR=. bash
+
+            curl -Lo cf7 https://packages.cloudfoundry.org/edge?arch=linux64&version=v7&source=github
+            chmod u+x ./cf7
+
+            ls -ltr
+    register: out
+    tags:
+    - update
+  - debug:
+      msg:
+        - "{{ out.stdout_lines }}"
+        - "{{ out.stderr_lines }}"
+    tags:
+    - update
+
+
+  - name: stop all
+    shell: 
+      cmd:  |
+            docker ps
+            docker ps | grep -v CONTAINER | awk '{print $1}' | xargs -i{} docker stop {}
+            minikube stop || true
+            minikube delete || true
+            rm -rf ~/.minikube || true
+            /home/pfistera/bin/kind delete cluster || true
+    register: status
+    tags:
+    - stop
+    - start
+  - debug:
+      msg:
+        - "xx {{ status.stdout_lines }}"
+        - "yy {{ status.stderr_lines }}"
+    tags:
+    - stop
+    - start
+
+  - name: generate needed cf helper script
+    template:
+      src: cf_helper.j2
+      dest: "{{ cf_loc }}/cf_helper.txt"
+    tags:
+    - cf_helper
+
+  - name: start cf
+    shell: 
+      cmd:  |
+            cd {{ cf_loc }}
+            ls
+            git pull
+            pwd
+            TMP_DIR=$PWD/tmp; mkdir -p ${TMP_DIR}
+            # /home/pfistera/bin/kind create cluster --config=./deploy/kind/cluster.yml --image kindest/node:v1.19.1
+            # kubectl cluster-info --context kind-kind
+            # ./hack/generate-values.sh -d vcap.me > ${TMP_DIR}/cf-values.yml
+            # cat cf_helper.txt >> ${TMP_DIR}/cf-values.yml
+            # ls -l $TMP_DIR
+    register: out
+    tags:
+    - start
+  - debug:
+      msg:
+        - "{{ out.stdout_lines }}"
+        - "{{ out.stderr_lines }}"
+    tags:
+    - start
+
+  - name: minikube status
+    shell: 
+      cmd:  |
+            minikube status
+    register: msg
+    tags:
+    - status
+  - debug: msg="{{ msg.stdout }}"
+  - debug: msg="{{ msg.stderr }}"
+  # - debug:
+  #     msg:
+  #       - "xxx {{ status.msg.stdout }}"
+  #       - "yyy {{ status.stderr_lines }}"
+  #   tags:
+  #   - status

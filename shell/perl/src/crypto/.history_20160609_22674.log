@@ -1,0 +1,32 @@
+#1465447734
+find / -name DBIXS.h
+#1465449043
+pwd
+#1465449056
+cd workspace/perl/src/sql/
+#1465449056
+ls
+#1465449074
+/usr/local/bin/perl test_mysql_01.pl 
+#1465449083
+mysql.server start
+#1465449085
+/usr/local/bin/perl test_mysql_01.pl 
+#1465449090
+mysql.server stop
+#1465449096
+/usr/local/bin/perl test_mysql_01.pl 
+#1465449207
+pwd
+#1465449218
+cd ../crypto/
+#1465449218
+ls
+#1465449225
+/usr/local/bin/perl openssl_dsa_01.pl 
+#1465449363
+set
+#1465449370
+echo $PATH
+#1465483644
+exit

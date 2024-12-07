@@ -1,0 +1,9 @@
+---
+
+tmp_dir: /var/tmp
+
+cloud_img: https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.ova
+
+img_base_name: baseimg
+
+cloud_os_variant: ubuntu22.04

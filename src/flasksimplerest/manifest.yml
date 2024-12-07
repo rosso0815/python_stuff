@@ -1,0 +1,8 @@
+---
+  applications:
+  - name: mypython
+    path: target/flask_simple_rest-1.0.0.zip
+    memory: 128MB
+    disk_quota: 256MB
+    buildpack: paketo-community/python
+    # command: python hello.py

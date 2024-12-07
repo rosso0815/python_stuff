@@ -1,0 +1,68 @@
+#!/usr/bin/perl -w
+#
+#------------------------------------------------------------------------------
+# Erzeuger : A.Pfister
+# Datum    : 20.02.2003
+# Aufruf   : command-line
+# Funktion : dursuchen div. directories und ausgabe der hader infos
+# Keyword  :
+#------------------------------------------------------------------------------
+# Modifications:
+# Date          Version         Description
+#
+#------------------------------------------------------------------------------
+#
+use Cwd;
+use File::Find;
+#
+find(\&wanted, cwd);
+#
+exit 0;
+
+#-------------------------------------------------------------------------------
+# wir durchen nach pl dateien
+sub wanted
+{
+    print "\nPATH= ", $File::Find::name;
+    print "\nDIR = ", $File::Find::dir;
+    print "\nNAME= ", $_;
+
+    # if ( /^.*pl$/i) {
+    # print "\n# datei ", $_, " PATH= ", $File::Find::name;
+    # print "\ncwd = " ,cwd, '/', $_; lese_header( $_); }
+
+}
+
+#------------------------------------------------------------------------------
+# analysieren den header
+# lesen der 10.zeilen
+sub lese_header
+{
+    my $datei = $_;
+    my $i     = 1;
+    my $inhalt;
+
+    open(INPUT, "<$datei");
+    while ($i < 10)
+    {
+        $inhalt = $inhalt . <INPUT>;
+
+        #print "\nI=$i inhalt=$inhalt";
+        $i = $i + 1;
+    }
+    close INPUT;
+
+    # print "\nDEBUG $datei, $inhalt";
+    # und nach etwas suchen
+    foreach $suchstring ('erzeuger', 'datum', 'aufruf', 'function', 'keyword')
+    {
+        $_ = $inhalt;
+        if (m/(^.*$suchstring.*):(.*$)/im)
+        {
+            print "\n$suchstring = ", $2;
+        }
+    }
+}
+
+#------------------------------------------------------------------------------
+print "\n";

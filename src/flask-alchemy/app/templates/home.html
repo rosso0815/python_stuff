@@ -1,0 +1,18 @@
+{# copyright 2019-2021 peter mooring all rights reserved peterpm@xs4all.nl peter@petermooring.com #}
+{# home.html #}
+
+{% extends "base.html" %}
+
+{% block content %}
+
+	{{ welcome_message }}
+
+	<ul>
+	{% for friend in friends %}
+		<li>
+			{{ friend.name }}
+		</li>
+	{% endfor %}
+	</ul>
+
+{% endblock %}

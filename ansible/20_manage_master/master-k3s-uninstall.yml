@@ -1,0 +1,13 @@
+---
+
+- name: lets uninstall k3s
+  hosts: master
+  connection: ssh
+  gather_facts: true
+  become: true
+  tasks:
+    - name: stop all
+      command: /usr/local/bin/k3s-killall.sh
+
+    - name: uninstall all
+      command: /usr/local/bin/k3s-uninstall.sh

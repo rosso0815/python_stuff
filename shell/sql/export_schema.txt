@@ -1,0 +1,35 @@
+
+exp system/manager owner=admm31a rows=no indexes=no  file=admm31a.dmp
+
+export NLS_LANG=american_america.utf8
+exp USERID=pdmm50a/oracle file=pdmm50a.dmp LOG=pdmm50a.log
+
+
+strings admm31a.dmp|grep 'CREATE TABLE'>table_admm31a.txt
+
+BETA
+(winds02)oracle$ strings admm31a.dmp|grep 'CREATE TABLE'|wc
+     490   32108  393715
+(winds02)oracle$ strings sum31a.dmp|grep 'CREATE TABLE'|wc
+     498   32656  400972
+(winds02)oracle$ strings keym31a.dmp|grep 'CREATE TABLE'|wc
+     490   32108  393715
+PROD
+(winds00)oracle$ strings admm31a.dmp|grep 'CREATE TABLE'|wc
+     484   48004  606467
+(winds00)oracle$ strings sum31a.dmp|grep 'CREATE TABLE'|wc
+     492   49028  619502
+(winds00)oracle$ strings keym31a.dmp|grep 'CREATE TABLE'|wc
+     484   48004  606467
+(winds00)oracle$ strings sum31a.dmp|grep 'CREATE TABLE'|wc
+
+
+
+sqlplus ....
+set pagesize 0
+spool xxx.txt
+select TABLE_NAME, COLUMN_NAME from user_tab_columns
+spool off
+
+
+select TABLE_NAME,COLUMN_NAME from dba_tab_columns where OWNER like 'ADMM31A';

@@ -1,0 +1,6 @@
+Hi Andreas <PFISTER>
+Hi Andreas <DEFAULT>
+echo Hi Andreas \<PFISTER\>
+echo Hi Andreas \<DEFAULT\>
+echo Hi Andreas \<PFISTER\>
+echo Hi Andreas \<DEFAULT\>

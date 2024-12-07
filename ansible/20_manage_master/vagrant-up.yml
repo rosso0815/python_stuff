@@ -1,0 +1,9 @@
+---
+
+- name: lets manage vagrant via ssh bastion
+  hosts: all
+  connection: ssh
+  gather_facts: true
+
+  roles:
+    - role: vagrant/up

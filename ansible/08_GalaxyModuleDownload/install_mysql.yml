@@ -1,0 +1,7 @@
+---
+- name: Install MySQL server
+  hosts: localhost
+  connection: local
+  
+  roles:
+    - 5KYDEV0P5.skydevops-mysql

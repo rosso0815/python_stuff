@@ -1,0 +1,80 @@
+variable "vm_name" {
+  type = string
+  default = "{{ item }}"
+}
+
+variable "domain" {
+  type = string
+  default = "pfistera.ch"
+}
+
+variable "memory" {
+  type = string
+  default = "2048"
+}
+
+variable "cpu" {
+  type = number
+  default = 2
+}
+
+provider "libvirt" {
+  uri = "qemu:///system"
+}
+
+
+resource "libvirt_volume" "qcow_volume" {
+  name = "${var.vm_name}.img"
+  pool = "default"
+  source = "http://ftp.gwdg.de/pub/linux/almalinux/8.6/cloud/x86_64/images/AlmaLinux-8-GenericCloud-8.6-20220513.x86_64.qcow2"
+  # source = "https://danweb2.dsteiner.ch/almalinux/9.0/cloud/x86_64/images/AlmaLinux-9-OpenNebula-9.0-20220831.x86_64.qcow2"
+  format = "qcow2"
+}
+
+data "template_file" "user_data" {
+  template = file("${path.module}/cloud_init.cfg")
+
+  vars = {
+   hostname = var.vm_name
+   domain = var.domain
+  }
+}
+
+resource "libvirt_cloudinit_disk" "commoninit" {
+  name           = "commoninit_${var.vm_name}.iso"
+  user_data      = data.template_file.user_data.rendered
+  pool           = "default"
+}
+
+# Define KVM domain to create
+resource "libvirt_domain" "kvm_domain" {
+  name   = var.vm_name
+  memory = var.memory
+  vcpu   = var.cpu
+  autostart = true
+
+  cloudinit = libvirt_cloudinit_disk.commoninit.id
+
+  disk {
+    volume_id = libvirt_volume.qcow_volume.id
+  }
+
+  console {
+    type = "pty"
+    target_type = "serial"
+    target_port = "0"
+  }
+
+ # graphics {
+ #   type = "spice"
+ #   listen_type = "address"
+ #   autoport = true
+ # }
+
+  network_interface {
+    hostname = "{{ item }}"
+    network_name = "default"
+    mac = "{{ hostvars[item].mac }}"
+    wait_for_lease = true
+  }
+}

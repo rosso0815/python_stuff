@@ -1,0 +1,14 @@
+---
+
+- name: delete server
+  shell: |
+      cd "{{ target_dir }}/{{ item }}/"
+      vagrant destroy -f
+  with_inventory_hostnames:
+    - masters
+    - workers
+
+- name: "delete vagrant-dirs"
+  file:
+    path: "{{ target_dir }}/"
+    state: absent

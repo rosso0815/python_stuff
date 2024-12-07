@@ -1,0 +1,12 @@
+---
+
+- name: hello on master
+  hosts: master
+  gather_facts: true
+
+  tasks:
+
+    - name: say hello
+      command: echo hello
+
+# --- EOF

@@ -1,0 +1,22 @@
+---
+
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: goapp-ingress
+  namespace: default
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+    kubernetes.io/ingress.class: "traefik"
+
+spec:
+  rules:
+    - http:
+        paths:
+          - path: "/goapp"
+            pathType: Prefix
+            backend:
+              service:
+                name: goapp-service
+                port:
+                  number: 8080

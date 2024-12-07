@@ -1,0 +1,4 @@
+applications:
+- name: service-broker
+  mem: 128M
+  disk: 512M

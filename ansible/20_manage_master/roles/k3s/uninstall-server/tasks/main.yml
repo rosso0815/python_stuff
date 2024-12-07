@@ -1,0 +1,17 @@
+---
+
+- name: Stop service k3s
+  ansible.builtin.service:
+    name: k3s
+    state: stopped
+    enabled: false
+
+#- name: Recursively remove directory {{ k3s_server_location }}
+  #ansible.builtin.file:
+    #path: "{{ k3s_server_location }}"
+    #state: absent
+
+#- name: Remove directory /etc/rancher
+  #ansible.builtin.file:
+    #path: /etc/rancher
+    #state: absent

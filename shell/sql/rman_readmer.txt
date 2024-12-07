@@ -1,0 +1,14 @@
+
+
+rman TARGET SYS/manager@tce400 NOCATALOG
+
+report schema;
+SHOW ALL;
+
+CONFIGURE CHANNEL DEVICE TYPE DISK FORMAT = '/backup/rman/%U'
+CONFIGURE CONTROLFILE AUTOBACKUP ON;
+
+BACKUP DATABASE
+
+list backup;
+

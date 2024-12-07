@@ -1,0 +1,32 @@
+drop user monitor cascade;
+
+
+CREATE USER "MONITOR"  PROFILE "DEFAULT" 
+    IDENTIFIED BY "monitor" DEFAULT TABLESPACE "USERS" 
+    ACCOUNT UNLOCK;
+
+GRANT SELECT ANY DICTIONARY TO "MONITOR";
+GRANT SELECT ANY TABLE TO "MONITOR";
+GRANT "CONNECT" TO "MONITOR";
+GRANT "RESOURCE" TO "MONITOR";
+ALTER USER "MONITOR" DEFAULT ROLE  ALL;
+
+drop table LOGGER;
+
+create table LOGGER
+        (
+        time date,
+        tablename varchar2(255),
+        schema varchar2(255),
+        action varchar2(255),
+        remark varchar2(255)
+        );
+
+//------------------------------------------------------------------------------
+grant SELECT on logger to public;
+grant INSERT on logger to public;
+grant DELETE on logger to public;
+grant UPDATE on logger to public;
+
+//------------------------------------------------------------------------------
+

@@ -1,0 +1,15 @@
+---
+- name: terraform docker
+  hosts: localhost
+  connection: local
+
+  tasks:
+    - name: test web
+      debug:
+        msg: test
+
+
+    - name: Basic deploy of a service
+      community.general.terraform:
+        project_path: '/Users/pfistera/workspace/ap-python/terraform/docker'
+        state: absent

@@ -1,0 +1,194 @@
+---
+
+- name: List all VMs
+  become: true
+  community.libvirt.virt:
+    command: list_vms
+  register: all_vms
+- name: show vms
+  debug:
+    msg: "out: {{ all_vms }}"
+
+- name: destroy vms
+  community.libvirt.virt:
+    name: "{{ item }}"
+    command: "destroy"
+  ignore_errors: true
+  loop: "{{ all_vms.list_vms }}"
+
+- name: undefine vms
+  community.libvirt.virt:
+    name: "{{ item }}"
+    command: "undefine"
+  ignore_errors: true
+  loop: "{{ all_vms.list_vms }}"
+
+- name: list available pools
+  become: true
+  community.libvirt.virt_pool:
+    command: list_pools
+  register: list_pools
+- name: show available pools
+  debug:
+    msg: "out: {{ list_pools }}"
+
+- name: destroy storage pool
+  become: true
+  community.libvirt.virt_pool:
+    command: destroy
+    name: "{{ item }}"
+  ignore_errors: true
+  loop: "{{ list_pools.list_pools }}"
+
+- name: undefine storage pool
+  become: true
+  community.libvirt.virt_pool:
+    command: undefine
+    name: "{{ item }}"
+  ignore_errors: true
+  loop: "{{ list_pools.list_pools }}"
+
+- name: list available pools
+  become: true
+  community.libvirt.virt_pool:
+    command: list_pools
+  register: list_pools
+- name: show available pools
+  debug:
+    msg: "out: {{ list_pools }}"
+
+- name: cleanup terraform pool directory
+  become: true
+  shell: rm -rf /var/terraform/pool/*
+
+
+- name: List available networks
+  become: true
+  community.libvirt.virt_net:
+    command: list_nets
+  register: list_nets
+
+- name: destroy a new network
+  become: true
+  community.libvirt.virt_net:
+    command: destroy
+    name: default
+  ignore_errors: true
+
+- name: undefine a new network
+  become: true
+  community.libvirt.virt_net:
+    command: undefine
+    name: default
+  ignore_errors: true
+  # when: '"default" in out.list_nets'
+
+
+- name: delete terraform state directory
+  become: true
+  ansible.builtin.file:
+    path: /var/terraform/state/
+    state: absent
+
+# FIXME terraform destroy -auto-approve
+
+#
+# - name: Get XML data of a specified network
+  # community.libvirt.virt_net:
+    # command: get_xml
+    # name: default
+  # register: out
+
+# - name: show actual network
+  # debug:
+    # msg: "network: {{ out }}"
+
+# - name: show hosts to add
+  # debug:
+    # msg: "host:{{ item }} ip:{{ hostvars[item].ansible_ip }} mac:{{ hostvars[item].mac }}"
+  # with_items:
+    # - "{{ groups['masters'] }}"
+    # - "{{ groups['workers'] }}"
+
+# - name: add IP address of all hosts to all hosts
+  # become: true
+  # lineinfile:
+    # dest: /etc/hosts
+    # regexp: '.*{{ item }}$'
+    # line: "{{ hostvars[item].ansible_ip }} {{item}}"
+    # state: present
+  # when: hostvars[item].ansible_ip is defined
+  # with_items:
+    # - "{{ groups['masters'] }}"
+    # - "{{ groups['workers'] }}"
+
+# - name: List available networks
+  # community.libvirt.virt_net:
+    # command: list_nets
+  # register: out
+# - name: show available networks
+  # debug:
+    # msg: "networks: {{ out }}"
+
+# - name: add a new host in the dhcp pool
+  # become: true
+  # ignore_errors: yes
+  # community.libvirt.virt_net:
+    # name: default
+    # command: modify
+    # xml: "<host mac='{{ hostvars[item].mac }}' name='{{ item }}' ip='{{ hostvars[item].ansible_ip }}' />"
+  # with_items:
+    # - "{{ groups['masters'] }}"
+    # - "{{ groups['workers'] }}"
+
+# - name: "create terraform-dirs#"
+  # file:
+    # path: "terraform/{{ item }}"
+    # state: directory
+    # mode: '0755'
+  # with_items:
+    # - "{{ groups['masters'] }}"
+    # - "{{ groups['workers'] }}"
+
+# - name: copy authorized_keys_add
+  # template:
+    # src: authorized_keys_add
+    # dest: "terraform/{{ item }}/authorized_keys_add"
+  # with_items:
+    # - "{{ groups['masters'] }}"
+    # - "{{ groups['workers'] }}"
+
+# - name: generate terraform
+  # template:
+    # src: templates/terraform_centos9.tf.j2
+    # dest: "terraform/{{ item }}/centos9.tf"
+  # with_items:
+    # - "{{ groups['masters'] }}"
+    # - "{{ groups['workers'] }}"
+
+# - name: generate cloud-init
+  # template:
+    # src: templates/terraform_cloud_init.cfg.j2
+    # dest: "terraform/{{ item }}/cloud_init.cfg"
+  # with_items:
+    # - "{{ groups['masters'] }}"
+    # - "{{ groups['workers'] }}"
+
+# - name: generate terraform versions
+  # template:
+    # src: templates/versions.tf
+    # dest: "terraform/{{ item }}/versions.tf"
+  # with_items:
+    # - "{{ groups['masters'] }}"
+    # - "{{ groups['workers'] }}"
+
+#- name: ter2222222222p
+  #become: true
+  #community.general.terraform:
+    #project_path: "terraform/{{ item }}"
+    #state: absent
+    #force_init: true
+  #with_items:
+    #- "{{ groups['master'] }}"
+    #- "{{ groups['worker1'] }}"
+    #- "{{ groups['worker2'] }}"

@@ -1,0 +1,51 @@
+---
+
+yq_version: v4.25.2
+
+helm_version: v3.8.2
+
+k3s_version: v1.27.4%2Bk3s1
+
+target_dir: vagrant
+
+ansible_become_password: "{{ lookup('env', 'ANSIBLE_PASSWORD' ) }}"
+
+systemd_dir: /etc/systemd/system
+
+kubeconfig: /etc/rancher/k3s/k3s.yaml
+
+GITLAB_USERNAME: "{{ lookup('env', 'GITLAB_USERNAME' ) }}"
+GITLAB_EMAIL: "{{ lookup('env', 'GITLAB_EMAIL' ) }}"
+GITLAB_SECRET: "{{ lookup('env', 'GITLAB_SECRET' ) }}"
+
+namespace: pfistera
+
+replicas: 1
+
+target_items:
+    - "{{ groups['masters'] }}"
+    #- "{{ groups['w1'] }}"
+    #- "{{ groups['w2'] }}"
+
+# master_ip: "{{ hostvars[groups['master'][0]]['ansible_host'] | default(groups['master'][0]) }}"
+# extra_server_args: ""
+# extra_agent_args: ""
+
+
+# clients:
+#   masters:
+#     - name: master1
+#       ip: 192.168.121.10
+
+# target_dir: tmp/
+
+# vagrant_hosts:
+#   - name: server1
+#     status: up
+#     ip: 192.168.121.10
+#   - name: server2
+#    status: up
+#     ip: 192.168.121.20
+#   - name: server3
+#     status: up
+#    ip: 192.168.121.30

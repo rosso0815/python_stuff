@@ -1,0 +1,18 @@
+---
+#
+#  https://docs.ansible.com/ansible/latest/collections/ansible/builtin/uri_module.html
+#
+# Setting host
+- hosts: localhost
+  gather_facts: false
+#Variables
+  vars:
+    ansible_python_interpreter: '{{ ansible_playbook_python }}'
+    image_name: hello-go
+    image_tag: latest
+    replicas: 1
+# Pre-Tasks to validate if Minikube is running
+  tasks:
+    - name: Check that you can connect (GET) to a page and it returns a status 200
+      uri:
+        url: http://localhost:56733

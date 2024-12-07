@@ -1,0 +1,24 @@
+[% META title = 'CDBI INPUT' %]
+[% USE Dumper %]
+[% #Dumper.dump_html(form) %]
+
+
+<form action="[% Catalyst.uri_for('mk_new') %]"  enctype="multipart/form-data" method="post" >
+<table cellpadding="4" cellspacing="4" border="0" width="1">
+	<tr>
+		<th align="right" >Value</th>
+		<th align="left"  >Input</th>
+	</tr> 
+	
+	[% FOREACH obj = form%]
+	<tr>
+		<td align="right" >[% obj.title %]</td>
+		<td align="left"  ><input type="text" name="[% obj.id %]" value=""></td>
+	</tr>
+	[% END %] 
+	
+		<td align="right" ><INPUT type="reset" value="reset" ></td>
+		<td align="left"  ><input type="submit" value="send" name="send"></td>
+	</tr>
+</form>
+

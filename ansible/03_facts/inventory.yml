@@ -1,0 +1,9 @@
+all:
+  hosts: localhost
+
+  vars:
+    http_port: 8080
+    default_gateway: 
+    vlans:
+      id: 10
+      port: 20

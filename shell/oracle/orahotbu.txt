@@ -1,0 +1,725 @@
+#!/usr/bin/perl
+
+# ------------------------------------------------------------------------
+# hotarch -- hotarchive backup for Microsoft copied from ye olde shell script 
+# G. Patterson, Nov 2001
+#
+# 9/2002          Enhanced by Frank Pantaleo (The Rochester Group) to use DBI 9/2002
+# 1/2003          add Parallelization of dbf's relative to the tablespace 
+# 1/17/2003       Code Cleanup and add more verbose messages
+#                 Deal with gzip return codes better and a bad connection in middle of hotbackup
+# 
+
+use File::Basename; 
+use File::Copy; 
+use Parallel::ForkManager; 
+use DBI; 
+use Compress::Zlib; 
+use File::Slurp; 
+
+$MyPath = dirname($0); 
+$return_code = 0;
+
+# ------------------------------------------------------------------------
+sub LogMsg{
+	my @t = localtime(time);
+	printf LOG "%04d-%02d-%02d %02d:%02d %s\n",
+	$t[5]+1900,$t[4]+1,$t[3],$t[2],$t[1],$_[0];
+}
+
+sub Compress {
+	$in_file=$_[0];
+	$out_file=$_[1];
+	$status=0;
+	open(OUTFILE,'>',$out_file) or die "could not open $out_file";
+	binmode INFILE;
+	binmode OUTFILE;
+	
+	my $gz = gzopen(\*OUTFILE, "wb") or die "Cannot open stdout: $gzerrno\n" ;
+	$input = read_file($in_file);
+	$gz->gzwrite($input) ;
+	$gz->gzclose ;
+	
+	close OUTFILE;
+	return $gz->gzerror;
+}
+
+# ------------------------------------------------------------------------
+
+sub OraDo {
+
+    ($thesql) = $_[0];
+
+    local($sthx);
+
+    $status=0;
+
+    print "OraDo $thesql\n";
+
+    if (($dbh) && ($dbh->ping)) {}
+
+    else {
+
+        $dbh = DBI->connect("dbi:Oracle:", '', '',{ PrintError=>0, RaiseError =>0, ora_session_mode => 2}) or  wrapup(6);
+
+    }
+
+    $sthx = $dbh->prepare($thesql) or wrapup(5); 
+
+    if ($DBI::errstr) {
+
+            LogMsg "$thesql\nParse Error $DBI::errstr\n";
+
+            $status=-1;
+
+            }
+
+    $sthx->execute or wrapup(5); 
+
+    if ($DBI::errstr) {
+
+            LogMsg "$thesql\nExec Error $DBI::errstr\n";
+
+            $status=-1;
+
+            }
+
+    $sthx->finish;
+
+    return $status;
+
+}
+
+# ------------------------------------------------------------------------
+
+sub OraQry {
+
+    ($thesql) = $_[0];
+
+    $status=0;
+
+    print "OraQry $thesql\n";
+
+    if ($dbh->ping) {}
+
+    else {
+
+        $dbh = DBI->connect("dbi:Oracle:", '', '',{ PrintError=>0, RaiseError =>0,ora_session_mode => 2}) or  wrapup(6);
+
+    }
+
+    $sth1 = $dbh->prepare($thesql) or wrapup(5);
+
+    if ($DBI::errstr) {
+
+            LogMsg "$thesql\nParse Error $DBI::errstr\n";
+
+            $status=-1;
+
+            }
+
+    $sth1->execute or wrapup{5};
+
+    if ($DBI::errstr) {
+
+            LogMsg "$thesql\nExec Error $DBI::errstr\n";
+
+            $status=-1;
+
+            }
+
+    return $status;
+
+}
+
+sub OraQry2 {
+
+    ($thesql) = $_[0];
+
+    $status=0;
+
+    print "OraQry2 $thesql\n";
+
+    if ($dbh->ping) {}
+
+    else {
+
+        $dbh = DBI->connect("dbi:Oracle:", '', '',{ PrintError=>0, RaiseError =>0, ora_session_mode => 2}) or wrapup(6); 
+
+    }
+
+    $sth2 = $dbh->prepare($thesql) or wrapup(5);
+
+    if ($DBI::errstr) {
+
+        LogMsg "$thesql\nParse Error $DBI::errstr\n";
+
+        $status=-1;
+
+        }
+
+    $sth2->execute or wrapup{5};
+
+    if ($DBI::errstr) {
+
+        LogMsg "$thesql\nExec Error $DBI::errstr\n";
+
+        $status=-1;
+
+        }
+
+    return $status;
+
+}
+
+ 
+
+# ------------------------------------------------------------------------
+
+sub stop_backup{
+
+#
+
+# just in case previous hotarch died an untidy death
+
+#
+
+            local($SQL)=<<EOF;
+
+            declare
+
+            my_exception exception;
+
+            cursor thecsr is 
+
+                        select 'alter tablespace ' || TABLESPACE_NAME || ' end backup' the_ts
+
+                        from dba_tablespaces;
+
+            begin
+
+                        for therec in thecsr loop
+
+                        begin
+
+                                    execute immediate therec.the_ts;
+
+                        exception when others then null;
+
+                                    --raise_application_error(-20001,'Exception occured.' || sqlcode || sqlerrm);
+
+                        end;
+
+                        end loop;
+
+            end;
+
+EOF
+
+            $rtn=OraDo($SQL);                
+
+}
+
+ 
+
+# ------------------------------------------------------------------------
+
+ 
+
+sub problem{
+
+# Err Houston? ... Houston ... We have a problem ...
+
+            LogMsg "ERROR: $_[0]";
+
+            # make a last ditch effort to end backup
+
+            stop_backup();
+
+            wrapup(5);
+
+}
+
+ 
+
+# ------------------------------------------------------------------------
+
+sub wrapup {
+
+            $myrtn=$_[0];
+
+        if (($dbh) && ($dbh->ping)) {
+
+                        $dbh->disconnect;
+
+            }
+
+            if ($myrtn < $return_code) {
+
+                        $myrtn = $return_code;
+
+            }
+
+        if (($return_code == 0) && ($myrtn == 0)) {
+
+                LogMsg "SUCCESS: $MyName completed";
+
+        }
+
+        else {
+
+                LogMsg "FAILURE: $MyName errors in logfile";
+
+        }
+
+            close LOG;
+
+        unlink $lockfile;
+
+        unlink $stopfile;
+
+            exit($myrtn);
+
+}
+
+# ------------------------------------------------------------------------
+
+ 
+
+sub get_log_info{
+
+            $SQL = 'select log_mode from v_$database';
+
+            $rtn=OraQry($SQL);
+
+            ($arch_mode) = $sth1->fetchrow_array;          
+
+            $sth1->finish;
+
+            $rtn=OraQry('select archiver from v_$instance');
+
+            ($archiver) = $sth1->fetchrow_array;
+
+            $sth1->finish;
+
+            $rtn=OraQry('select value from v_$parameter where name = ' . "'" . 'log_archive_dest' . "'");
+
+            ($arcdir) = $sth1->fetchrow_array;
+
+            $sth1->finish;
+
+            $rtn=OraQry('select max(recid) from v_$archived_log where ' . " archived = 'YES'");
+
+            ($log_cur_seq) = $sth1->fetchrow_array;
+
+            $sth1->finish;
+
+            $rtn=OraQry('select sequence# from v_$log where ' . "archived = 'NO'");
+
+            ($next_archive) =$sth1->fetchrow_array;
+
+            $sth1->finish;
+
+}
+
+ 
+
+# ------------------------------------------------------------------------
+
+ 
+
+sub get_oraparm{
+
+# retrieve parameter values from v$parameter
+
+            $SQL = 'select name from v_$database';
+
+            $rtn=&OraQry($SQL);
+
+            ($orasid) = $sth1->fetchrow_array;
+
+            $sth1->finish;
+
+}
+
+ 
+
+# ------------------------------------------------------------------------
+
+ 
+
+sub backup_mode{
+
+# alter tablespace begin/end backup
+
+            my ($tsname,$mode) = $_[0], $_[1];
+
+            if($tsname) {
+
+                        $SQL="alter tablespace $_[0] $_[1] backup";
+
+                        $rtn=OraDo($SQL);
+
+                        LogMsg "tablespace $_[0] changed $_[1]";
+
+            }
+
+            else {
+
+            return -1;
+
+            }          
+
+}
+
+ 
+
+# ------------------------------------------------------------------------
+
+ 
+
+sub backup_init{
+
+            $BKUPDIR= $ENV{BKUPDIR} or die "Environment missing BKUPDIR can not run!";
+
+            get_oraparm();
+
+            get_log_info();
+
+            @start = localtime(time);
+
+            $start_str = sprintf "%04d-%02d-%02d %02d:%02d:%02d",$start[5]+1900,
+
+                                    $start[4]+1,$start[3],$start[2],$start[1],$start[0];
+
+            $logfile = sprintf "%s\/%s_%s_%02d%02d%02d.log",$BKUPDIR,$orasid,$MyName,
+
+                                    $start[5]%100,$start[4]+1,$start[3];
+
+            open(LOG,">$logfile") || die "error opening $logfile\n";
+
+            LogMsg "$MyName started at $start_str ORACLE_SID: 
+
+                        $orasid ORACLE_HOME: $ENV{ORACLE_HOME} BLOCK_SIZE: 
+
+                        $db_block_size START_SEQNO: $log_cur_seq Archive Mode: $arch_mode";
+
+            $lockfile = "$BKUPDIR\/hotarch.$orasid.lock";
+
+            $stopfile = "$BKUPDIR\/hotarch.$orasid.stop";
+
+            if ((-f $lockfile) && (-M $lockfile < 1)) {
+
+                        LogMsg "$MyName is already running";
+
+                        wrapup(5);
+
+                        }          
+
+            open (LOCK,">$lockfile") || die "Cannot write to $lockfile";
+
+            print LOCK "$MyName started $start_str\n";
+
+            close (LOCK) || die "$!";
+
+            #
+
+            if ($arch_mode =~ "ARCHIVELOG") {}
+
+            else {
+
+                        LogMsg "Error! No Archive Mode";
+
+                        wrapup(5);
+
+                        }
+
+            if ($archiver =~ "STARTED") {}
+
+            else {
+
+                        LogMsg "Error! Archive disabled";
+
+                    wrapup(5);
+
+                        }
+
+            if ($arcdir) {}
+
+            else {
+
+                        LogMsg "Error! No archive log destination";
+
+                        wrapup(5);
+
+                        }
+
+            stop_backup();
+
+}
+
+ 
+
+# ------------------------------------------------------------------------
+
+ 
+
+sub backup_control_file{
+
+# create a backup copy of the control file
+
+            my $backup_ctrl = "$BKUPDIR" . '/' . uc($orasid) . "_CTRL.FILE";
+
+            unlink "$backup_ctrl";
+
+            $SQL = "alter database backup controlfile to '$backup_ctrl'";
+
+            $rtn=OraDo($SQL);
+
+}
+
+ 
+
+# ------------------------------------------------------------------------
+
+sub backup_dbfs {
+
+ 
+
+            my %ts_array;
+
+            $pm = new Parallel::ForkManager(40);
+
+            $pm->run_on_start( sub { my ($pid, $ident) = @_; print "** $ident just got in the pool with PID $pid\n"; });
+
+            $pm->run_on_finish( 
+
+                        sub { my ($pid, $exit_code, $ident) = @_; 
+
+                                    print "** $ident just got out of the pool with PID $pid and exit code: $exit_code\n"; 
+
+                                    if ($exit_code != 0) {
+
+#
+
+#       If there was a problem with a compress of a dbf
+
+#       its all over but the crying. Get out now.
+
+#
+
+                                                $return_code=1;
+
+                                                problem('$exit_code Compression failure on dbf');
+
+                                    }
+
+                        });
+
+ 
+
+        $rtn=OraQry2("select distinct(tablespace_name) from dba_data_files where status ='AVAILABLE'");
+
+        while (($ts_name) = $sth2->fetchrow_array) {
+
+                $ts_array{$ts_name}= "$ts_name";
+
+        }
+
+        $sth2->finish;
+
+ 
+
+        while (($ts_name,$value) = each %ts_array)      {
+
+                        backup_mode $ts_name,"BEGIN";
+
+                        $SQL= "select file_name from dba_data_files where status = 'AVAILABLE' and tablespace_name = '$ts_name' order by tablespace_name, file_name";
+
+                        $rtn=OraQry($SQL);
+
+                        while( ($file_name) = $sth1->fetchrow_array ) {
+
+                                    LogMsg "compressing $ts_name, $file_name";
+
+                                    ($base_name)=basename($file_name);
+
+                                    print "Queing compress of $file_name\n";
+
+                                    my $pid = $pm->start and next;            
+
+ 
+
+                                    $in_file=$file_name;
+
+                                    $out_file=$BKUPDIR . '/' .  $base_name . '.gz';
+
+                                    open(OUTFILE,'>',$out_file) or die "could not open $out_file";
+
+                                    binmode INFILE;
+
+                                    binmode OUTFILE;
+
+ 
+
+                                    my $gz = gzopen(\*OUTFILE, "wb") or die "Cannot open stdout: $gzerrno\n" ;
+
+                                    $input = read_file($in_file);
+
+                                    $gz->gzwrite($input) or die "Error compressing file $in_file\n" ;
+
+                                    $gz->gzclose ;
+
+ 
+
+                                    close OUTFILE;
+
+ 
+
+                                    $rtn = $gz->gzerror;
+
+ 
+
+                                    if ($rtn == Z_OK or $rtn == Z_STREAM_END) {
+
+                                                $pm->finish(0);
+
+                                    }
+
+                                    else {
+
+                                                $pm->finish($rtn);
+
+                                    }
+
+ 
+
+                        }
+
+                        $pm->wait_all_children;
+
+                        backup_mode $ts_name,"END";
+
+            }
+
+}
+
+# ------------------------------------------------------------------------
+
+sub switch_log{
+
+# switch_log files ... then wait for the archiver to catch up
+
+            $SQL = "alter system switch logfile";
+
+            $rtn=OraDo($SQL);
+
+            $SQL = "alter system switch logfile";
+
+            $rtn=OraDo($SQL);
+
+            do {
+
+                        OraQry('select max(recid) from v_$archived_log where ' . " archived = 'YES'");
+
+                        ($log_nxt_seq) = $sth1->fetchrow_array;
+
+                        $sth1->finish;
+
+                        sleep(60);
+
+            } until $log_nxt_seq > $log_cur_seq;
+
+}
+
+ 
+
+# ------------------------------------------------------------------------
+
+ 
+
+sub copy_log_files{
+
+            my $i;
+
+            my $next_log = $next_archive;
+
+        $SQL='select name from v$archived_log where ' . " ARCHIVED = 'YES'";
+
+        &OraQry($SQL);
+
+        $df_cnt = 0;
+
+        while( ($file_name) = $sth1->fetchrow_array ) {
+
+                        ($base_name)=basename($file_name);
+
+                if (-r "$arcdir\/$base_name") {
+
+                        $df_cnt++;
+
+                        LogMsg "compressing & moving $file_name";
+
+                                    $rtn=Compress($arcdir . '/' . $base_name,$BKUPDIR . '/' . $base_name . '.gz');
+
+                        if ($rtn == Z_OK or $rtn = Z_STREAM_END  ) {
+
+                                                unlink "$arcdir\/$base_name";
+
+                        }
+
+                                    else {
+
+                                                LogMsg "error compressing $file_name";
+
+                                                $return_code=1;
+
+                                                }
+
+                        }
+
+                        else {
+
+                                    LogMsg "warning: archive log $file_name not here";
+
+                        }
+
+        }
+
+        $sth1->finish;
+
+}
+
+ 
+
+# ------------------------------------------------------------------------
+
+ 
+
+# Main ... start here:
+
+            $MyName = basename $0,"\.pl";
+
+            $dbh = DBI->connect("dbi:Oracle:", '', '',{ PrintError=>0, RaiseError =>0, ora_session_mode => 2}) or  die "Login error to db";
+
+            backup_init();
+
+            backup_dbfs();
+
+            stop_backup();
+
+            backup_control_file();
+
+            copy ($ENV{ORACLE_HOME} . '/dbs/init' . $orasid . '.ora',$BKUPDIR);
+
+            if ($!) {
+
+                        LogMsg "Error copy " . $ORACLE_HOME . '/dbs/init' . $orasid . '.ora' . " $!. Return code was $? ";
+
+            }
+
+            switch_log();
+
+            copy_log_files();
+
+            wrapup(0);

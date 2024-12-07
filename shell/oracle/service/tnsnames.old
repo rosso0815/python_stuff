@@ -1,0 +1,31 @@
+PRD1=
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = tgg32)
+          (Port = 1553)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = CRT)
+       (GLOBAL_NAME = CRT)
+    )
+  )
+
+PRD1=
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+        (ADDRESS =
+          (COMMUNITY = TCP.world)
+          (PROTOCOL = TCP)
+          (Host = tgg32)
+          (Port = 1554)
+        )
+    )
+    (CONNECT_DATA =
+       (SID = PRD)
+       (GLOBAL_NAME = PRD)
+    )
+  )

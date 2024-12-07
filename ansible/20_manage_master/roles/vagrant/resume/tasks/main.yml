@@ -1,0 +1,9 @@
+---
+
+- name: resume server
+  shell: |
+      cd "{{ target_dir }}/{{ item }}/"
+      vagrant up
+  with_inventory_hostnames:
+    - masters
+    - workers

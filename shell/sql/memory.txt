@@ -1,0 +1,16 @@
+#-------------------------------------------------------------------------------
+show sga
+#-------------------------------------------------------------------------------
+break on 1;
+COMPUTE SUM Label 'SGA Total' of value on 1
+col name format a30
+col1 format a10
+select 1, name, to_number(value/1024/1024) value from v$parameter
+where upper(name) like 'DB%CACHE_SIZE'
+or upper(name) in
+('SHARED_POOL_SIZE','LARGE_POOL_SIZE','JAVA_POOL_SIZE','LOG_BUFFER')
+union
+select 1, '+ 1MB', 1 from dual
+order by 2;
+#-------------------------------------------------------------------------------
+

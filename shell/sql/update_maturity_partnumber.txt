@@ -1,0 +1,25 @@
+########## ######### ######### ######### ######### ######### ######### #########
+##
+## Erzeuger : A.Pfister
+## Datum    : 16.04.2003
+## Aufruf   : 
+## Funktion : 
+## Keyword  : oracle update dmags
+##
+########## ######### ######### ######### ######### ######### ######### #########
+## Modifications: 
+## Date          Version         Description
+## 
+########## ######### ######### ######### ######### ######### ######### #########
+
+
+update dmags1.part_list set c_maturity = 'WIP' where S_PART_NUMBER = 'TEST011';
+
+# 
+select s_part_number, "$COID" from part_list where s_part_number like 'X60_1279640_110';
+#
+update part_list set S_PART_NUMBER = 'dX60_1279640_110' where "$COID" = '4E45973A491526D0';
+
+commit;
+
+

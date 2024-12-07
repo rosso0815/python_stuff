@@ -1,0 +1,45 @@
+select USERNAME, PASSWORD from dba_users;
+
+USERNAME                       PASSWORD
+------------------------------ ------------------------------
+SYS                            2655F246FE9D33A6
+SYSTEM                         58113276FFD50B81
+OUTLN                          4A3BA55E08595C81
+DBSNMP                         E066D214D5421CCC
+TRACESVR                       F9DA8977092B7B81
+TRIDOC                         CB632F7E44408934
+CALADM                         AD1A8F3572351AB4
+ZVR                            114640C408BBD51D
+PDM                            BE49BF731F3DDF95
+W3PDM                          F7D09011307B4BB6
+OPS$KRADAB16                   2054AD248D93948B
+
+QL> select password from dba_users where username='SCOTT';
+        PASSWORD
+         -----------------------------
+         F894844C34402B67
+
+        SQL> alter user scott identified by lion;
+        User altered.
+
+        SQL> connect scott/lion
+        Connected.
+
+        REM Do whatever you like...
+
+        SQL> connect system/manager
+        Connected.
+
+        SQL> alter user scott identified by values 'F894844C34402B67';
+        User altered.
+
+        SQL> connect scott/tiger
+        Connected.
+
+orapwd file=xxx password=manager entries=10
+
+
+cd $ORACLE_HOME/dbs
+rm -f orapw$ORACLE_SID
+orapwd file=orapw$ORACLE_SID password=manager entries=10
+

@@ -1,0 +1,19 @@
+---
+
+- name: status k0s
+  hosts: k0smaster,k0sworker
+  connection: ssh
+  gather_facts: True
+  remote_user: vagrant
+
+  tasks:
+
+  - name: status k0smaster
+    become: True
+    shell: /usr/local/bin/k0s status
+    register: out
+
+  - debug:
+      msg:
+        - "{{ out.stdout_lines }}"
+        - "{{ out.stderr_lines }}"

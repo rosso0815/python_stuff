@@ -1,0 +1,12 @@
+
+<pool type='dir'>
+  <name>default</name>
+  <capacity unit='bytes'>0</capacity>
+  <allocation unit='bytes'>0</allocation>
+  <available unit='bytes'>0</available>
+  <source>
+  </source>
+  <target>
+    <path>/var/terraform/pool</path>
+  </target>
+</pool>

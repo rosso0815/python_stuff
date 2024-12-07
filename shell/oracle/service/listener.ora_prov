@@ -1,0 +1,53 @@
+##############################
+# Listener for CRT (certification)
+##############################
+LISTCRTX =
+  (ADDRESS_LIST =
+        (ADDRESS =
+          (PROTOCOL = TCP)
+          (HOST = hpgt_zus1)
+          (PORT = 1553)
+        )
+  )
+SID_LIST_LISTCRTX =
+  (SID_LIST =
+    (SID_DESC =
+      (SID_NAME = CRT)
+      (ORACLE_HOME = /fs/ORA1/app/oracle/product/8.0.5 )
+    )
+  )
+STARTUP_WAIT_TIME_CRT = 0
+CONNECT_TIMEOUT_CRT = 10
+TRACE_LEVEL_CRT = OFF
+TRACE_FILE_CRT = listener.CRT.trc
+TRACE_DIRECTORY_CRT = /tmp
+LOG_DIRECTORY_CRT = /tmp
+LOG_FILE_CRT = listCRT.log
+CONNECT_TIMEOUT_CRT = 60
+
+##############################
+# Listener for PRD (production)
+##############################
+LISTPRDX =
+  (ADDRESS_LIST =
+        (ADDRESS =
+          (PROTOCOL = TCP)
+          (HOST = hpgt_zus1)
+          (PORT = 1554)
+        )
+  )
+SID_LIST_LISTPRDX =
+  (SID_LIST =
+    (SID_DESC =
+      (SID_NAME = PRD)
+      (ORACLE_HOME = /fs/ORA1/app/oracle/product/8.0.5 )
+    )
+  )
+STARTUP_WAIT_TIME_PRD = 0
+CONNECT_TIMEOUT_PRD = 10
+TRACE_LEVEL_PRD = OFF
+TRACE_FILE_PRD = listener.PRD.trc
+TRACE_DIRECTORY_PRD = /tmp
+LOG_DIRECTORY_PRD = /tmp
+LOG_FILE_PRD = listPRD.log
+CONNECT_TIMEOUT_PRD = 60

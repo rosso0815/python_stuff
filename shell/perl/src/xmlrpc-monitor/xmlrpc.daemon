@@ -1,0 +1,154 @@
+#!/usr/bin/perl 
+
+##-----------------------------------------------------------------------------
+##
+## Erzeuger : kraanp9
+## Datum    : Fri Apr 23 11:33:39 DFT 2004
+## Aufruf   : 
+## Funktion : 
+## Keyword  : xmlrpc monitoring
+##
+##-----------------------------------------------------------------------------
+## $Log: xmlrpc.daemon,v $
+## Revision 1.5  2004/06/24 06:23:18  kraanp9
+## *** empty log message ***
+##
+## Revision 1.4  2004/05/28 12:09:32  kraanp9
+## working with hash on bouth side
+##
+## Revision 1.3  2004/05/19 10:43:35  kraanp9
+## base 64 intergrated
+##
+## Revision 1.2  2004/05/19 08:03:47  kraanp9
+## basic function initiated
+##
+##-----------------------------------------------------------------------------
+##XMLRPC::Lite -- services.soaplite.com -- Copyright (C) 2001 Paul Kulchenko --
+##-----------------------------------------------------------------------------
+
+use XMLRPC::Transport::HTTP;
+
+# DEBUG ! use SOAP::Lite +trace;
+use Data::Dumper;
+
+my $daemon = XMLRPC::Transport::HTTP::Daemon
+  -> new (LocalPort => 8080)
+  -> dispatch_to('validator1');
+  
+print "Contact to XMLRPC server at ", $daemon->url, "\n";
+
+$daemon->handle;
+
+#------------------------------------------------------------------------------
+package validator1;
+
+sub whichToolkit { shift if UNIVERSAL::isa($_[0] => __PACKAGE__);
+  return +{
+    toolkitDocsUrl => 'http://www.soaplite.com/', 
+    toolkitName => 'XMLRPC::Lite', 
+    toolkitVersion => XMLRPC::Lite->VERSION, 
+    toolkitOperatingSystem => $^O,
+  }
+}
+
+sub countTheEntities { shift if UNIVERSAL::isa($_[0] => __PACKAGE__);
+  my $string = shift;
+  my $res;
+  $res->{ctLeftAngleBrackets} = ($string =~ s/<//g) || 0;
+  $res->{ctRightAngleBrackets} = ($string =~ s/>//g) || 0;
+  $res->{ctAmpersands} = ($string =~ s/&//g) || 0;
+  $res->{ctApostrophes} = ($string =~ s/'//g) || 0;
+  $res->{ctQuotes} = ($string =~ s/"//g) || 0;
+  return $res;
+}
+
+sub arrayOfStructsTest { shift if UNIVERSAL::isa($_[0] => __PACKAGE__);
+  my $array = shift;
+  my $curly_sum = 0;
+  for my $struct (@$array) {
+    $curly_sum += $struct->{'curly'};
+  }
+  return $curly_sum;
+}
+
+sub easyStructTest { shift if UNIVERSAL::isa($_[0] => __PACKAGE__);
+  my $struct = shift;
+  return $struct->{'moe'} + $struct->{'larry'} + $struct->{'curly'};
+}
+
+#--------------------------------------------------------------------
+# APF
+sub echoStructTest 
+{ 
+$package = shift if UNIVERSAL::isa($_[0] => __PACKAGE__);
+$v->{in}   = shift;
+$v->{host} = `hostname`;
+print "\ninput=$v->{in};host=$v->{host}";
+return $v;
+}
+#--------------------------------------------------------------------
+# anzeigen eines gewuenschten file
+# verwendung von base64
+sub getFile
+{
+$package = shift if UNIVERSAL::isa($_[0] => __PACKAGE__);
+$filename = shift;
+
+print "\nstart\nfunction getFile";
+print "\nfilename=$filename";
+
+# file in variable einlesen
+my $inhalt="";
+open( INPUT, "$filename");
+	$inhalt = join($inhalt,<INPUT>);
+close INPUT;
+
+$v->{data} = SOAP::Data->type(base64 => $inhalt);
+$v->{host} = `hostname`;
+
+print "\nfinish\n";
+return $v;
+}
+#--------------------------------------------------------------------
+sub putFile
+{
+$package = shift if UNIVERSAL::isa($_[0] => __PACKAGE__);
+$v = shift;
+
+print "\nstart\nfunction putFile\n";
+print "\nv=$v";
+print "\nv->{owner}", $v->{owner},"####";
+print "\nv->{data}", $v->{data},"####";
+
+print "\nENDE\n" ;
+return '0';
+}
+
+#--------------------------------------------------------------------
+sub manyTypesTest 
+{ 
+shift if UNIVERSAL::isa($_[0] => __PACKAGE__);
+return [@_];
+}
+#--------------------------------------------------------------------
+
+sub moderateSizeArrayCheck { shift if UNIVERSAL::isa($_[0] => __PACKAGE__);
+  my $array = shift;
+  return join('', $array->[0], $array->[-1]);
+}
+
+sub nestedStructTest { shift if UNIVERSAL::isa($_[0] => __PACKAGE__);
+  my $calendar = shift;
+  my $april_1_2000 = $calendar->{'2000'}{'04'}{'01'};
+  return ($april_1_2000->{moe} + $april_1_2000->{larry}
+    + $april_1_2000->{curly});
+}
+
+sub simpleStructReturnTest { shift if UNIVERSAL::isa($_[0] => __PACKAGE__);
+  my $number = shift;
+  return +{ 
+    times10 => $number * 10,
+    times100 => $number * 100,
+    times1000 => $number * 1000 
+  };
+}

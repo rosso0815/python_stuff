@@ -1,0 +1,25 @@
+---
+spec:
+  extensions:
+    helm:
+      repositories:
+      - name: traefik
+        url: https://helm.traefik.io/traefik
+      - name: bitnami
+        url: https://charts.bitnami.com/bitnami
+      charts:
+      - name: traefik
+        chartname: traefik/traefik
+        version: "9.11.0"
+        namespace: default
+      - name: metallb
+        chartname: bitnami/metallb
+        version: "1.0.1"
+        namespace: default
+        values: |2
+          configInline:
+            address-pools:
+            - name: generic-cluster-pool
+              protocol: layer2
+              addresses:
+              - 172.16.100.215-172.16.100.220

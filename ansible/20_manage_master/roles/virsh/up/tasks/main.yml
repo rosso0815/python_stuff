@@ -1,0 +1,171 @@
+---
+
+# https://sumit-ghosh.com/articles/create-vm-using-libvirt-cloud-images-cloud-init/
+# https://ostechnix.com/create-a-kvm-virtual-machine-using-qcow2-image-in-linux/
+
+- name: restart libvirtd
+  become: true
+  ansible.builtin.systemd:
+    state: restarted
+    daemon_reload: true
+    name: libvirtd
+
+# - name: restart virtqemud
+#   become: true
+#   ansible.builtin.systemd:
+#     state: restarted
+#     daemon_reload: yes
+#     name: virtqemud
+
+- name: Add Hosts to /etc/hosts
+  become: true
+  lineinfile:
+    dest: /etc/hosts
+    regexp: '.*{{ item }}$'
+    line: "{{ hostvars[item].ansible_ip }} {{item}}"
+    state: present
+  with_items: "{{ target_items }}"
+
+- name: setup network bridge br0
+  become: true
+  nmcli:
+    conn_name: br0
+    state: absent
+
+- name: setup network bridge br0
+  become: true
+  nmcli:
+    conn_name: br0
+    ifname: br0
+    type: bridge
+    ip4: 192.168.1.110/24
+    state: present
+
+- name: setup ethernet interface en01
+  become: true
+  nmcli:
+    conn_name: eno1
+    state: absent
+
+- name: setup ethernet interface en01
+  become: true
+  nmcli:
+    conn_name: eno1
+    type: bridge-slave
+    ifname: eno1
+    master: br0
+    state: present
+
+- name: Stop bridged network
+  become: true
+  ignore_errors: true
+  community.libvirt.virt_net:
+    command: stop
+    name: bridge
+
+- name: Unefine bridged network
+  ignore_errors: true
+  community.libvirt.virt_net:
+    command: undefine
+    name: bridge
+
+- name: Define bridged network
+  community.libvirt.virt_net:
+    command: define
+    name: bridge
+    xml: '{{ lookup("template", "virsh_network_bridge.j2") }}'
+
+- name: Start bridge network
+  community.libvirt.virt_net:
+    command: create
+    name: bridge
+
+- name: Ensure that a given network will be started at boot
+  community.libvirt.virt_net:
+    autostart: true
+    name: bridge
+
+- name: Define nat network
+  community.libvirt.virt_net:
+    command: define
+    name: default
+    xml: '{{ lookup("template", "virsh_network_nat.j2") }}'
+
+- name: Start nat network
+  community.libvirt.virt_net:
+    command: create
+    name: default
+
+- name: Ensure that a given network will be started at boot
+  community.libvirt.virt_net:
+    autostart: true
+    name: default
+
+- name: List available networks
+  community.libvirt.virt_net:
+    command: list_nets
+  register: nets
+
+- name: debug nets
+  debug:
+    msg: "nets: {{ nets }} "
+
+- name: stop VM
+  ignore_errors: true
+  community.libvirt.virt:
+    name: "{{ item }}"
+    state: destroyed
+  with_items: "{{ target_items }}"
+
+- name: undefine VM
+  ignore_errors: true
+  community.libvirt.virt:
+    name: "{{ item }}"
+    command: undefine
+  with_items: "{{ target_items }}"
+
+- name: Get image
+  shell:
+    chdir: "{{ tmp_dir }}"
+    cmd: wget {{ cloud_img }} -O {{ img_base_name }}.qcow2
+    creates: "{{ img_base_name }}.qcow2"
+
+- name: Copy file
+  ansible.builtin.copy:
+    remote_src: true
+    src: "{{ tmp_dir }}/{{ img_base_name }}.qcow2"
+    dest: "{{ tmp_dir }}/{{ item }}.qcow2"
+  with_items: "{{ target_items }}"
+
+- name: generate cloud-init-user files from templates
+  template:
+    src: templates/user-data.j2
+    dest: /var/tmp/user-data-{{ item }}
+  with_items: "{{ target_items }}"
+
+- name: generate network from templates
+  template:
+    src: templates/network.j2
+    dest: "/var/tmp/network_{{ item }}.cfg"
+  with_items: "{{ target_items }}"
+
+# os-variant : osinfo-query os
+# https://github.com/virt-manager/virt-manager/blob/main/man/virt-install.rst#--cloud-init
+- name: create the vm
+  shell:
+    chdir: /var/tmp
+    cmd: |
+      virt-install --name="{{ item }}" \
+      --memory 2048 \
+      --vcpus 2 \
+      --import \
+      --cloud-init user-data=user-data-{{ item }},network-config="network_{{ item }}.cfg" \
+      --os-variant={{ cloud_os_variant }} \
+      --disk "{{ item }}.qcow2" \
+      --network network=default,model=virtio \
+      --network network=bridge,model=virtio \
+      --graphics none \
+      --autostart \
+      --noautoconsole
+      # --virt-type hvm \
+  with_items: "{{ target_items }}"

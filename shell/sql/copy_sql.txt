@@ -1,0 +1,9 @@
+
+
+copy from monitor/monitor@aptc5 create logging using select * from logger;
+
+
+copy from monitor/monitor@aptc5 create aam using select * from pdmm50a.accesson;
+
+
+

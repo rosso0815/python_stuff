@@ -1,0 +1,7 @@
+---
+
+- name: reboot
+  become: true
+  command: init 6
+  tags:
+    - reboot

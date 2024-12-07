@@ -1,0 +1,78 @@
+---
+
+- name: update of software
+  hosts: all
+  connection: ssh
+  gather_facts: true
+
+  roles:
+    - role: golang
+      tags:
+        - never
+        - go
+
+    - role: dnsmasq
+      tags:
+        - never
+        - dnsmasq
+
+  # - set_fact:
+  #   c: "test1"
+  # when: a <= b
+  # - set_fact:
+  #   c: "test2"
+  # when: b <= a
+  # vars:
+  #   when: "ansible_processor_cores < 3"
+  #     cpu_size: "small"
+  #   when: "ansible_processor_cores > 3"
+  #     cpu_size: "big"
+  # tasks:
+  #   - name: shows uptime
+  #     shell: |
+  #       uptime
+  #       id -a
+  #       set
+  #     register: result
+  #   - name: Print return information from the previous task
+  #     debug:
+  #       var: result
+  # - name: update apt
+  #   become: yes
+  #   shell: |
+  #     apt update
+  #     apt upgrade
+  #     apt autoremove -y
+  #   register: result
+  # - name: Print return information from the previous task
+  #   debug:
+  #     var: result
+  # - name: cleanup golang
+  #   shell: |
+  #     cd $HOME/bin
+  #     chmod -R u+rwx go*
+  #     rm -rf go*
+  # - name: download / unarchive golang
+  #   unarchive:
+  #     src: https://golang.org/dl/go{{ item }}.{{ os }}.tar.gz
+  #     dest: $HOME/bin
+  #     remote_src: yes
+  #     extra_opts:
+  #     - --transform
+  #     - s/^go/go_{{ item }}/
+  #   loop: "{{  golang_versions }}"
+  # https://askubuntu.com/questions/426750/how-can-i-update-my-nodejs-to-the-latest-version
+  # sudo npm cache clean -f
+  # sudo npm install -g n
+  # sudo n stable
+  # - name: create a file
+  #   copy:
+  #     content: hello world of port {{ http_port }}
+  #     dest: /tmp/testfile.txt
+  # - debug:
+  #     msg: System {{ inventory_hostname }}
+
+  # - name: Template a file to /tmp/test_template.txt
+  #   template:
+  #     src: foo.j2
+  #     dest: /tmp/test_template.txt

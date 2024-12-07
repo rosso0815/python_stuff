@@ -1,0 +1,16 @@
+---
+
+- name: Lets manage virsh on somsi
+  hosts: all
+  connection: ssh
+  gather_facts: true
+  become: true
+
+  tasks:
+    - name: keep sw update
+      ansible.builtin.import_role:
+        name: sw
+
+    - name: virsh down
+      ansible.builtin.import_role:
+        name: virsh/down

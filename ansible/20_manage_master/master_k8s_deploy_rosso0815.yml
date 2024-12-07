@@ -1,0 +1,125 @@
+---
+
+- hosts: localhost
+  become: false
+  gather_facts: false
+
+  tasks:
+
+    - name: debug
+      debug:
+        msg:
+          - "DOCKER_REPO_USERNAME: {{ DOCKER_REPO_USERNAME }}"
+          - "DOCKER_REPO_EMAIL: {{ DOCKER_REPO_EMAIL }}"
+          - "DOCKER_REPO_SECRET: {{ DOCKER_REPO_SECRET }}"
+      tags:
+        - secret
+
+    - name: Create a k8s namespace
+      kubernetes.core.k8s:
+        name: '{{ gitea_namespace }}'
+        api_version: v1
+        kind: Namespace
+        state: present
+      tags:
+        - secret
+
+    - name: create gitlab-secret
+      kubernetes.core.k8s:
+        state: present
+        name: "{{ gitea_namespace }}"
+        definition:
+          apiVersion: v1
+          kind: Secret
+          type: kubernetes.io/dockerconfigjson
+          metadata:
+            name: my-repo-cred
+            namespace: "{{ gitea_namespace }}"
+          data:
+            .dockerconfigjson: "{{ lookup('template', 'templates/gitlab_config_data.json' ) | tojson | b64encode }}"
+
+    - name: Get a list of all Services in the myapp namespace.
+      k8s_info:
+        kind: Service
+        namespace: "{{ k8s_namespace }}"
+      register: out
+
+    - name: Display number of Services in the myapp namespace.
+      debug:
+        msg: "out: {{ out }}"
+
+    - name: Create a rosso0815 k8s pod-deployment
+      kubernetes.core.k8s:
+        api_version: v1
+        namespace: "{{ gitea_namespace }}"
+        definition:
+          kind: Deployment
+          metadata:
+            name: rosso0815-hetzner
+          spec:
+            selector:
+              matchLabels:
+                app: rosso0815-hetzner
+            replicas: 1
+            template:
+              metadata:
+                labels:
+                  app: rosso0815-hetzner
+              spec:
+                containers:
+                  - name: rosso0815-hetzner
+                    image: "{{ k8s_pod }}"
+                imagePullSecrets:
+                  - name: my-repo-cred
+
+    - name: create service
+      kubernetes.core.k8s:
+        definition:
+          apiVersion: v1
+          kind: Service
+          metadata:
+            name: rosso0815-hetzner
+            namespace: "{{ gitea_namespace }}"
+            labels:
+              name: rosso0815-hetzner
+          spec:
+            selector:
+              app: rosso0815-hetzner
+            ports:
+              - protocol: TCP
+                port: 8080
+                targetPort: 8080
+
+    - name: create ingress
+      kubernetes.core.k8s:
+        definition:
+          apiVersion: v1
+          kind: Ingress
+          metadata:
+            name: rosso0815-hetzner
+            annotations:
+              cert-manager.io/cluster-issuer: my-own-issuer
+              cert-manager.io/common-name: rosso0815.localnet
+            namespace: "{{ gitea_namespace }}"
+            labels:
+              name: rosso0815-hetzner
+          spec:
+            ingressClassName: traefik
+            rules:
+              - host: rosso0815.localnet
+                http:
+                  paths:
+                    - backend:
+                        service:
+                          name: rosso0815-hetzner
+                          port:
+                            number: 8080
+                      path: /
+                      pathType: Prefix
+            tls:
+              - hosts:
+                  - rosso0815.localnet
+                secretName: rosso0815-tls
+
+
+# --- EOF

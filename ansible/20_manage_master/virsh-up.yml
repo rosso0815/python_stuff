@@ -1,0 +1,9 @@
+---
+
+- name: Lets manage terraform via ssh on somsi
+  hosts: all
+  connection: ssh
+  gather_facts: true
+  roles:
+    - role: sw
+    - role: virsh/up

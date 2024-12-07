@@ -1,0 +1,360 @@
+---
+
+# https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-20-04
+
+# init wih all prugred also /var/lib/postgres
+
+# - name: Update apt cache
+#   apt:
+#     update_cache: true
+#
+# - name: Uninstall Postgresql
+#   apt:
+#     name:
+#       - postgresql
+#       - postgresql-contrib
+#       - python3-psycopg2
+#     state: absent
+#     purge: true
+#
+# - name: remove directory
+#   ansible.builtin.file:
+#     path: /var/lib/postgresql
+#     state: absent
+#     mode: '0755'
+#     owner: postgres
+
+- name: Install Postgresql
+  apt:
+    name:
+      - postgresql
+      - postgresql-contrib
+      - python3-psycopg2
+    state: present
+
+
+# - name: initdb
+#   command: /usr/lib/postgresql/16/bin/initdb -D /var/lib/postgresql/16/data
+#   become: true
+#   become_user: postgres
+#   args:
+#     creates: /var/lib/postgresql/16/data/postgresql.conf
+#
+# - name: systemctl starts postgresql
+#   ansible.builtin.systemd_service:
+#     state: started
+#     enabled: true
+#     name: postgresql.service
+
+- name: Create the database instances
+  become_user: postgres
+  vars:
+    remote_tmp: /tmp
+  postgresql_db:
+    name: "{{ item }}"
+    template: "template0"
+    state: present
+  with_items:
+    - "{{ db_names }}"
+
+- name: create db users
+  become: true
+  become_user: postgres
+  postgresql_user:
+    db: "{{ item.key }}"
+    name: "{{ item.value.user }}"
+    password: "{{ item.value.password }}"
+    priv: ALL
+    state: present
+  loop: "{{ lookup('ansible.builtin.dict', db_secrets) }}"
+
+- name: Create the schemas
+  become: true
+  become_user: postgres
+  community.postgresql.postgresql_schema:
+    db: "{{ item.key }}"
+    name: "{{ item.value.user }}"
+    owner: "{{ item.value.user }}"
+  loop: "{{ lookup('ansible.builtin.dict', db_secrets) }}"
+
+- name: Ensure user does not have unnecessary permissions
+  become: true
+  become_user: postgres
+  postgresql_user:
+    name: "{{ item.value.user }}"
+    role_attr_flags: NOSUPERUSER,NOCREATEDB
+    state: present
+  loop: "{{ lookup('ansible.builtin.dict', db_secrets) }}"
+
+- name: GRANT ALL PRIVILEGES ON SCHEMA public
+  become: true
+  become_user: postgres
+  community.postgresql.postgresql_privs:
+    db: "{{ item.key }}"
+    privs: ALL
+    type: schema
+    objs: public
+    role: "{{ item.value.user }}"
+    grant_option: true
+  loop: "{{ lookup('ansible.builtin.dict', db_secrets) }}"
+
+- name: Grant access remote
+  become: true
+  become_user: postgres
+  community.postgresql.postgresql_pg_hba:
+    dest: "{{ db_conf_hba }}"
+    contype: host
+    users: "{{ item.value.user }}"
+    source: 192.168.1.0/24
+    databases: "{{ item.value.user }}"
+    method: md5
+    create: true
+  loop: "{{ lookup('ansible.builtin.dict', db_secrets) }}"
+
+- name: Grant access remote
+  become: true
+  become_user: postgres
+  community.postgresql.postgresql_pg_hba:
+    dest: "{{ db_conf_hba }}"
+    contype: host
+    users: "{{ item.value.user }}"
+    source: 10.42.0.0/24
+    databases: "{{ item.value.user }}"
+    method: md5
+    create: true
+  loop: "{{ lookup('ansible.builtin.dict', db_secrets) }}"
+
+- name: Grant access remote trust
+  become: true
+  become_user: postgres
+  community.postgresql.postgresql_pg_hba:
+    dest: "{{ db_conf_hba }}"
+    contype: host
+    users: "{{ item.value.user }}"
+    source: 10.42.0.0/24
+    databases: "{{ item.value.user }}"
+    method: trust
+    create: true
+  loop: "{{ lookup('ansible.builtin.dict', db_secrets) }}"
+
+- name: Grant access remote trust
+  become: true
+  become_user: postgres
+  community.postgresql.postgresql_pg_hba:
+    dest: "{{ db_conf_hba }}"
+    contype: host
+    users: "{{ item.value.user }}"
+    source: 192.168.1.0/24
+    databases: "{{ item.value.user }}"
+    method: trust
+    create: true
+  loop: "{{ lookup('ansible.builtin.dict', db_secrets) }}"
+
+# - name: Grant access remote
+#   become: true
+#   become_user: postgres
+#   community.postgresql.postgresql_pg_hba:
+#     dest: "{{ db_conf_hba }}"
+#     contype: host
+#     users: "{{ item.value.user }}"
+#     source: 172.17.0.0/24
+#     databases: "{{ item.value.user }}"
+#     method: md5
+#     create: true
+#   loop: "{{ lookup('ansible.builtin.dict', db_secrets) }}"
+#
+# - name: Replace postgresql configuration file to allow remote connection
+#   become: true
+#   become_user: root
+#   ansible.builtin.lineinfile:
+#     path: "{{ db_conf_postg }}"
+#     line: '{{ item }}'
+#     owner: postgres
+#     group: postgres
+#     mode: '0644'
+#   with_items:
+#     - "listen_addresses = '0.0.0.0'"
+#     - "port = 5432"
+#
+- name: Restart Db
+  service:
+    name: postgresql
+    state: restarted
+    enabled: true
+
+# -----------------------------------------------------------------------------------------------------------------
+#
+# - name: stop db
+#   ignore_errors: true
+#   service:
+#     name: postgresql
+#     state: stopped
+#     enabled: false
+#   when: install is defined
+#
+# - name: UnInstall PostgreSQL
+#   apt:
+#     name:
+#       - postgresql
+#       - postgresql-15
+#       - postgresql-client-15
+#       - postgresql-client-common
+#       - postgresql-common
+#     state: absent
+#     purge: true
+#   when: install is defined
+#
+# - name: clean postgresql
+#   ansible.builtin.file:
+#     path: /etc/postgresql
+#     state: absent
+#   when: install is defined
+#
+# - name: clean postgresql
+#   ansible.builtin.file:
+#     path: /etc/postgresql-common
+#     state: absent
+#   when: install is defined
+#
+# - name: clean postgresql
+#   ansible.builtin.file:
+#     path: /var/lib/postgresql
+#     state: absent
+#   when: install is defined
+
+# - name: Install PostgreSQL
+#   apt:
+#     name:
+#       - postgresql-14
+#     state: present
+#   when: install is defined
+#
+# - name: Ensure the PostgreSQL service is running
+#   service:
+#     name: postgresql
+#     state: started
+#     enabled: true
+#
+# - name: Install psycopg2
+#   apt:
+#     name: python3-psycopg2
+#     state: present
+#
+# - name: Create the database instances
+#   become: true
+#   become_user: postgres
+#   postgresql_db:
+#     name: "{{ item }}"
+#     template: "template0"
+#     state: present
+#   with_items:
+#     - "{{ db_names }}"
+#
+# - name: create db users
+#   become: true
+#   become_user: postgres
+#   postgresql_user:
+#     db: "{{ item.key }}"
+#     name: "{{ item.value.user }}"
+#     password: "{{ item.value.password }}"
+#     priv: ALL
+#     state: present
+#   loop: "{{ lookup('ansible.builtin.dict', db_secrets) }}"
+
+# - name: Create the schemas
+#   become: true
+#   become_user: postgres
+#   community.postgresql.postgresql_schema:
+#     db: "{{ item.key }}"
+#     name: "{{ item.value.user }}"
+#     owner: "{{ item.value.user }}"
+#   loop: "{{ lookup('ansible.builtin.dict', db_secrets) }}"
+#
+# - name: Ensure user does not have unnecessary permissions
+#   become: true
+#   become_user: postgres
+#   postgresql_user:
+#     name: "{{ item.value.user }}"
+#     role_attr_flags: NOSUPERUSER,NOCREATEDB
+#     state: present
+#   loop: "{{ lookup('ansible.builtin.dict', db_secrets) }}"
+#
+# - name: GRANT ALL PRIVILEGES ON SCHEMA public
+#   become: true
+#   become_user: postgres
+#   community.postgresql.postgresql_privs:
+#     db: "{{ item.key }}"
+#     privs: ALL
+#     type: schema
+#     objs: public
+#     role: "{{ item.value.user }}"
+#     grant_option: true
+#   loop: "{{ lookup('ansible.builtin.dict', db_secrets) }}"
+#
+# - name: Grant access remote pfistera
+#   become: true
+#   become_user: postgres
+#   community.postgresql.postgresql_pg_hba:
+#     dest: "{{ db_conf_hba }}"
+#     contype: host
+#     users: pfistera
+#     source: 192.168.178.0/24
+#     databases: pfistera
+#     method: md5
+#     create: true
+
+# - name: Grant access remote gitea
+#   become: true
+#   become_user: postgres
+#   community.postgresql.postgresql_pg_hba:
+#     dest: "{{ db_conf_hba }}"
+#     contype: host
+#     users: gitea
+#     source: 192.168.178.0/24
+#     databases: gitea
+#     method: md5
+#     create: true
+#
+# - name: Grant access remote woodpecker
+#   become: true
+#   become_user: postgres
+#   community.postgresql.postgresql_pg_hba:
+#     dest: "{{ db_conf_hba }}"
+#     contype: host
+#     users: woodpecker
+#     source: 192.168.178.0/24
+#     databases: woodpecker
+#     method: md5
+#     create: true
+#
+# - name: Grant access remote woodpecker
+#   become: true
+#   become_user: postgres
+#   community.postgresql.postgresql_pg_hba:
+#     dest: "{{ db_conf_hba }}"
+#     contype: host
+#     users: all
+#     source: all
+#     databases: all
+#     method: md5
+#     create: true
+#
+#
+# - name: Replace postgresql configuration file to allow remote connection
+#   ansible.builtin.lineinfile:
+#     path: "{{ db_conf_postg }}"
+#     line: '{{ item }}'
+#     owner: postgres
+#     group: postgres
+#     mode: '0644'
+#   with_items:
+#     - "listen_addresses = '0.0.0.0'"
+#     - "port = 5432"
+#   become: true
+#   become_user: root
+#
+# - name: Restart Db
+#   service:
+#     name: postgresql
+#     state: restarted
+#     enabled: true

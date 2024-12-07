@@ -1,0 +1,100 @@
+#===============================================================================
+#         FILE:  
+#        USAGE:  ./ 
+#  DESCRIPTION:  create tablespaces from another database 
+#      OPTIONS:  ---
+# REQUIREMENTS:  ---
+#         BUGS:  ---
+#        NOTES:  ---
+#       AUTHOR:   (), 
+#      COMPANY:  
+#      VERSION:  1.0
+#      CREATED:  05/26/05 09:03:01 AM CEST
+#     REVISION:  ---
+#===============================================================================
+set pagesize 0
+set linesize 100
+
+column TABLESPACE_NAME format a20
+column FILE_NAME format a60
+
+
+exp userid=system/manager full=y rows=n
+
+exp userid=admm31a/oracle file=admm31a.dmp
+exp userid=keym31a/oracle file=keym31a.dmp
+exp userid=sum31a/oracle file=sum31a.dmp
+
+
+strings expdat.dmp | grep 'CREATE TABLESPACE'
+strings expdat.dmp | grep 'CREATE USER'
+strings expdat.dmp | grep 'CREATE DATABASE LINK'
+
+CREATE TABLESPACE "&TBS_NAME" BLOCKSIZE 8192
+DATAFILE  '&TBS_PATH' SIZE 314572800
+AUTOEXTEND ON NEXT 5242880  MAXSIZE 32767M EXTENT MANAGEMENT LOCAL  AUTOALLOCATE  
+ONLINE PERMANENT  LOGGING;
+
+sqlplus system/manager <<EOF>error.txt
+  CREATE USER "ADMM31A" IDENTIFIED BY 'oracle'
+  DEFAULT TABLESPACE "ADMM31ASPACE" TEMPORARY TABLESPACE "TEMP"
+  GRANT "CONNECT" TO "ADMM31A";
+exit;
+EOF
+
+
+drop tablespace xxx including contents;
+
+
+imp userid=u/p full=y show=y
+imp file=expdat.dmp.winds02 show=y userid=system/manager FULL=Y
+
+# temp tablespace
+select NAME, STATUS, ENABLED from V$TEMPFILE;
+
+ALTER DATABASE TEMPFILE '/u03/apps/oracle/oradata/RACEB0/temp01.dbf' DROP INCLUDING DATAFILES;
+
+ALTER TABLESPACE "TEMP" ADD TEMPFILE '/u03/apps/oracle/oradata/RACEB0/temp01.dbf' SIZE  20M;
+
+alter tablespace users offline; 
+
+select NAME, STATUS, ENABLED from  v$datafile;
+CREATE TABLESPACE "TEST"
+    LOGGING
+    DATAFILE '/opt/apps/oracle/oradata/TEST/TEST.dbf' SIZE 5M
+    MANAGEMENT LOCAL SEGMENT SPACE MANAGEMENT  AUTO
+
+ALTER DATABASE 
+    DATAFILE '/u01/apps/oracle/oradata/RACETRN0/IDX_ADMM31ASPACE.dbf' 
+    AUTOEXTEND ON NEXT  1024K
+	
+
+#------------------------------------------------------------------------------------------------
+
+
+select TABLESPACE_NAME, FILE_NAME from dba_data_files;
+
+select NAME from v$tablespace
+
+select TS, NAME, STATUS, ENABLED from  v$datafile;
+
+ALTER TABLESPACE "TEST"
+        ADD
+        DATAFILE '/opt/apps/oracle/oradata/TEST/test01.dbf'  SIZE  5M
+
+alter tablespace users offline;
+
+#-------------------------------------------------------------------------------------------------
+#------------- 10 g 
+
+CREATE TABLESPACE "TEST"
+    LOGGING
+    DATAFILE '/opt/apps/oracle/oradata/TEST/TEST.dbf' SIZE 5M;
+
+
+ALTER DATABASE
+    DATAFILE '/u01/apps/oracle/oradata/RACETRN0/IDX_ADMM31ASPACE.dbf'
+    AUTOEXTEND ON NEXT 1024K;
+#-------------------------------------------------------------------------------------------------
+
+

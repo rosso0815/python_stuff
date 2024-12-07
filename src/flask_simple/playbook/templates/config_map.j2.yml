@@ -1,0 +1,10 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{DOCKER_APP}}"
+data:
+  DB_HOST: theo.local
+  DB_NAME: pfistera
+  DB_USERNAME: pfistera
+  DB_PASSWORD: pfistera

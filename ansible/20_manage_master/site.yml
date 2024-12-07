@@ -1,0 +1,44 @@
+---
+
+- name: update stuff
+  hosts: all
+  connection: ssh
+  gather_facts: true
+  become: true
+
+  roles:
+
+    - name: role install 1
+      role: packages
+      role_packages_list: 'task1'
+
+    - name: role install 2
+      role: packages
+      role_packages_list: '{{ l_packages_list }}'
+
+  tasks:
+
+    - name: task install packages
+      ansible.builtin.import_role:
+        name: packages
+      vars:
+        role_packages_list: toto
+
+    - name: task install packages
+      ansible.builtin.import_role:
+        name: packages
+
+  pre_tasks:
+
+    - name: debug
+      debug:
+        msg: "pre_task"
+
+  post_tasks:
+
+    - name: debug
+      debug:
+        msg: "post_task"
+
+
+# --- EOF

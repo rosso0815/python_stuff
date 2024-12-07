@@ -1,0 +1,29 @@
+
+
+
+
+create table my_test (
+id number,
+my_test varchar2(255)
+);
+
+create sequence test_seq
+start with 1
+increment by 1
+nomaxvalue;
+
+
+
+create trigger test_trigger
+before insert on my_test
+for each row
+begin
+select test_seq.nextval into :new.id from dual;
+end;
+/
+
+
+insert into my_test values(test_seq.nextval, 'voila!');
+insert into my_test values( 1 , 'hellau!');
+
+

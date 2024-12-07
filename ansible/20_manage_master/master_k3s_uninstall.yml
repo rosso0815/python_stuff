@@ -1,0 +1,21 @@
+---
+
+- name: undeploy k3s
+  hosts: master
+  connection: ssh
+  gather_facts: false
+  become: true
+
+  tasks:
+
+    - name: uninstall
+      ansible.builtin.command: /usr/local/bin/k3s-uninstall.sh
+      args:
+        removes: /usr/local/bin/k3s-uninstall.sh
+      register: out
+
+    - name: out
+      debug:
+        var: out
+
+# --- EOF

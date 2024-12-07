@@ -1,0 +1,56 @@
+---
+
+- name: List all VMs
+  community.libvirt.virt:
+    command: list_vms
+    state: running
+  register: all_vms
+
+- name: Show all VMs
+  debug:
+    msg: "all_vms: {{ all_vms}}"
+
+- name: Destroy VM
+  community.libvirt.virt:
+    name: "{{ item }}"
+    command: destroyed
+  with_items: "{{ all_vms.list_vms }}"
+
+- name: List all VMs
+  community.libvirt.virt:
+    command: list_vms
+    state: shutdown
+  register: all_vms
+
+- name: Show all VMs
+  debug:
+    msg: "all_vms: {{ all_vms}}"
+
+- name: Undefine VM
+  community.libvirt.virt:
+    name: "{{ item }}"
+    command: undefine
+  with_items: "{{ all_vms.list_vms }}"
+#
+# - name: Stop bridged network
+#   ignore_errors: true
+#   community.libvirt.virt_net:
+#     command: stop
+#     name: bridge
+#
+# - name: Unefine bridged network
+#   ignore_errors: true
+#   community.libvirt.virt_net:
+#     command: undefine
+#     name: bridge
+
+
+# - name: Stop Services virt
+#   become: true
+#   service:
+#     name: "{{ item }}"
+#     state: stopped
+#   with_items:
+#     - virtlogd
+#     - virtnetworkd
+#     - virtqemud

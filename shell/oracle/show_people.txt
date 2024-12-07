@@ -1,0 +1,31 @@
+########## ######### ######### ######### ######### ######### ######### #########
+##
+## Erzeuger : kraanp9
+## Datum    : Thu May 27 10:49:00 DFT 2004
+## Aufruf   : 
+## Funktion : 
+## Keyword  : vpm person sql
+## Version  : 
+##
+########## ######### ######### ######### ######### ######### ######### #########
+## Modifications: 
+## Date                          Version         Description
+## Thu May 27 10:49:00 DFT 2004      1.0             Init
+########## ######### ######### ######### ######### ######### ######### #########
+## $Log$
+########## ######### ######### ######### ######### ######### ######### #########
+
+set linesize 100
+set pagesize 1000
+
+column "last_name"format a25;
+column "first_name"format a25;
+
+SELECT 
+	"VPMADM"."person_"."id" as "id", 
+	"VPMADM"."person_"."last_name" as "last_name", 
+   	"VPMADM"."person_"."first_name" as "first_name", 
+    	"VPMADM"."person_"."LAST_UPDATE_DATE" as "LAST_UPDATE_DATE" 
+FROM "VPMADM"."person_" 
+/* WHERE ( "id" LIKE '%DOL%') */
+order by "LAST_UPDATE_DATE";

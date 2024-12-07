@@ -1,0 +1,18 @@
+
+RANK Tablespace            F ID       Size (Mb)       Free (Mb)       Used (Mb) 
+---- -------------------- ----- --------------- --------------- --------------- 
+   1 RBS                      3             200             172              28 
+   2 TEMP                     4              68              66               2 
+   3 SYSTEM                   1             111              57              54 
+   4 DMAGS1                  21              40              37               3 
+   5 INDX                     6              30              30               0 
+   6 DMAGS1I                 22              20              18               2 
+   7 TBS_PRODUCT             15              10              10               0 
+   8 USERS                    5              10              10               0 
+   9 TBS_DICO                11              10              10               0 
+  10 TBS_PUBSUB              14              10              10               0 
+                                --------------- ---------------                 
+sum                                         509             420                 
+
+10 rows selected.
+

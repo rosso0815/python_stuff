@@ -1,0 +1,22 @@
+---
+
+- name: lets install k3s-software on master/worker
+  hosts: all
+  connection: ssh
+  gather_facts: true
+  become: true
+  roles:
+    - role: k3s/prereq
+    - role: k3s/download
+
+- name: install masters
+  hosts: masters
+  become: true
+  roles:
+    - role: k3s/master
+
+- name: install workers
+  hosts: workers
+  become: true
+  roles:
+    - role: k3s/node

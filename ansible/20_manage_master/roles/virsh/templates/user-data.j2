@@ -1,0 +1,43 @@
+#cloud-config
+
+# cloud init 22.1.5 for RH9
+
+timezone: Europe/Zurich
+
+bootcmd:
+  # FIXME
+  - hostnamectl set-hostname  {{ item }}
+
+users:
+  - name: 'pfistera'
+    shell: '/bin/bash'
+    lock_passwd: false
+    plain_text_passwd: 'root'
+    sudo: 'ALL=(ALL) NOPASSWD:ALL'
+    primary_group: 'wheel'
+    ssh_authorized_keys: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCafcZ/0K7ppP7d1L9O0/URbSAfS/jTmztUd5DtCjvEb8EduBCTtyFDb9nXLnjP4/9/UjcivRRh+96VUDTijqjvjjyaICYpMABMGkHwKfv2yD9Av2qpdq3h0eYSsj9iFXJVcfljOAzsccU+Cs43GlRcogXcjXArMdT3XTqaNAoAvgpTvBV57f+N2GQGf0KTswF2+4fSx277wGC+p8k/O0L7iDMTjfn6cO5Y3YHUCHNO8E0QVfgVlZZNriXr+qj/ugBpvuFBYIaPbDcSjxR5ApM7yVAaDoSxBJKbNNl8G8i1d000bF2NbpJm8Ta0O+RKu5YR6hmCjG+ew7G2PvpAWYVM4k99sFIcEU2SnTqoBHdBEUswpufiXfFTXPbTJ0Ss+n6Kgi/PuxzS+dtnTeTNewthA1ZOgPeU2YgM7EnmebPAH8B7MAGy2h7fLR4XajH2eGlzTlNANx7kphUjU0C0fZ80OQprHC/1RkSu8AR4Nvwb5OuEqcGfhfCXQhMdt1WA5mE= pfistera@theo.local'
+
+system_info:
+  default_user:
+    name: 'pfistera'
+    sudo: 'ALL=(ALL) NOPASSWD:ALL'
+    groups: 'wheel'
+
+yum_repos:
+  epel:
+    baseurl: https://dl.fedoraproject.org/pub/epel/9/Everything/$basearch
+    enabled: true
+    failovermethod: priority
+    gpgcheck: false
+    name: epel stuff
+
+packages:
+  - python3-pip-wheel
+  - git
+  - wget
+  - curl
+  - vim
+  - python3-kubernetes
+  - netcat
+
+final_message: "hey ROSSO , The system is finally up, after $UPTIME seconds"

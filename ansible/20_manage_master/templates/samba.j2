@@ -1,0 +1,35 @@
+
+[global]
+   server string = server (Samba, Ubuntu)
+   log file = /var/log/samba/log.%m
+   max log size = 1000
+   logging = file
+   panic action = /usr/share/samba/panic-action %d
+   server role = standalone server
+   obey pam restrictions = yes
+   unix password sync = yes
+   passwd program = /usr/bin/passwd %u
+   passwd chat = *Enter\snew\s*\spassword:* %n\n *Retype\snew\s*\spassword:* %n\n *password\supdated\ssuccessfully* .
+   pam password change = yes
+   map to guest = bad user
+  
+   fruit:aapl = yes
+   fruit:nfs_aces = no
+   fruit:copyfile = no
+   fruit:model = MacSamba
+   inherit permissions = yes
+   workgroup = WORKGROUP
+   multicast dns register = no
+   client max protocol = default
+   client min protocol = SMB2_02
+   server max protocol = SMB3
+   server min protocol = SMB2_02
+
+[timemachine]
+   vfs objects = catia fruit streams_xattr
+   fruit:time machine = yes
+   fruit:time machine max size = 300G
+   comment = Home SSD NAS
+   path = /mnt/backups
+   read only = no
+   guest ok = yes

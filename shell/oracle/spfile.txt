@@ -1,0 +1,8 @@
+
+CREATE SPFILE='/u01/admin/prod/pfile/file_mydb.ora'
+	FROM
+	PFILE=/u01/admin/prod/pfile/initprod.ora';
+
+create pfile='init.ora' from spfile;
+
+

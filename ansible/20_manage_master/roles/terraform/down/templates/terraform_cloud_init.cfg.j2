@@ -1,0 +1,36 @@
+#cloud-config
+# vim: syntax=yaml
+#
+# ***********************
+# 	---- for more examples look at: ------
+# ---> https://cloudinit.readthedocs.io/en/latest/topics/examples.html
+# ******************************
+#
+# This is the configuration syntax that the write_files module
+# will know how to understand. encoding can be given b64 or gzip or (gz+b64).
+# The content will be decoded accordingly and then written to the path that is
+# provided.
+#
+# Note: Content strings here are truncated for example purposes.
+package_upgrade: true
+ssh_pwauth: True
+groups:
+  - pfistera
+users:
+  - name: pfistera
+    gecos: "Pfiste Andreas"
+    primary_group: pfistera
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    ssh_authorized_keys: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDG9vI74irqtiQulfR7s/ZzLIMB4Qr6Q80WsarPqrpoN8q5rtNDEuj/oYcES50KuSswuS8t+TBId0T1iyjHK0/EwsSfy9FyOQSNLO2XpzqnpvYpyYYFi5aSCt+8KXMEx+XCZhRi+vZf2iyQzJEQPplfVni02EQsb3/zNYAqAe7f9KCuCQJqN3vy4Tt2U8RQ1sEV3TseAlfjXXUUqoPw4YJyTjP0/9EFAb3Fs61PCRJIf3xccMqMCuUNnv6NI3vl6sw4ehUGR0R0jqak5MXQNE+0n7GIUTF6e6k+K30TrQA9j7heGP7GecN7Bx77xtjnYi8snAVGWyGpZeAXRAyNeqPn pfistera@sompoi.local
+hostname: "${hostname}.${domain}"
+# packages:
+  # - wget
+  # - python3-pip
+  # - curl
+  # - netcat
+  # - traceroute
+  # - httpd
+  # - python3
+  # - python3-kubernetes
+  # - ansible
+  # - ansible-collection-community-libvirt

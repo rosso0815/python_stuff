@@ -1,0 +1,365 @@
+SQL>                                                         select osuser o,
+  2                                                          username u,
+  3                                                          segment_name s,
+  4                                                          sa.sql_text txt
+  5                                                          from v$session s,
+  6                                                          v$transaction t,
+  7                                                          dba_rollback_segs r,
+  8                                                          v$sqlarea sa
+  9                                                          where s.taddr = t.addr
+ 10                                                          and t.xidusn = r.segment_id(+)
+ 11                                                          and s.sql_address = sa.address(+);
+SQL> descr v$session
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SADDR                                              RAW(4)
+ SID                                                NUMBER
+ SERIAL#                                            NUMBER
+ AUDSID                                             NUMBER
+ PADDR                                              RAW(4)
+ USER#                                              NUMBER
+ USERNAME                                           VARCHAR2(30)
+ COMMAND                                            NUMBER
+ OWNERID                                            NUMBER
+ TADDR                                              VARCHAR2(8)
+ LOCKWAIT                                           VARCHAR2(8)
+ STATUS                                             VARCHAR2(8)
+ SERVER                                             VARCHAR2(9)
+ SCHEMA#                                            NUMBER
+ SCHEMANAME                                         VARCHAR2(30)
+ OSUSER                                             VARCHAR2(30)
+ PROCESS                                            VARCHAR2(9)
+ MACHINE                                            VARCHAR2(64)
+ TERMINAL                                           VARCHAR2(10)
+ PROGRAM                                            VARCHAR2(48)
+ TYPE                                               VARCHAR2(10)
+ SQL_ADDRESS                                        RAW(4)
+ SQL_HASH_VALUE                                     NUMBER
+ PREV_SQL_ADDR                                      RAW(4)
+ PREV_HASH_VALUE                                    NUMBER
+ MODULE                                             VARCHAR2(48)
+ MODULE_HASH                                        NUMBER
+ ACTION                                             VARCHAR2(32)
+ ACTION_HASH                                        NUMBER
+ CLIENT_INFO                                        VARCHAR2(64)
+ FIXED_TABLE_SEQUENCE                               NUMBER
+ ROW_WAIT_OBJ#                                      NUMBER
+ ROW_WAIT_FILE#                                     NUMBER
+ ROW_WAIT_BLOCK#                                    NUMBER
+ ROW_WAIT_ROW#                                      NUMBER
+ LOGON_TIME                                         DATE
+ LAST_CALL_ET                                       NUMBER
+ PDML_ENABLED                                       VARCHAR2(3)
+ FAILOVER_TYPE                                      VARCHAR2(13)
+ FAILOVER_METHOD                                    VARCHAR2(10)
+ FAILED_OVER                                        VARCHAR2(3)
+ RESOURCE_CONSUMER_GROUP                            VARCHAR2(32)
+ PDML_STATUS                                        VARCHAR2(8)
+ PDDL_STATUS                                        VARCHAR2(8)
+ PQ_STATUS                                          VARCHAR2(8)
+
+SQL> select USER# from v$session;
+
+     USER#                                                                      
+----------                                                                      
+         0                                                                      
+         0                                                                      
+         0                                                                      
+         0                                                                      
+         0                                                                      
+         0                                                                      
+         5                                                                      
+         5                                                                      
+SQL> select USER#,username from v$session;
+
+     USER# USERNAME                                                             
+---------- ------------------------------                                       
+         0                                                                      
+         0                                                                      
+         0                                                                      
+         0                                                                      
+         0                                                                      
+         0                                                                      
+         5 SYSTEM                                                               
+         5 SYSTEM                                                               
+SQL> set pages 200
+SQL> 
+SQL> col Mb form 9,999,9999
+SQL> 
+SQL> break on report on owner skip 1
+SQL> compute sum of Mb on report
+SQL> compute sum of Mb on owner
+SQL> 
+SQL> select rownum as rank, a.*
+  2  from (
+  3     select owner, tablespace_name, sum(bytes)/1024/1024 Mb
+  4     from dba_segments
+  5     where owner not in ('SYS','SYSTEM')
+  6     group by owner,tablespace_name
+  7     order by 3 desc ) a
+  8  where rownum < 11
+  9  /
+
+      RANK OWNER                          Tablespace                   Mb       
+---------- ------------------------------ ------------------- -----------       
+         1 DMAGS1                         DMAGS1                        3       
+         2                                DMAGS1I                       2       
+           ******************************                     -----------       
+           sum                                                          5       
+                                                                                
+         3 VPMADM                         TBS_CONFIG                    2       
+           ******************************                     -----------       
+           sum                                                          2       
+                                                                                
+         4 VPMENV                         SYSTEM                        1       
+         5                                VPMENV                        1       
+           ******************************                     -----------       
+           sum                                                          3       
+                                                                                
+         6 CATIA                          SYSTEM                        1       
+           ******************************                     -----------       
+           sum                                                          1       
+                                                                                
+         7 CDM                            CDMCOR                        0       
+           ******************************                     -----------       
+           sum                                                          0       
+                                                                                
+         8 VPMADM                         TBS_INDEX                     0       
+           ******************************                     -----------       
+           sum                                                          0       
+                                                                                
+         9 CDM                            CDMIND                        0       
+           ******************************                     -----------       
+           sum                                                          0       
+                                                                                
+        10 VPMADM                         TBS_ADMIN                     0       
+           ******************************                     -----------       
+           sum                                                          0       
+                                                                                
+                                                              -----------       
+sum                                                                    12       
+SQL> 
+SQL> clear breaks
+breaks cleared
+SQL> clear computes
+computes cleared
+SQL> 
+SQL> break on report on tablespace_name skip 1
+SQL> 
+SQL> compute sum of Mb on report
+SQL> compute sum of Mb on tablespace_name
+SQL> 
+SQL> select rownum as rank, a.*
+  2  from (
+  3     select tablespace_name, owner, sum(bytes)/1024/1024 Mb
+  4     from dba_segments
+  5     where owner not in ('SYS','SYSTEM')
+  6     group by tablespace_name, owner
+  7     order by 3) a
+  8  where rownum < 11
+  9  /
+
+      RANK Tablespace          OWNER                                   Mb       
+---------- ------------------- ------------------------------ -----------       
+         1 TBS_DICO            VPMADM                                   0       
+           *******************                                -----------       
+           sum                                                          0       
+                                                                                
+         2 CATIA               MAIL                                     0       
+         3                     PROFILE                                  0       
+           *******************                                -----------       
+           sum                                                          0       
+                                                                                
+         4 CDMLFR              CDM                                      0       
+           *******************                                -----------       
+           sum                                                          0       
+                                                                                
+         5 SYSTEM              MAIL                                     0       
+         6                     OUTLN                                    0       
+           *******************                                -----------       
+           sum                                                          0       
+                                                                                
+         7 TBS_PUBSUB          VPMADM                                   0       
+           *******************                                -----------       
+           sum                                                          0       
+                                                                                
+         8 SYSTEM              PROFILE                                  0       
+           *******************                                -----------       
+           sum                                                          0       
+                                                                                
+         9 TBS_DICORDB         VPMADM                                   0       
+           *******************                                -----------       
+           sum                                                          0       
+                                                                                
+        10 TBS_PEOPLE          VPMADM                                   0       
+           *******************                                -----------       
+           sum                                                          0       
+                                                                                
+                                                              -----------       
+sum                                                                     1       
+SQL> 
+SQL> er by 3) a
+SP2-0042: unknown command "er by 3) a" - rest of line ignored.
+SQL> where rownum < 11
+SP2-0734: unknown command beginning "where rown..." - rest of line ignored.
+SQL> /
+
+      RANK Tablespace          OWNER                                   Mb       
+---------- ------------------- ------------------------------ -----------       
+         1 TBS_DICO            VPMADM                                   0       
+           *******************                                -----------       
+           sum                                                          0       
+                                                                                
+         2 CATIA               MAIL                                     0       
+         3                     PROFILE                                  0       
+           *******************                                -----------       
+           sum                                                          0       
+                                                                                
+         4 CDMLFR              CDM                                      0       
+           *******************                                -----------       
+           sum                                                          0       
+                                                                                
+         5 SYSTEM              MAIL                                     0       
+         6                     OUTLN                                    0       
+           *******************                                -----------       
+           sum                                                          0       
+                                                                                
+         7 TBS_PUBSUB          VPMADM                                   0       
+           *******************                                -----------       
+           sum                                                          0       
+                                                                                
+         8 SYSTEM              PROFILE                                  0       
+           *******************                                -----------       
+           sum                                                          0       
+                                                                                
+         9 TBS_DICORDB         VPMADM                                   0       
+           *******************                                -----------       
+           sum                                                          0       
+                                                                                
+        10 TBS_PEOPLE          VPMADM                                   0       
+           *******************                                -----------       
+           sum                                                          0       
+                                                                                
+                                                              -----------       
+sum                                                                     1       
+SQL> 
+SQL> set pages 200
+SQL> 
+SQL> col Mb form 9,999,9999
+SQL> 
+SQL> break on report on owner skip 1
+SQL> compute sum of Mb on report
+SQL> compute sum of Mb on owner
+SQL> 
+SQL> select rownum as rank, a.*
+  2  from (
+  3     select owner, tablespace_name, sum(bytes)/1024/1024 Mb
+  4     from dba_segments
+  5     where owner not in ('SYS','SYSTEM')
+  6     group by owner,tablespace_name
+  7     order by 3 desc ) a
+  8  where rownum < 11
+  9  /
+
+      RANK OWNER                          Tablespace                   Mb       
+---------- ------------------------------ ------------------- -----------       
+         1 DMAGS1                         DMAGS1                        3       
+         2                                DMAGS1I                       2       
+           ******************************                     -----------       
+           sum                                                          5       
+                                                                                
+         3 VPMADM                         TBS_CONFIG                    2       
+           ******************************                     -----------       
+           sum                                                          2       
+                                                                                
+         4 VPMENV                         SYSTEM                        1       
+         5                                VPMENV                        1       
+           ******************************                     -----------       
+           sum                                                          3       
+                                                                                
+         6 CATIA                          SYSTEM                        1       
+           ******************************                     -----------       
+           sum                                                          1       
+                                                                                
+         7 CDM                            CDMCOR                        0       
+           ******************************                     -----------       
+           sum                                                          0       
+                                                                                
+         8 VPMADM                         TBS_INDEX                     0       
+           ******************************                     -----------       
+           sum                                                          0       
+                                                                                
+         9 CDM                            CDMIND                        0       
+           ******************************                     -----------       
+           sum                                                          0       
+                                                                                
+        10 VPMADM                         TBS_ADMIN                     0       
+           ******************************                     -----------       
+           sum                                                          0       
+                                                                                
+                                                              -----------       
+sum                                                                    12       
+SQL> 
+SQL> clear breaks
+breaks cleared
+SQL> clear computes
+computes cleared
+SQL> 
+SQL> break on report on tablespace_name skip 1
+SQL> 
+SQL> compute sum of Mb on report
+SQL> compute sum of Mb on tablespace_name
+SQL> 
+SQL> select rownum as rank, a.*
+  2  from (
+  3     select tablespace_name, owner, sum(bytes)/1024/1024 Mb
+  4     from dba_segments
+  5     where owner not in ('SYS','SYSTEM')
+  6     group by tablespace_name, owner
+  7     order by 3) a
+  8  where rownum < 11
+  9  /
+
+      RANK Tablespace          OWNER                                   Mb       
+---------- ------------------- ------------------------------ -----------       
+         1 TBS_DICO            VPMADM                                   0       
+           *******************                                -----------       
+           sum                                                          0       
+                                                                                
+         2 CATIA               MAIL                                     0       
+         3                     PROFILE                                  0       
+           *******************                                -----------       
+           sum                                                          0       
+                                                                                
+         4 CDMLFR              CDM                                      0       
+           *******************                                -----------       
+           sum                                                          0       
+                                                                                
+         5 SYSTEM              MAIL                                     0       
+         6                     OUTLN                                    0       
+           *******************                                -----------       
+           sum                                                          0       
+                                                                                
+         7 TBS_PUBSUB          VPMADM                                   0       
+           *******************                                -----------       
+           sum                                                          0       
+                                                                                
+         8 SYSTEM              PROFILE                                  0       
+           *******************                                -----------       
+           sum                                                          0       
+                                                                                
+         9 TBS_DICORDB         VPMADM                                   0       
+           *******************                                -----------       
+           sum                                                          0       
+                                                                                
+        10 TBS_PEOPLE          VPMADM                                   0       
+           *******************                                -----------       
+           sum                                                          0       
+                                                                                
+                                                              -----------       
+sum                                                                     1       
+SQL> 
+SQL>               col program form a30 heading "Program"
+SQL> col CPUMins form 99990 heading "CPU Mins"
+SQL> 
+SQL> spool topcpu.lst

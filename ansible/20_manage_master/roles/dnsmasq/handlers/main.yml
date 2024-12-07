@@ -1,0 +1,48 @@
+---
+
+
+- name: disable systemd-resolved
+  become: true
+  become_user: root
+  service:
+    name: systemd-resolved
+    state: stopped
+    enabled: false
+
+
+- name: unlink resolv.conf
+  become: true
+  become_user: root
+  shell: unlink /etc/resolv.conf || true
+
+- name: generate resolv.conf
+  become: true
+  become_user: root
+  template:
+    src: etc_resolv.conf.j2
+    dest: /etc/resolv.conf
+    mode: 0644
+
+- name: restart dnsmasq
+  become: true
+  become_user: root
+  service:
+    name: dnsmasq
+    state: restarted
+    enabled: true
+
+- name: restart docker
+  become: true
+  become_user: root
+  service:
+    name: docker
+    state: restarted
+    enabled: true
+
+- name: disable firewalld
+  become: true
+  become_user: root
+  service:
+    name: firewalld
+    state: stopped
+    enabled: false

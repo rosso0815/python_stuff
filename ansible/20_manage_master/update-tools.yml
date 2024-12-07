@@ -1,0 +1,64 @@
+---
+
+- name: update tools in folder files
+  hosts: all
+  connection: local
+  gather_facts: true
+
+  tasks:
+    - name: update yq
+      get_url:
+        url: "https://github.com/mikefarah/yq/releases/download/{{ yq_version }}/yq_linux_amd64"
+        dest: files/yq
+
+    - name: verify yq
+      shell: |
+        cd files
+        chmod u+x ./yq
+        ./yq -V
+      when: 'ansible_system == "Linux"'
+
+    - name: update helm
+      get_url:
+        url: "https://get.helm.sh/helm-{{ helm_version }}-linux-amd64.tar.gz"
+        dest: files/helm.tar.gz
+
+    - name: verify helm
+      shell: |
+        cd files
+        tar xvfz helm.tar.gz
+        mv linux-amd64/helm .
+        rm -rf linux-amd64
+        rm helm*.tar.gz
+        chmod u+x ./helm
+        ./helm version --client
+      when: 'ansible_system == "Linux"'
+
+    - name: update kubectl
+      get_url:
+        url: https://storage.googleapis.com/kubernetes-release/release/v1.23.0/bin/linux/amd64/kubectl
+        dest: files/kubectl
+
+    - name: verify kubectl
+      shell: |
+        cd files
+        chmod u+x kubectl
+        ./kubectl version --client
+      when: 'ansible_system == "Linux"'
+
+    - name: update k0s
+      get_url:
+        url: "https://github.com/k0sproject/k0s/releases/download/v1.23.3%2Bk0s.0/k0s-v1.23.3+k0s.0-amd64"
+        dest: files/k0s
+
+    - name: verify k0s
+      shell: |
+        cd files
+        chmod u+x k0s
+        ./k0s version
+      when: 'ansible_system == "Linux"'
+
+    - name: update k3s
+      get_url:
+        url: "https://github.com/k3s-io/k3s/releases/download/{{ k3s_version}}/k3s"
+        dest: files/k3s

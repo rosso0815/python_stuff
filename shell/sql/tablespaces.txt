@@ -1,0 +1,9 @@
+SYSTEM               /opt/apps/oracle/oradata/TEST/u02/system01.dbf                                 
+UNDOTBS1             /opt/apps/oracle/oradata/TEST/u03/undotbs01.dbf                                
+EXAMPLE              /opt/apps/oracle/oradata/TEST/u01/example01.dbf                                
+INDX                 /opt/apps/oracle/oradata/TEST/u01/indx01.dbf                                   
+TOOLS                /opt/apps/oracle/oradata/TEST/u02/tools01.dbf                                  
+USERS                /opt/apps/oracle/oradata/TEST/u01/users01.dbf                                  
+
+6 rows selected.
+

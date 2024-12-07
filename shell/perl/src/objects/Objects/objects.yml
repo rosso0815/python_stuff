@@ -1,0 +1,11 @@
+#
+name:     	Objects
+version:  	1.0
+db_dsn: 	dbi:Oracle:Test
+#db_dsn: 	dbi:mysql:objects
+#
+authentication:
+    dbic:
+        user_class: Objects::Model::DBIC::Users
+        user_field: username
+        password_field: password

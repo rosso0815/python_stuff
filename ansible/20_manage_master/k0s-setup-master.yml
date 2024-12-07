@@ -1,0 +1,47 @@
+---
+
+- name: lets install k0s
+  hosts: k0smaster
+  connection: ssh
+  gather_facts: true
+  remote_user: vagrant
+
+  tasks:
+
+  - name: reset k0s
+    become: True
+    shell: |
+      /usr/local/bin/k0s stop
+      /usr/local/bin/k0s reset
+      rm -rf /etc/k0s
+      rm -rf /var/lib/k0s
+
+  - name: create k0s folders
+    become: True
+    shell: |
+      mkdir /var/lib/k0s/ || true
+      mkdir /etc/k0s/ || true
+
+  - name: install /etc/k0s/k0s.yml
+    become: True
+    template:
+      src: k0s.yml
+      dest: /etc/k0s/k0s.yml
+      owner: root
+      group: root
+      mode: '0755'
+
+  - name: start k0s
+    become: True
+    shell: |
+      /usr/local/bin/k0s install controller -c /etc/k0s/k0s.yml
+      /usr/local/bin/k0s start
+      sleep 60
+      /usr/local/bin/k0s status
+      /usr/local/bin/k0s token create --role=worker --expiry=100h > /etc/k0s/token-file
+
+  - name: get /etc/k0s/token-file
+    fetch:
+      src: /etc/k0s/token-file
+      dest: tmp/token-file
+      flat: yes

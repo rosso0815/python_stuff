@@ -1,0 +1,124 @@
+---
+
+- name: check /etc/gitea/app.ini
+  stat: path=/etc/gitea/app.ini
+  register: gitea
+
+- name: fail if already run on host
+  fail: msg="This host has already had this playbook run against it"
+  when: gitea.stat.exists
+
+- name: Make sure a service unit is running
+  ignore_errors: true
+  ansible.builtin.systemd_service:
+    state: stopped
+    name: gitea
+
+- name: show gitea version
+  debug:
+    var: gitea_version
+
+- name: install binary to usr/local
+  ansible.builtin.get_url:
+    url: "{{ gitea_url }}"
+    dest: /usr/local/bin/gitea
+    mode: '0555'
+    force: true
+
+- name: add group git
+  ansible.builtin.group:
+    name: git
+    state: present
+
+- name: add git user
+  ansible.builtin.user:
+    name: git
+    comment: git user
+    uid: 700
+    group: git
+
+- name: clean /var/lib/gitea
+  ansible.builtin.file:
+    path: /var/lib/gitea
+    state: absent
+
+- name: clean /etc/gitea
+  ansible.builtin.file:
+    path: /etc/gitea
+    state: absent
+
+- name: mkdir /var/lib/gitea/custom
+  ansible.builtin.file:
+    path: /var/lib/gitea/custom
+    state: directory
+    owner: git
+    mode: '0755'
+
+- name: mkdir /var/lib/gitea/data
+  ansible.builtin.file:
+    path: /var/lib/gitea/data
+    state: directory
+    owner: git
+    mode: '0755'
+
+- name: mkdir /var/lib/gitea/log
+  ansible.builtin.file:
+    path: /var/lib/gitea/log
+    state: directory
+    owner: git
+    mode: '0755'
+
+- name: mkdir /etc/gitea
+  ansible.builtin.file:
+    path: /etc/gitea
+    state: directory
+    owner: git
+    mode: 0755
+
+
+- name: Template a file to /etc/file.conf
+  ansible.builtin.template:
+    src: templates/app.ini.j2
+    dest: /etc/gitea/app.ini
+    mode: 0644
+
+- name: copy service file
+  template:
+    src: "gitea.service"
+    dest: "/etc/systemd/system/gitea.service"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Make sure a service unit is running
+  ansible.builtin.systemd_service:
+    state: started
+    name: gitea
+
+- name: Add admin user
+  ignore_errors: true
+  become_user: git
+  ansible.builtin.command: >
+    gitea admin user create
+    --config /etc/gitea/app.ini
+    --username gitea
+    --password adminadmin
+    --email gitea@p.p
+    --admin
+    --must-change-password false
+
+- name: Add admin user
+  ignore_errors: true
+  become_user: git
+  ansible.builtin.command: >
+    gitea admin user create
+    --config /etc/gitea/app.ini
+    --username rosso0815
+    --password rosso0815
+    --email rosso0815@p.p
+    --admin
+    --must-change-password=false
+
+- name: List admin user
+  become_user: git
+  ansible.builtin.command: gitea admin user list --config /etc/gitea/app.ini

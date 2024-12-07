@@ -1,0 +1,40 @@
+---
+
+- name: lets install k0
+  hosts: server1
+  connection: ssh
+  gather_facts: true
+  remote_user: vagrant
+
+  tasks:
+
+  - name: backup k0s.yml
+    become: true
+    shell: |
+      if [[ ! -f /var/lib/k0s/k0s.yaml.orig ]] ; then
+        sudo cp /var/lib/k0s/k0s.yaml /var/lib/k0s/k0s.yaml.orig
+      fi
+  
+  - name: template add traefik
+    become: true
+    template:
+      src: extensions_k0s.j2
+      dest: /var/lib/k0s/k0s_traefik.yaml
+      owner: root
+      group: root
+      mode: '0755'
+
+  - name: remove helm from extesion k0s
+    become: true
+    shell: sudo sh -c "/usr/local/bin/yq 'del(.spec.extensions.helm)' /var/lib/k0s/k0s.yaml > /var/lib/k0s/k0s.yaml.new"
+
+  - name: merge to the new yaml
+    become: true
+    shell: sudo sh -c "/usr/local/bin/yq eval-all '. as \$item ireduce ({}; . *+ \$item)'  /var/lib/k0s/k0s.yaml.new /var/lib/k0s/k0s_traefik.yaml > /var/lib/k0s/k0s.yaml"
+
+  # - name: check k0s
+  #   become: true
+  #   shell: |
+  #     sudo /usr/local/bin/k0s start
+  #     sleep 60
+  #     sudo /usr/local/bin/k0s status

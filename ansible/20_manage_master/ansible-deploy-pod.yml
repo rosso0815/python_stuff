@@ -1,0 +1,25 @@
+---
+
+- hosts: localhost
+  become: false
+  gather_facts: false
+
+  tasks:
+
+    - name: Create a pod
+      k8s:
+        state: present
+        definition:
+          apiVersion: v1
+          kind: Pod
+          metadata:
+            name: gitlab-go
+            namespace: default
+            labels:
+              app: galaxy
+          spec:
+            containers:
+              - name: private-reg-container
+                image: registry.gitlab.com/rosso0815/rosso0815-gitlab-go:issue-implement-docker-with-github-repo
+            imagePullSecrets:
+              - name: regcred

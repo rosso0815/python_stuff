@@ -1,0 +1,9 @@
+---
+
+- name: update tools in folder files
+  hosts: master
+  connection: ssh
+  gather_facts: true
+
+  roles:
+    - role: sw
