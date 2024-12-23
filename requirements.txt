@@ -34,8 +34,9 @@ flask-sqlalchemy
 ansible-core==2.17.3
 kubernetes
 ruamel.yaml
+python-gitlab
 # bitwarden-sdk
-# ansible-lint
+ansible-lint
 # docker
 # ansible-runner
 # dnspython
