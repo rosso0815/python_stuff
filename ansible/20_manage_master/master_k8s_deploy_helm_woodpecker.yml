@@ -46,7 +46,7 @@
       kubernetes.core.helm:
         name: woodpecker
         chart_ref: woodpecker/woodpecker
-        chart_version: 1.5.1
+        chart_version: 2.0.3
         release_namespace: '{{ woodpecker_namespace }}'
         create_namespace: false
         update_repo_cache: true
