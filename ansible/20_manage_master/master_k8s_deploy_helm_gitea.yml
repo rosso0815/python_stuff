@@ -44,6 +44,16 @@
         create_namespace: false
         update_repo_cache: true
         values:
+
+          image:
+            tag: 1.23.1
+          actions:
+            enabled: true
+            provisioning:
+              enabled: true
+            # existingSecret: ""
+            # existingSecretKey: ""
+
           redis-cluster:
             enabled: false
           postgresql:
@@ -100,7 +110,7 @@
               log:
                 LEVEL: Debug
             admin:
-              existingSecret:
+              existingSecret: ""
               username: gitea_admin
               password: adminadmin
               email: "gitea@local.ch"
