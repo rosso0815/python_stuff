@@ -30,5 +30,24 @@
   tags:
     - k3s-traefik
 
+- name: lets install gitea
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  become: false
+  roles:
+    - role: k3s/gitea
+  tags:
+    - k3s-gitea
+
+- name: lets install woodpecker
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  become: false
+  roles:
+    - role: k3s/woodpecker
+  tags:
+    - k3s-woodpecker
 
 # --- EOF
