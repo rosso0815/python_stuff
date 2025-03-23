@@ -1,5 +1,0 @@
----
-
-- name: install k3s
-  become: true
-  command: /usr/local/bin/k3s-agent-uninstall.sh

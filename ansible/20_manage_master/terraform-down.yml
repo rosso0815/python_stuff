@@ -1,8 +1,0 @@
----
-
-- name: lets manage terraform via ssh bastion
-  hosts: somsi
-  connection: ssh
-  gather_facts: true
-  roles:
-    - role: terraform/down

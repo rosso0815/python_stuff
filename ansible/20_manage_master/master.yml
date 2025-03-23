@@ -1,0 +1,34 @@
+---
+
+- name: lets install k3s-software on master
+  hosts: all
+  connection: ssh
+  gather_facts: true
+  become: true
+  roles:
+    - role: k3s/install
+  tags:
+    - k3s-install
+
+- name: lets install cert-manager
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  become: false
+  roles:
+    - role: k3s/cert-manager
+  tags:
+    - k3s-cert-manager
+
+- name: lets install traefik dashboard
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  become: false
+  roles:
+    - role: k3s/traefik
+  tags:
+    - k3s-traefik
+
+
+# --- EOF

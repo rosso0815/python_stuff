@@ -1,9 +1,0 @@
----
-
-- name: lets manage vagrant on bastion
-  hosts: bastion
-  connection: ssh
-  gather_facts: false
-
-  roles:
-    - role: vagrant/resume
