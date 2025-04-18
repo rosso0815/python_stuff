@@ -1,0 +1,5 @@
+---
+test: web
+ansible_host: 188.245.207.146
+ansible_user: root
+http_port: 80

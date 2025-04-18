@@ -1,0 +1,26 @@
+---
+
+- name: do hetzner stuff
+  hosts: local
+  connection: local
+
+  tasks:
+
+    - name: hostname
+      command: uptime
+      register: out
+
+    - name: debug out
+      debug:
+        msg: "out: {{ out }}"
+
+    - name: Gather hcloud server infos
+      hetzner.hcloud.server_info:
+        api_token: "{{ lookup('ansible.builtin.env', 'HETZNER_API_TOKEN') }}"
+      register: output
+
+    - name: Print the gathered infos
+      debug:
+        var: output.hcloud_server_info
+
+# --- EOF
