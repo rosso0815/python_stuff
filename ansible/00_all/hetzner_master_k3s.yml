@@ -1,0 +1,11 @@
+---
+
+- name: lets install k3s-software on master
+  hosts: all
+  connection: ssh
+  gather_facts: true
+  become: true
+  roles:
+    - role: k3s/install
+  tags:
+    - k3s-install

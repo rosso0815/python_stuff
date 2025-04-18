@@ -1,0 +1,15 @@
+---
+
+- name: do web stuff
+  hosts: web
+  connection: ssh
+
+  tasks:
+
+    - name: hostname
+      command: hostname
+      register: out
+
+    - name: debug out
+      debug:
+        msg: "out: {{ out }}"

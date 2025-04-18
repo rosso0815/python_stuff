@@ -1,0 +1,21 @@
+---
+
+- name: do hetzner stuff
+  hosts: local
+  connection: local
+
+  tasks:
+
+    - name: Ensure the server is started
+      hetzner.hcloud.server:
+        api_token: "{{ lookup('ansible.builtin.env', 'HETZNER_API_TOKEN') }}"
+        name: rosso0815-master
+        state: started
+      register: out
+
+    - name: debug out
+      debug:
+        msg: "out: {{ out }}"
+
+
+# --- EOF
